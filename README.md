@@ -97,7 +97,7 @@ docker compose run --rm --entrypoint ruby \
 ## Материалы
 
 - [Пример OpenAPI и подтверждённые настройки NovaPay](examples/novapay/)
-- [Финальная презентация](presentation/index.html)
+- [Финальная презентация](index.html)
 
 ## Граница решения
 
