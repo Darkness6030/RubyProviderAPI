@@ -209,8 +209,6 @@
     }
     .chrome button:hover { background: rgba(89,225,255,.14); }
     .counter { min-width: 62px; text-align: center; color: var(--muted); font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .notes-toggle { width: auto !important; padding: 0 11px; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .08em; }
-
     .grid { display: grid; gap: 18px; }
     .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -451,29 +449,6 @@
     .quote::before { content: "“"; color: var(--cyan); }
     .quote::after { content: "”"; color: var(--violet); }
 
-    .speaker-notes {
-      display: none;
-      position: fixed;
-      left: 50%;
-      bottom: 22px;
-      z-index: 40;
-      width: min(820px, calc(100vw - 210px));
-      max-height: 34vh;
-      overflow: auto;
-      transform: translateX(-50%);
-      padding: 18px 22px;
-      border: 1px solid rgba(89,225,255,.24);
-      border-radius: 18px;
-      background: rgba(8,11,22,.94);
-      box-shadow: var(--shadow);
-      color: #d7dced;
-      font-size: 14px;
-      line-height: 1.55;
-      backdrop-filter: blur(20px);
-    }
-    body.notes-on .slide.is-current .speaker-notes { display: block; }
-    .speaker-notes b { color: var(--cyan); }
-
     .slide-no { position: absolute; right: clamp(26px, 4vw, 62px); top: clamp(24px, 4vw, 52px); color: rgba(255,255,255,.15); font: 800 12px ui-monospace, monospace; letter-spacing: .08em; }
 
     /* Слайды с терминалом, кодом или большой таблицей получают собственный
@@ -560,7 +535,6 @@
       .timeline { grid-template-columns: 1fr; gap: 24px; }
       .timeline-step { border-top: 0; border-left: 1px solid var(--line); padding: 0 0 0 28px; }
       .timeline-step::before { top: 2px; left: -6px; }
-      .speaker-notes { width: calc(100vw - 32px); bottom: 74px; }
     }
 
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
@@ -568,7 +542,7 @@
     @media print {
       @page { size: 13.333in 7.5in; margin: 0; }
       html, body { background: var(--bg) !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-      .brand, .progress, .chrome, .speaker-notes { display: none !important; }
+      .brand, .progress, .chrome { display: none !important; }
       .slide { width: 13.333in; height: 7.5in; min-height: 0; padding: .58in .72in; page-break-after: always; overflow: hidden; }
       .content { width: 100%; }
       h1 { font-size: 70px; }
@@ -600,7 +574,6 @@
           <div class="orb-core"><strong>12</strong><span>API в корпусе</span></div>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Открытие, 20 секунд.</b> Все команды создают генератор по одному ТЗ. Наше отличие — результат можно проверить: видно обоснование выбора, неподтверждённые правила и доказательства работы на разных API.</aside>
     </section>
 
     <section class="slide" id="slide-2" data-accent="coral" data-title="Отличия решения">
@@ -624,7 +597,6 @@
           </article>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Главная мысль.</b> Мы не называем преимуществом то, что обязаны сделать все команды. Показываем дополнительные свойства наших файлов: объяснимость, безопасную неопределённость и автоматические проверки.</aside>
     </section>
 
     <section class="slide" id="slide-3" data-title="Архитектура">
@@ -646,7 +618,6 @@
           <span class="pill">без веток по провайдеру</span><span class="pill">payout важнее payment</span><span class="pill">второй кандидат виден</span><span class="pill">--strict останавливает ошибку</span><span class="pill">неизвестное не угадываем</span>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Почему архитектура важна.</b> Анализатор сначала строит единый набор фактов и только потом сравнивает методы. Генератор получает уже проверенную модель. В коде нет условий вида <code>provider == novapay</code>.</aside>
     </section>
 
     <section class="slide slide--dense" id="slide-4" data-accent="lime" data-title="Прозрачный запуск">
@@ -672,7 +643,6 @@
   <span class="ok">output/fixtures.json</span></pre>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Показываем живьём.</b> Ценность вывода не в одной команде, а в прозрачности: сразу видны найденные операции, выбранные роли, авторизация и число неподтверждённых решений.</aside>
     </section>
 
     <section class="slide slide--dense" id="slide-5" data-accent="violet" data-title="Сгенерированный сервис">
@@ -718,7 +688,6 @@
           </div>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Не задерживаться на коде.</b> Достаточно показать четыре метода контракта и подчеркнуть, что HTTP-метод и путь взяты из выбранной операции, а не зашиты в генераторе.</aside>
     </section>
 
     <section class="slide" id="slide-6" data-title="Преобразование данных">
@@ -748,7 +717,6 @@
           </article>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Смысл слайда.</b> Всё, что явно задано в схеме, генератор переносит автоматически. Правила из обычного текста, например «сумма в копейках», сначала требуют подтверждения.</aside>
     </section>
 
     <section class="slide" id="slide-7" data-accent="violet" data-title="Почему выбран этот метод">
@@ -772,7 +740,6 @@
         </div>
         <div class="pill-row"><span class="pill">HTTP-метод и путь</span><span class="pill">operationId и описание</span><span class="pill">сумма и валюта</span><span class="pill">ID провайдера</span><span class="pill">создание и статус рядом</span><span class="pill">исключаем возврат и отмену</span></div>
       </div>
-      <aside class="speaker-notes"><b>Отличие проекта.</b> Показываем реальные числа из текущего анализатора. После QA-сессии payout имеет явный приоритет над payment. Точечных правил под YooKassa или NovaPay в коде нет.</aside>
     </section>
 
     <section class="slide slide--dense" id="slide-8" data-accent="gold" data-title="Безопасная работа с неопределённостью">
@@ -809,7 +776,6 @@ webhook_signature:
           </article>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Зачем нужен файл уточнений.</b> В нём лежат правила, которые нельзя надёжно получить из OpenAPI: единицы суммы, условно обязательные поля и подпись. Формат общий и не привязан к NovaPay.</aside>
     </section>
 
     <section class="slide" id="slide-9" data-title="Больше обязательного минимума">
@@ -823,7 +789,6 @@ webhook_signature:
           <article class="card artifact"><div class="artifact-icon">.json</div><h3>Фикстуры</h3><p class="muted">Набор проверяемых сценариев.</p><ul><li>каждый HTTP-ответ</li><li>все именованные вебхуки</li><li>ожидаемый итог операции</li></ul></article>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Связь с ТЗ.</b> Три файла обязаны сделать все. Наше отличие внутри: сервис исполняемый, руководство объясняет решения, а фикстуры покрывают не один красивый пример, а варианты ответа и вебхука.</aside>
     </section>
 
     <section class="slide" id="slide-10" data-accent="lime" data-title="Проверка на 12 API">
@@ -843,7 +808,6 @@ webhook_signature:
         </div>
         <p class="fine" style="margin-top:18px">NovaPay проверяет весь выплатный контракт. Остальные API намеренно разные: ими проверяются форматы, ссылки, авторизация, выбор ролей и синтаксис Ruby — это испытание ядра, а не заявление о 12 готовых интеграциях.</p>
       </div>
-      <aside class="speaker-notes"><b>Формулировать точно.</b> Корпус — наше дополнительное доказательство качества. Не все его API относятся к выплатам; они специально проверяют парсер и анализатор на других формах спецификаций. Полный контракт запускается на NovaPay.</aside>
     </section>
 
     <section class="slide" id="slide-11" data-accent="gold" data-title="Что доказано тестами">
@@ -872,7 +836,6 @@ webhook_signature:
           </article>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Слайд для технических вопросов.</b> Здесь честно разделено, что мы уже запустили, а что можно окончательно проверить только внутри приложения Space Payments.</aside>
     </section>
 
     <section class="slide slide--dense" id="slide-12" data-accent="violet" data-title="Аудит по критериям">
@@ -901,26 +864,10 @@ webhook_signature:
           </article>
         </div>
       </div>
-      <aside class="speaker-notes"><b>Как объяснить оценку.</b> Это инженерный прогноз, не обещание решения жюри. Для каждого пункта есть конкретный файл, участок кода, фикстура или автоматическая проверка, которые можно открыть на защите.</aside>
     </section>
 
-    <section class="slide" id="slide-13" data-accent="lime" data-title="Улучшения после аудита">
+    <section class="slide" id="slide-13" data-title="План демонстрации">
       <span class="slide-no">13</span>
-      <div class="content">
-        <div class="eyebrow">Вопросы → код → тест</div>
-        <h2>Ответы организаторов закреплены в проекте</h2>
-        <div class="grid cols-2">
-          <article class="card risk-card closed"><span class="risk-index">01 · ГРАНИЦА КЕЙСА</span><h3>Выплаты важнее платежей</h3><p>YooKassa теперь выбирает <code>/payouts</code>, а не одинаково похожий <code>/payments</code>.</p></article>
-          <article class="card risk-card closed"><span class="risk-index">02 · БЕЗ ПОДГОНКИ</span><h3>Удалены точечные бонусы</h3><p>В анализаторе больше нет особых правил для <code>GetState</code> и <code>register.do</code>.</p></article>
-          <article class="card risk-card closed"><span class="risk-index">03 · ДОКУМЕНТАЦИЯ</span><h3>Общий шаблон стал общим</h3><p>Убрана подсказка только для NovaPay; в руководстве выводятся все API-адреса.</p></article>
-          <article class="card risk-card closed"><span class="risk-index">04 · КОНТРАКТ</span><h3>Правила закреплены тестами</h3><p>Реквизиты, ID результата, статусы, ошибки и граница проверки HMAC проверяются автоматически.</p></article>
-        </div>
-      </div>
-      <aside class="speaker-notes"><b>Что подчеркнуть.</b> Мы не просто записали ответы QA в документ. Они изменили выбор методов, общий шаблон руководства и автоматические проверки. Это видно в текущем коде.</aside>
-    </section>
-
-    <section class="slide" id="slide-14" data-title="План демонстрации">
-      <span class="slide-no">14</span>
       <div class="content">
         <div class="eyebrow">Сценарий демонстрации</div>
         <h2>90 секунд, которые доказывают решение</h2>
@@ -934,11 +881,10 @@ webhook_signature:
         <div class="terminal" style="margin-top:38px"><pre><span class="prompt">$</span> <span class="cmd">docker compose run --rm --entrypoint ruby generator -I/workspace/lib /workspace/test/all_tests.rb --verbose</span>
 <span class="ok">16 runs, 228 assertions, 0 failures, 0 errors, 0 skips</span></pre></div>
       </div>
-      <aside class="speaker-notes"><b>Репетиция.</b> Заранее открыть три выходных файла и сохранить команду тестов в истории терминала. Во время показа не скачивать API заново. Если Docker запускается долго, сначала показать готовую сводку.</aside>
     </section>
 
-    <section class="slide" id="slide-15" data-accent="lime" data-title="Финал">
-      <span class="slide-no">15</span>
+    <section class="slide" id="slide-14" data-accent="lime" data-title="Финал">
+      <span class="slide-no">14</span>
       <div class="content">
         <div class="eyebrow">Итог</div>
         <blockquote class="quote">Наш генератор показывает не только что он создал, но и почему этому результату можно доверять.</blockquote>
@@ -948,17 +894,14 @@ webhook_signature:
           <div class="metric"><strong>Следует контракту</strong><span>ответы QA закреплены тестами</span></div>
           <div class="metric"><strong>Проверено</strong><span>12 API · 1 430 операций</span></div>
         </div>
-        <p class="lede" style="margin:42px 0 0">Спасибо. Готовы показать генерацию вживую.</p>
       </div>
-      <aside class="speaker-notes"><b>Финальная фраза.</b> Обязательный результат у всех одинаков. Наше преимущество — каждое важное решение можно увидеть, объяснить и подтвердить тестом.</aside>
     </section>
   </main>
 
   <nav class="chrome" aria-label="Навигация по презентации">
     <button type="button" id="prev" aria-label="Предыдущий слайд">↑</button>
-    <span class="counter" aria-live="polite">01 / 15</span>
+    <span class="counter" aria-live="polite">01 / 14</span>
     <button type="button" id="next" aria-label="Следующий слайд">↓</button>
-    <button type="button" class="notes-toggle" id="notes" aria-pressed="false" title="Показать заметки спикера (N)">ЗАМЕТКИ</button>
   </nav>
 
   <script>
@@ -966,7 +909,6 @@ webhook_signature:
       const slides = [...document.querySelectorAll('.slide')];
       const progress = document.querySelector('.progress');
       const counter = document.querySelector('.counter');
-      const notesButton = document.querySelector('#notes');
       let current = 0;
 
       const setCurrent = (index) => {
@@ -982,21 +924,14 @@ webhook_signature:
         slides[current].scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       };
 
-      const toggleNotes = () => {
-        const on = document.body.classList.toggle('notes-on');
-        notesButton.setAttribute('aria-pressed', String(on));
-      };
-
       document.querySelector('#prev').addEventListener('click', () => go(current - 1));
       document.querySelector('#next').addEventListener('click', () => go(current + 1));
-      notesButton.addEventListener('click', toggleNotes);
 
       document.addEventListener('keydown', (event) => {
         if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); go(current + 1); }
         if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); go(current - 1); }
         if (event.key === 'Home') { event.preventDefault(); go(0); }
         if (event.key === 'End') { event.preventDefault(); go(slides.length - 1); }
-        if (event.key.toLowerCase() === 'n') toggleNotes();
       });
 
       const observer = new IntersectionObserver((entries) => {
