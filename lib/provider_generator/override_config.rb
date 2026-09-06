@@ -4,7 +4,8 @@ require "yaml"
 
 module ProviderGenerator
   class OverrideConfig
-    ALLOWED_KEYS = %w[version amount field_map required_if webhook_signature status_map error_map provider_gateway].freeze
+    ALLOWED_KEYS = %w[version operations amount field_map required_if webhook_signature status_map error_map provider_gateway].freeze
+    OPERATION_ROLES = %w[create status webhook].freeze
 
     class << self
       def load(path)
@@ -19,6 +20,7 @@ module ProviderGenerator
         raise Error, "Версия overrides должна быть равна 1." unless data.fetch("version", 1) == 1
 
         validate_required_if(data["required_if"])
+        validate_operations(data["operations"])
         validate_amount(data["amount"])
         validate_field_map(data["field_map"])
         validate_status_map(data["status_map"])
@@ -30,6 +32,27 @@ module ProviderGenerator
       end
 
       private
+
+      def validate_operations(operations)
+        return unless operations
+        raise Error, "operations должен быть YAML-объектом." unless operations.is_a?(Hash)
+
+        unknown_roles = operations.keys.map(&:to_s) - OPERATION_ROLES
+        raise Error, "Неизвестные роли operations: #{unknown_roles.join(', ')}" unless unknown_roles.empty?
+
+        operations.each do |role, selector|
+          raise Error, "operations.#{role} должен быть YAML-объектом." unless selector.is_a?(Hash)
+
+          unknown_keys = selector.keys.map(&:to_s) - %w[operation_id method path]
+          raise Error, "Неизвестные ключи operations.#{role}: #{unknown_keys.join(', ')}" unless unknown_keys.empty?
+
+          by_id = !selector["operation_id"].to_s.empty?
+          by_route = !selector["method"].to_s.empty? && !selector["path"].to_s.empty?
+          unless by_id ^ by_route
+            raise Error, "operations.#{role}: задайте operation_id либо пару method + path."
+          end
+        end
+      end
 
       def validate_required_if(rules)
         Array(rules).each_with_index do |rule, index|

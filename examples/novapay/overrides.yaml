@@ -1,0 +1,57 @@
+version: 1
+
+# Явно подтверждённые роли операций. Можно выбирать по operation_id либо
+# по паре method + path; это снимает неоднозначность скоринга без правки OpenAPI.
+operations:
+  create:
+    operation_id: createPayout
+  status:
+    method: get
+    path: /payouts/{payout_id}
+  webhook:
+    operation_id: payoutWebhook
+
+# Confirmed by the case specification; not inferred from free-form descriptions.
+amount:
+  unit: minor
+  multiplier: 100
+
+# Подтверждённый контракт Space Payments: реквизиты находятся в
+# operation.payout_requisite, а внешний ID операции — в operation.id.
+field_map:
+  amount: operation.amount
+  currency: literal:RUB
+  external_id: operation.id
+  recipient.type: payout_type
+  recipient.phone: payout_requisite.sbp.phone
+  recipient.bank_code: payout_requisite.sbp.bank_code
+  recipient.bank_name: payout_requisite.sbp.bank_name
+  recipient.card_number: payout_requisite.card_number
+
+required_if:
+  - field: recipient.phone
+    when: recipient.type
+    equals: sbp
+  - field: recipient.bank_code
+    when: recipient.type
+    equals: sbp
+  - field: recipient.card_number
+    when: recipient.type
+    equals: card
+
+webhook_signature:
+  header: X-NovaPay-Signature
+  algorithm: HMAC-SHA256
+  encoding: hex
+  verification: platform_before_json
+
+status_map:
+  pending: in_progress
+  processing: in_progress
+  completed: approved
+  failed: rejected
+  cancelled: rejected
+
+provider_gateway:
+  external_method: sbp_payout
+  gateway: RUB_SBP_WITHDRAW

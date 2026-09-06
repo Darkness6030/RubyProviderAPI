@@ -6,14 +6,15 @@ services:
     working_dir: /workspace
     command:
       - --spec
-      - docs/provider_api.yaml
+      - examples/novapay/openapi.yaml
       - --provider
       - novapay
       - --overrides
-      - docs/novapay_overrides.yaml
+      - examples/novapay/overrides.yaml
       - --lang
       - ruby
       - --output
       - output
       - --docs-output
       - output
+      - --verify

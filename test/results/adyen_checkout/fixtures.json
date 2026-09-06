@@ -156,5 +156,3792 @@
   "callback": {
     "payload": {},
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_amount",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "remove": "amount"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_amount_currency",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "remove": "amount.currency"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount_currency",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_amount_value",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "remove": "amount.value"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount_value",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_merchant_account",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "remove": "merchantAccount"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_merchantAccount",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_payment_method",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "remove": "paymentMethod"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_paymentMethod",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_reference",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "remove": "reference"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_reference",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_return_url",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "remove": "returnUrl"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_returnUrl",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "account_info_account_age_indicator_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "accountInfo.accountAgeIndicator": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "account_info_account_age_indicator_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "account_info_account_change_indicator_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "accountInfo.accountChangeIndicator": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "account_info_account_change_indicator_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "account_info_account_type_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "accountInfo.accountType": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "account_info_account_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "account_info_delivery_address_usage_indicator_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "accountInfo.deliveryAddressUsageIndicator": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "account_info_delivery_address_usage_indicator_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "account_info_password_change_indicator_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "accountInfo.passwordChangeIndicator": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "account_info_password_change_indicator_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "account_info_payment_account_indicator_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "accountInfo.paymentAccountIndicator": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "account_info_payment_account_indicator_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "additional_amount_currency_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "additionalAmount.currency": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "additional_amount_currency_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "additional_amount_currency_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "additionalAmount.currency": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "additional_amount_currency_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "amount_currency_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "amount.currency": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "amount_currency_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "amount_currency_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "amount.currency": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "amount_currency_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "authentication_data_attempt_authentication_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "authenticationData.attemptAuthentication": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "authentication_data_attempt_authentication_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "authentication_data_three_dsrequest_data_challenge_window_size_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "authenticationData.threeDSRequestData.challengeWindowSize": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "authentication_data_three_dsrequest_data_challenge_window_size_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "authentication_data_three_dsrequest_data_data_only_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "authenticationData.threeDSRequestData.dataOnly": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "authentication_data_three_dsrequest_data_data_only_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "authentication_data_three_dsrequest_data_native_three_ds_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "authenticationData.threeDSRequestData.nativeThreeDS": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "authentication_data_three_dsrequest_data_native_three_ds_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "authentication_data_three_dsrequest_data_three_dsversion_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "authenticationData.threeDSRequestData.threeDSVersion": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "authentication_data_three_dsrequest_data_three_dsversion_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "bank_account_account_type_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "bankAccount.accountType": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "bank_account_account_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "billing_address_postal_code_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "billingAddress.postalCode": "xxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "billing_address_postal_code_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "billing_address_state_or_province_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "billingAddress.stateOrProvince": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "billing_address_state_or_province_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "channel_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "channel": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "channel_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "checkout_attempt_id_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "checkoutAttemptId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "checkout_attempt_id_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "country_code_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "countryCode": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "country_code_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dcc_quote_base_amount_currency_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "dccQuote.baseAmount.currency": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dcc_quote_base_amount_currency_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dcc_quote_base_amount_currency_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "dccQuote.baseAmount.currency": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dcc_quote_base_amount_currency_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dcc_quote_buy_currency_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "dccQuote.buy.currency": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dcc_quote_buy_currency_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dcc_quote_buy_currency_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "dccQuote.buy.currency": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dcc_quote_buy_currency_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dcc_quote_interbank_currency_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "dccQuote.interbank.currency": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dcc_quote_interbank_currency_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dcc_quote_interbank_currency_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "dccQuote.interbank.currency": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dcc_quote_interbank_currency_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dcc_quote_sell_currency_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "dccQuote.sell.currency": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dcc_quote_sell_currency_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dcc_quote_sell_currency_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "dccQuote.sell.currency": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dcc_quote_sell_currency_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "delivery_address_postal_code_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "deliveryAddress.postalCode": "xxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "delivery_address_postal_code_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "delivery_address_state_or_province_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "deliveryAddress.stateOrProvince": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "delivery_address_state_or_province_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "enhanced_scheme_data_car_rental_rate_type_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "enhancedSchemeData.carRental.rateType": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "enhanced_scheme_data_car_rental_rate_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "enhanced_scheme_data_lodging_lodging_charge_type_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "enhancedSchemeData.lodging.lodgingChargeType": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "enhanced_scheme_data_lodging_lodging_charge_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "entity_type_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "entityType": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "entity_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_origin_shopper_name_first_name_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundOrigin.shopperName.firstName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_origin_shopper_name_first_name_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_origin_shopper_name_last_name_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundOrigin.shopperName.lastName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_origin_shopper_name_last_name_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_payment_method_funding_source_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.paymentMethod.fundingSource": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_payment_method_funding_source_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_payment_method_stored_payment_method_id_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.paymentMethod.storedPaymentMethodId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_payment_method_stored_payment_method_id_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_payment_method_three_ds2_sdk_version_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.paymentMethod.threeDS2SdkVersion": "xxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_payment_method_three_ds2_sdk_version_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_payment_method_type_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.paymentMethod.type": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_payment_method_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_shopper_name_first_name_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.shopperName.firstName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_shopper_name_first_name_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_shopper_name_last_name_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.shopperName.lastName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_shopper_name_last_name_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_shopper_reference_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.shopperReference": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_shopper_reference_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_shopper_reference_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.shopperReference": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_shopper_reference_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_stored_payment_method_id_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.storedPaymentMethodId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_stored_payment_method_id_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fund_recipient_wallet_purpose_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "fundRecipient.walletPurpose": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fund_recipient_wallet_purpose_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "industry_usage_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "industryUsage": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "industry_usage_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "installments_plan_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "installments.plan": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "installments_plan_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "mandate_amount_rule_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "mandate.amountRule": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "mandate_amount_rule_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "mandate_billing_attempts_rule_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "mandate.billingAttemptsRule": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "mandate_billing_attempts_rule_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "mandate_frequency_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "mandate.frequency": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "mandate_frequency_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "merchant_risk_indicator_delivery_address_indicator_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "merchantRiskIndicator.deliveryAddressIndicator": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "merchant_risk_indicator_delivery_address_indicator_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "merchant_risk_indicator_delivery_email_address_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "merchantRiskIndicator.deliveryEmailAddress": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "merchant_risk_indicator_delivery_email_address_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "merchant_risk_indicator_delivery_timeframe_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "merchantRiskIndicator.deliveryTimeframe": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "merchant_risk_indicator_delivery_timeframe_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "merchant_risk_indicator_gift_card_amount_currency_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "merchantRiskIndicator.giftCardAmount.currency": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "merchant_risk_indicator_gift_card_amount_currency_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "merchant_risk_indicator_gift_card_amount_currency_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "merchantRiskIndicator.giftCardAmount.currency": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "merchant_risk_indicator_gift_card_amount_currency_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "mpi_data_authentication_response_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "mpiData.authenticationResponse": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "mpi_data_authentication_response_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "mpi_data_challenge_cancel_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "mpiData.challengeCancel": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "mpi_data_challenge_cancel_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "mpi_data_directory_response_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "mpiData.directoryResponse": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "mpi_data_directory_response_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "origin_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "origin": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "origin_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "platform_chargeback_logic_behavior_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "platformChargebackLogic.behavior": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "platform_chargeback_logic_behavior_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "recurring_processing_model_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "recurringProcessingModel": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "recurring_processing_model_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "reference_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "reference": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "reference_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_conversion_id_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperConversionId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_conversion_id_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_email_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperEmail": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_email_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_ip_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperIP": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_ip_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_interaction_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperInteraction": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_interaction_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_name_first_name_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperName.firstName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_name_first_name_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_name_last_name_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperName.lastName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_name_last_name_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_reference_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperReference": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_reference_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_reference_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperReference": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_reference_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_tax_info_tax_country_code_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperTaxInfo.taxCountryCode": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_tax_info_tax_country_code_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shopper_tax_info_tax_identification_number_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "shopperTaxInfo.taxIdentificationNumber": "xxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shopper_tax_info_tax_identification_number_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "social_security_number_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "socialSecurityNumber": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "social_security_number_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "store_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "store": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "store_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "store_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "store": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "store_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "telephone_number_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "telephoneNumber": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "telephone_number_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ch_acc_age_ind_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.chAccAgeInd": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ch_acc_age_ind_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ch_acc_age_ind_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.chAccAgeInd": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ch_acc_age_ind_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ch_acc_age_ind_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.chAccAgeInd": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ch_acc_age_ind_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ch_acc_change_ind_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.chAccChangeInd": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ch_acc_change_ind_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ch_acc_change_ind_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.chAccChangeInd": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ch_acc_change_ind_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ch_acc_change_ind_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.chAccChangeInd": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ch_acc_change_ind_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ch_acc_pw_change_ind_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.chAccPwChangeInd": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ch_acc_pw_change_ind_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ch_acc_pw_change_ind_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.chAccPwChangeInd": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ch_acc_pw_change_ind_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ch_acc_pw_change_ind_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.chAccPwChangeInd": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ch_acc_pw_change_ind_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_payment_acc_ind_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.paymentAccInd": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_payment_acc_ind_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_payment_acc_ind_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.paymentAccInd": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_payment_acc_ind_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_payment_acc_ind_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.paymentAccInd": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_payment_acc_ind_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ship_address_usage_ind_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.shipAddressUsageInd": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ship_address_usage_ind_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ship_address_usage_ind_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.shipAddressUsageInd": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ship_address_usage_ind_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ship_address_usage_ind_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.shipAddressUsageInd": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ship_address_usage_ind_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ship_name_indicator_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.shipNameIndicator": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ship_name_indicator_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ship_name_indicator_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.shipNameIndicator": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ship_name_indicator_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_ship_name_indicator_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.shipNameIndicator": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_ship_name_indicator_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_suspicious_acc_activity_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.suspiciousAccActivity": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_suspicious_acc_activity_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_suspicious_acc_activity_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.suspiciousAccActivity": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_suspicious_acc_activity_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_suspicious_acc_activity_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.suspiciousAccActivity": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_suspicious_acc_activity_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_txn_activity_day_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.txnActivityDay": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_txn_activity_day_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_info_txn_activity_year_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctInfo.txnActivityYear": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_info_txn_activity_year_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_type_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctType": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_type_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctType": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_type_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_acct_type_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.acctType": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_acct_type_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_addr_match_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.addrMatch": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_addr_match_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_addr_match_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.addrMatch": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_addr_match_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_addr_match_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.addrMatch": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_addr_match_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_challenge_indicator_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.challengeIndicator": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_challenge_indicator_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_device_render_options_sdk_interface_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.deviceRenderOptions.sdkInterface": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_device_render_options_sdk_interface_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_home_phone_cc_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.homePhone.cc": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_home_phone_cc_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_home_phone_cc_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.homePhone.cc": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_home_phone_cc_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_home_phone_subscriber_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.homePhone.subscriber": "xxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_home_phone_subscriber_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_mobile_phone_cc_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.mobilePhone.cc": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_mobile_phone_cc_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_mobile_phone_cc_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.mobilePhone.cc": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_mobile_phone_cc_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_mobile_phone_subscriber_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.mobilePhone.subscriber": "xxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_mobile_phone_subscriber_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_purchase_instal_data_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.purchaseInstalData": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_purchase_instal_data_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_purchase_instal_data_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.purchaseInstalData": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_purchase_instal_data_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_recurring_frequency_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.recurringFrequency": "xxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_recurring_frequency_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_method_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_method_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_method_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_method_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_method_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_method_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_timestamp_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp": "xxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_timestamp_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_timestamp_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp": "xxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_authentication_info_three_dsreq_auth_timestamp_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_challenge_ind_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorChallengeInd": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_challenge_ind_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_method_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthMethod": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_method_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_method_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthMethod": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_method_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_method_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthMethod": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_method_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_timestamp_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthTimestamp": "xxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_timestamp_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_timestamp_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthTimestamp": "xxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_auth_timestamp_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_ref_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorRef": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_ref_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_ref_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorRef": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_three_dsrequestor_prior_authentication_info_three_dsreq_prior_ref_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_trans_type_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.transType": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_trans_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_trans_type_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.transType": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_trans_type_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_trans_type_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.transType": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_trans_type_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_transaction_type_not_allowed",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.transactionType": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_transaction_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_work_phone_cc_too_short",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.workPhone.cc": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_work_phone_cc_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_work_phone_cc_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.workPhone.cc": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_work_phone_cc_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "three_ds2_request_data_work_phone_subscriber_too_long",
+      "valid_request": {
+        "amount": {
+          "currency": "USD",
+          "value": 1000
+        },
+        "reference": "Your order number",
+        "paymentMethod": {
+          "type": "applepay",
+          "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+        },
+        "returnUrl": "https://your-company.example.com/...",
+        "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+      },
+      "mutation": {
+        "set": {
+          "threeDS2RequestData.workPhone.subscriber": "xxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "three_ds2_request_data_work_phone_subscriber_too_long",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [
+    {
+      "name": "post_payments_http_400",
+      "operation": "create_request",
+      "fixture": "response_400",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "post_payments_http_401",
+      "operation": "create_request",
+      "fixture": "response_401",
+      "expected": {
+        "failure": "unauthorized"
+      }
+    },
+    {
+      "name": "post_payments_http_403",
+      "operation": "create_request",
+      "fixture": "response_403",
+      "expected": {
+        "failure": "forbidden"
+      }
+    },
+    {
+      "name": "post_payments_http_422",
+      "operation": "create_request",
+      "fixture": "response_422",
+      "expected": {
+        "failure": "unprocessable_entity"
+      }
+    },
+    {
+      "name": "post_payments_http_500",
+      "operation": "create_request",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    }
+  ],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

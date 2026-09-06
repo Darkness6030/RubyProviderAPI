@@ -109,6 +109,20 @@
 | `Receipt` | **TODO:** подтвердить схему платформы |
 | `Shops` | **TODO:** подтвердить схему платформы |
 
+## Локальная проверка данных
+
+Ограничения из OpenAPI проверяются в `check_conditions` до обращения к провайдеру. При ошибке сервис возвращает `failure(:unprocessable_entity, ...)`.
+
+| Поле | Проверяемые ограничения |
+|---|---|
+| `TerminalKey` | maxLength: `64` |
+| `OrderId` | maxLength: `50` |
+| `Description` | maxLength: `140` |
+| `CustomerKey` | maxLength: `255` |
+| `Recurrent` | enum: `Y`; maxLength: `1` |
+| `PayType` | enum: `O, T` |
+| `Language` | maxLength: `2` |
+
 ## Обработка ошибок
 
 | HTTP | Код ошибки | Рекомендуемое действие |

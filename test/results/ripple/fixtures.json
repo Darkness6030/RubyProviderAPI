@@ -284,5 +284,188 @@
   "callback": {
     "payload": {},
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_quote_id",
+      "valid_request": {
+        "quoteId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "originatorIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "beneficiaryIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "internalId": "Invoice-123",
+        "purposeCode": "PAYR",
+        "sourceOfCash": "EMIN",
+        "paymentLabels": [
+          "batchId=aaaaaaaa-1111-bbbb-abab-123412341234"
+        ],
+        "beneficiaryFinancialInstrumentId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "receiverRelationship": "SUBS",
+        "paymentMemo": "ORDER 2025-09-001 PAYMENT"
+      },
+      "mutation": {
+        "remove": "quoteId"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_quoteId",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_beneficiary_identity_id",
+      "valid_request": {
+        "quoteId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "originatorIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "beneficiaryIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "internalId": "Invoice-123",
+        "purposeCode": "PAYR",
+        "sourceOfCash": "EMIN",
+        "paymentLabels": [
+          "batchId=aaaaaaaa-1111-bbbb-abab-123412341234"
+        ],
+        "beneficiaryFinancialInstrumentId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "receiverRelationship": "SUBS",
+        "paymentMemo": "ORDER 2025-09-001 PAYMENT"
+      },
+      "mutation": {
+        "remove": "beneficiaryIdentityId"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_beneficiaryIdentityId",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_beneficiary_financial_instrument_id",
+      "valid_request": {
+        "quoteId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "originatorIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "beneficiaryIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "internalId": "Invoice-123",
+        "purposeCode": "PAYR",
+        "sourceOfCash": "EMIN",
+        "paymentLabels": [
+          "batchId=aaaaaaaa-1111-bbbb-abab-123412341234"
+        ],
+        "beneficiaryFinancialInstrumentId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "receiverRelationship": "SUBS",
+        "paymentMemo": "ORDER 2025-09-001 PAYMENT"
+      },
+      "mutation": {
+        "remove": "beneficiaryFinancialInstrumentId"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_beneficiaryFinancialInstrumentId",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "internal_id_too_long",
+      "valid_request": {
+        "quoteId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "originatorIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "beneficiaryIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "internalId": "Invoice-123",
+        "purposeCode": "PAYR",
+        "sourceOfCash": "EMIN",
+        "paymentLabels": [
+          "batchId=aaaaaaaa-1111-bbbb-abab-123412341234"
+        ],
+        "beneficiaryFinancialInstrumentId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "receiverRelationship": "SUBS",
+        "paymentMemo": "ORDER 2025-09-001 PAYMENT"
+      },
+      "mutation": {
+        "set": {
+          "internalId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "internal_id_too_long",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [
+    {
+      "name": "create_payment_v2_http_400",
+      "operation": "create_request",
+      "fixture": "response_400",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "create_payment_v2_http_402",
+      "operation": "create_request",
+      "fixture": "response_402",
+      "expected": {
+        "failure": "unprocessable_entity"
+      }
+    },
+    {
+      "name": "create_payment_v2_http_403",
+      "operation": "create_request",
+      "fixture": "response_403",
+      "expected": {
+        "failure": "forbidden"
+      }
+    },
+    {
+      "name": "create_payment_v2_http_415",
+      "operation": "create_request",
+      "fixture": "response_415",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    },
+    {
+      "name": "create_payment_v2_http_500",
+      "operation": "create_request",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    },
+    {
+      "name": "get_payment_by_id_v2_http_400",
+      "operation": "fetch_status",
+      "fixture": "response_400",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "get_payment_by_id_v2_http_404",
+      "operation": "fetch_status",
+      "fixture": "response_404",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "get_payment_by_id_v2_http_500",
+      "operation": "fetch_status",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    }
+  ],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

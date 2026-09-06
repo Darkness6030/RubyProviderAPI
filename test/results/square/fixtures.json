@@ -157,5 +157,617 @@
   "callback": {
     "payload": {},
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_source_id",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "remove": "source_id"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_source_id",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_idempotency_key",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "remove": "idempotency_key"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_idempotency_key",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "source_id_too_short",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "source_id": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "source_id_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "idempotency_key_too_short",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "idempotency_key": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "idempotency_key_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "idempotency_key_too_long",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "idempotency_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "idempotency_key_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "amount_money_currency_not_allowed",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "amount_money.currency": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "amount_money_currency_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "tip_money_currency_not_allowed",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "tip_money.currency": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "tip_money_currency_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "app_fee_money_currency_not_allowed",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "app_fee_money.currency": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "app_fee_money_currency_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "reference_id_too_long",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "reference_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "reference_id_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "buyer_email_address_too_long",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "buyer_email_address": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "buyer_email_address_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "billing_address_country_not_allowed",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "billing_address.country": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "billing_address_country_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "shipping_address_country_not_allowed",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "shipping_address.country": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "shipping_address_country_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "statement_description_identifier_too_long",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "statement_description_identifier": "xxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "statement_description_identifier_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "cash_details_buyer_supplied_money_currency_not_allowed",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "cash_details.buyer_supplied_money.currency": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "cash_details_buyer_supplied_money_currency_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "cash_details_change_back_money_currency_not_allowed",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "cash_details.change_back_money.currency": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "cash_details_change_back_money_currency_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "external_details_type_too_long",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "external_details.type": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "external_details_type_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "external_details_source_too_long",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "external_details.source": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "external_details_source_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "external_details_source_id_too_long",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "external_details.source_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "external_details_source_id_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "external_details_source_fee_money_currency_not_allowed",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "external_details.source_fee_money.currency": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "external_details_source_fee_money_currency_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "offline_payment_details_client_created_at_too_long",
+      "valid_request": {
+        "amount_money": {
+          "amount": 1000,
+          "currency": "USD"
+        },
+        "app_fee_money": {
+          "amount": 10,
+          "currency": "USD"
+        },
+        "autocomplete": true,
+        "customer_id": "W92WH6P11H4Z77CTET0RNTGFW8",
+        "idempotency_key": "7b0f3ec5-086a-4871-8f13-3c81b3875218",
+        "location_id": "L88917AVBK2S5",
+        "note": "Brief description",
+        "reference_id": "123456",
+        "source_id": "ccof:GaJGNaZa8x4OgDJn4GB"
+      },
+      "mutation": {
+        "set": {
+          "offline_payment_details.client_created_at": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "offline_payment_details_client_created_at_too_long",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

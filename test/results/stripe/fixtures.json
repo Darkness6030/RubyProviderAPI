@@ -322,5 +322,152 @@
   "callback": {
     "payload": {},
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_amount",
+      "valid_request": {
+        "amount": 0,
+        "currency": "string",
+        "description": "string",
+        "destination": "string",
+        "expand": [
+          "string"
+        ],
+        "metadata": {},
+        "method": "instant",
+        "payout_method": "string",
+        "source_type": "bank_account",
+        "statement_descriptor": "string"
+      },
+      "mutation": {
+        "remove": "amount"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_currency",
+      "valid_request": {
+        "amount": 0,
+        "currency": "string",
+        "description": "string",
+        "destination": "string",
+        "expand": [
+          "string"
+        ],
+        "metadata": {},
+        "method": "instant",
+        "payout_method": "string",
+        "source_type": "bank_account",
+        "statement_descriptor": "string"
+      },
+      "mutation": {
+        "remove": "currency"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_currency",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "method_not_allowed",
+      "valid_request": {
+        "amount": 0,
+        "currency": "string",
+        "description": "string",
+        "destination": "string",
+        "expand": [
+          "string"
+        ],
+        "metadata": {},
+        "method": "instant",
+        "payout_method": "string",
+        "source_type": "bank_account",
+        "statement_descriptor": "string"
+      },
+      "mutation": {
+        "set": {
+          "method": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "method_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "source_type_not_allowed",
+      "valid_request": {
+        "amount": 0,
+        "currency": "string",
+        "description": "string",
+        "destination": "string",
+        "expand": [
+          "string"
+        ],
+        "metadata": {},
+        "method": "instant",
+        "payout_method": "string",
+        "source_type": "bank_account",
+        "statement_descriptor": "string"
+      },
+      "mutation": {
+        "set": {
+          "source_type": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "source_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "statement_descriptor_too_long",
+      "valid_request": {
+        "amount": 0,
+        "currency": "string",
+        "description": "string",
+        "destination": "string",
+        "expand": [
+          "string"
+        ],
+        "metadata": {},
+        "method": "instant",
+        "payout_method": "string",
+        "source_type": "bank_account",
+        "statement_descriptor": "string"
+      },
+      "mutation": {
+        "set": {
+          "statement_descriptor": "xxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "statement_descriptor_too_long",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

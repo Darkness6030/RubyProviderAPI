@@ -52,5 +52,96 @@
   "callback": {
     "payload": {},
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_amount_account_bik_name",
+      "valid_request": {
+        "amount": 100,
+        "account": "00000000000000000001",
+        "bik": "000000001",
+        "name": "ООО «Рога и копыта»",
+        "inn": "123123123121",
+        "description": "Оплата услуг по договору",
+        "order_slug": "external_sandbox_e3bqG7MJ",
+        "receipt_ids": [
+          "1234567"
+        ],
+        "beneficiary_id": "01864b01-aaec-4717-9ce4-7b59db42af8f",
+        "income_code": "3",
+        "currency_control_file_id": "file_id_123456"
+      },
+      "mutation": {
+        "remove": "amount account bik name"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount account bik name",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [
+    {
+      "name": "payment_to_account_http_403",
+      "operation": "create_request",
+      "fixture": "response_403",
+      "expected": {
+        "failure": "forbidden"
+      }
+    },
+    {
+      "name": "payment_to_account_http_422",
+      "operation": "create_request",
+      "fixture": "response_422",
+      "expected": {
+        "failure": "unprocessable_entity"
+      }
+    },
+    {
+      "name": "payment_to_account_http_500",
+      "operation": "create_request",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    },
+    {
+      "name": "payment_to_account_status_http_403",
+      "operation": "fetch_status",
+      "fixture": "response_403",
+      "expected": {
+        "failure": "forbidden"
+      }
+    },
+    {
+      "name": "payment_to_account_status_http_404",
+      "operation": "fetch_status",
+      "fixture": "response_404",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "payment_to_account_status_http_500",
+      "operation": "fetch_status",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    }
+  ],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

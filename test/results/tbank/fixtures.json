@@ -103,5 +103,666 @@
   "callback": {
     "payload": {},
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_terminal_key",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "remove": "TerminalKey"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_TerminalKey",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_token",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "remove": "Token"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_Token",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_amount",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "remove": "Amount"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_Amount",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_order_id",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "remove": "OrderId"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_OrderId",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "terminal_key_too_long",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "set": {
+          "TerminalKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "terminal_key_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "order_id_too_long",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "set": {
+          "OrderId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "order_id_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "description_too_long",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "set": {
+          "Description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "description_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "customer_key_too_long",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "set": {
+          "CustomerKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "customer_key_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "recurrent_not_allowed",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "set": {
+          "Recurrent": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "recurrent_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "recurrent_too_long",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "set": {
+          "Recurrent": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "recurrent_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "pay_type_not_allowed",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "set": {
+          "PayType": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "pay_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "language_too_long",
+      "valid_request": {
+        "TerminalKey": "TBankTest",
+        "Amount": 140000,
+        "OrderId": "21090",
+        "Description": "Подарочная карта на 1000 рублей",
+        "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+        "DATA": {
+          "Phone": "+71234567890",
+          "Email": "a@test.com"
+        },
+        "Receipt": {
+          "Email": "a@test.ru",
+          "Phone": "+79031234567",
+          "Taxation": "osn",
+          "Items": [
+            {
+              "Name": "Наименование товара 1",
+              "Price": 10000,
+              "Quantity": 1,
+              "Amount": 10000,
+              "Tax": "vat10",
+              "Ean13": "303130323930303030630333435"
+            },
+            {
+              "Name": "Наименование товара 2",
+              "Price": 20000,
+              "Quantity": 2,
+              "Amount": 40000,
+              "Tax": "vat20"
+            },
+            {
+              "Name": "Наименование товара 3",
+              "Price": 30000,
+              "Quantity": 3,
+              "Amount": 90000,
+              "Tax": "vat10"
+            }
+          ]
+        }
+      },
+      "mutation": {
+        "set": {
+          "Language": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "language_too_long",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [
+    {
+      "name": "init_http_500",
+      "operation": "create_request",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    },
+    {
+      "name": "get_state_http_500",
+      "operation": "fetch_status",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    }
+  ],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

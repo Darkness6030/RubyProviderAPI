@@ -1,7 +1,10 @@
 {
   "create_request": {
     "request": {
-      "amount": null,
+      "amount": {
+        "value": "1000.00",
+        "currency": "RUB"
+      },
       "payout_destination_data": null,
       "payout_token": "hoiCz_UVAdi_eKEthqhjRIJp.SC.001.202101",
       "payment_method_id": null,
@@ -18,19 +21,29 @@
     },
     "response_200": {
       "id": "po-27ced252-0025-5000-9000-0a682a8bab8f",
-      "amount": null,
+      "amount": {
+        "value": "1000.00",
+        "currency": "RUB"
+      },
       "status": "pending",
       "payout_destination": null,
       "description": null,
       "created_at": "2020-07-03T11:52:31.827Z",
       "succeeded_at": "2020-07-03T11:52:42.312Z",
-      "deal": null,
-      "self_employed": null,
+      "deal": {
+        "id": "dl-d68d2fe4-2abb-47e5-8112-32e28f87fb52"
+      },
+      "self_employed": {
+        "id": "se-7474a846-a965-498d-bbf9-1c3c8907cbbd"
+      },
       "receipt": {
         "service_name": "Оказание услуг по доставке товара",
         "npd_receipt_id": "208jd98zqe",
         "url": "https://www.nalog.gov.ru/api/v1/receipt/208jd98zqe/print",
-        "amount": null
+        "amount": {
+          "value": "1000.00",
+          "currency": "RUB"
+        }
       },
       "cancellation_details": {
         "party": "yoo_money",
@@ -39,28 +52,73 @@
       "metadata": {},
       "test": false
     },
-    "response_400": {},
-    "response_401": {},
-    "response_403": {},
-    "response_429": {},
-    "response_500": {}
+    "response_400": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "invalid_request"
+    },
+    "response_401": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "invalid_credentials"
+    },
+    "response_403": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "forbidden"
+    },
+    "response_429": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "too_many_requests"
+    },
+    "response_500": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "internal_server_error"
+    }
   },
   "fetch_status": {
     "response_200": {
       "id": "po-27ced252-0025-5000-9000-0a682a8bab8f",
-      "amount": null,
+      "amount": {
+        "value": "1000.00",
+        "currency": "RUB"
+      },
       "status": "pending",
       "payout_destination": null,
       "description": null,
       "created_at": "2020-07-03T11:52:31.827Z",
       "succeeded_at": "2020-07-03T11:52:42.312Z",
-      "deal": null,
-      "self_employed": null,
+      "deal": {
+        "id": "dl-d68d2fe4-2abb-47e5-8112-32e28f87fb52"
+      },
+      "self_employed": {
+        "id": "se-7474a846-a965-498d-bbf9-1c3c8907cbbd"
+      },
       "receipt": {
         "service_name": "Оказание услуг по доставке товара",
         "npd_receipt_id": "208jd98zqe",
         "url": "https://www.nalog.gov.ru/api/v1/receipt/208jd98zqe/print",
-        "amount": null
+        "amount": {
+          "value": "1000.00",
+          "currency": "RUB"
+        }
       },
       "cancellation_details": {
         "party": "yoo_money",
@@ -69,15 +127,348 @@
       "metadata": {},
       "test": false
     },
-    "response_400": {},
-    "response_401": {},
-    "response_403": {},
-    "response_404": {},
-    "response_429": {},
-    "response_500": {}
+    "response_400": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "invalid_request"
+    },
+    "response_401": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "invalid_credentials"
+    },
+    "response_403": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "forbidden"
+    },
+    "response_404": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "not_found"
+    },
+    "response_429": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "too_many_requests"
+    },
+    "response_500": {
+      "type": "error",
+      "id": "ecf255db-cce8-4f15-8fc2-3d7a4678c867",
+      "description": "Invalid API key provided",
+      "parameter": "payment_method",
+      "retry_after": 1800,
+      "code": "internal_server_error"
+    }
   },
   "callback": {
     "payload": {},
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_amount",
+      "valid_request": {
+        "amount": {
+          "value": "1000.00",
+          "currency": "RUB"
+        },
+        "payout_destination_data": null,
+        "payout_token": "hoiCz_UVAdi_eKEthqhjRIJp.SC.001.202101",
+        "payment_method_id": null,
+        "description": null,
+        "deal": {
+          "id": "dl-d68d2fe4-2abb-47e5-8112-32e28f87fb52"
+        },
+        "personal_data": [
+          {
+            "id": "pd-22e12f66-000f-5000-8000-18db351245c7"
+          }
+        ],
+        "metadata": {}
+      },
+      "mutation": {
+        "remove": "amount"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_amount_value",
+      "valid_request": {
+        "amount": {
+          "value": "1000.00",
+          "currency": "RUB"
+        },
+        "payout_destination_data": null,
+        "payout_token": "hoiCz_UVAdi_eKEthqhjRIJp.SC.001.202101",
+        "payment_method_id": null,
+        "description": null,
+        "deal": {
+          "id": "dl-d68d2fe4-2abb-47e5-8112-32e28f87fb52"
+        },
+        "personal_data": [
+          {
+            "id": "pd-22e12f66-000f-5000-8000-18db351245c7"
+          }
+        ],
+        "metadata": {}
+      },
+      "mutation": {
+        "remove": "amount.value"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount_value",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_amount_currency",
+      "valid_request": {
+        "amount": {
+          "value": "1000.00",
+          "currency": "RUB"
+        },
+        "payout_destination_data": null,
+        "payout_token": "hoiCz_UVAdi_eKEthqhjRIJp.SC.001.202101",
+        "payment_method_id": null,
+        "description": null,
+        "deal": {
+          "id": "dl-d68d2fe4-2abb-47e5-8112-32e28f87fb52"
+        },
+        "personal_data": [
+          {
+            "id": "pd-22e12f66-000f-5000-8000-18db351245c7"
+          }
+        ],
+        "metadata": {}
+      },
+      "mutation": {
+        "remove": "amount.currency"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount_currency",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "amount_currency_not_allowed",
+      "valid_request": {
+        "amount": {
+          "value": "1000.00",
+          "currency": "RUB"
+        },
+        "payout_destination_data": null,
+        "payout_token": "hoiCz_UVAdi_eKEthqhjRIJp.SC.001.202101",
+        "payment_method_id": null,
+        "description": null,
+        "deal": {
+          "id": "dl-d68d2fe4-2abb-47e5-8112-32e28f87fb52"
+        },
+        "personal_data": [
+          {
+            "id": "pd-22e12f66-000f-5000-8000-18db351245c7"
+          }
+        ],
+        "metadata": {}
+      },
+      "mutation": {
+        "set": {
+          "amount.currency": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "amount_currency_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "deal_id_too_short",
+      "valid_request": {
+        "amount": {
+          "value": "1000.00",
+          "currency": "RUB"
+        },
+        "payout_destination_data": null,
+        "payout_token": "hoiCz_UVAdi_eKEthqhjRIJp.SC.001.202101",
+        "payment_method_id": null,
+        "description": null,
+        "deal": {
+          "id": "dl-d68d2fe4-2abb-47e5-8112-32e28f87fb52"
+        },
+        "personal_data": [
+          {
+            "id": "pd-22e12f66-000f-5000-8000-18db351245c7"
+          }
+        ],
+        "metadata": {}
+      },
+      "mutation": {
+        "set": {
+          "deal.id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "deal_id_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "deal_id_too_long",
+      "valid_request": {
+        "amount": {
+          "value": "1000.00",
+          "currency": "RUB"
+        },
+        "payout_destination_data": null,
+        "payout_token": "hoiCz_UVAdi_eKEthqhjRIJp.SC.001.202101",
+        "payment_method_id": null,
+        "description": null,
+        "deal": {
+          "id": "dl-d68d2fe4-2abb-47e5-8112-32e28f87fb52"
+        },
+        "personal_data": [
+          {
+            "id": "pd-22e12f66-000f-5000-8000-18db351245c7"
+          }
+        ],
+        "metadata": {}
+      },
+      "mutation": {
+        "set": {
+          "deal.id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "deal_id_too_long",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [
+    {
+      "name": "post_payouts_http_400",
+      "operation": "create_request",
+      "fixture": "response_400",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "post_payouts_http_401",
+      "operation": "create_request",
+      "fixture": "response_401",
+      "expected": {
+        "failure": "unauthorized"
+      }
+    },
+    {
+      "name": "post_payouts_http_403",
+      "operation": "create_request",
+      "fixture": "response_403",
+      "expected": {
+        "failure": "forbidden"
+      }
+    },
+    {
+      "name": "post_payouts_http_429",
+      "operation": "create_request",
+      "fixture": "response_429",
+      "expected": {
+        "failure": "too_many_requests"
+      }
+    },
+    {
+      "name": "post_payouts_http_500",
+      "operation": "create_request",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    },
+    {
+      "name": "get_payouts_payout_id_http_400",
+      "operation": "fetch_status",
+      "fixture": "response_400",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "get_payouts_payout_id_http_401",
+      "operation": "fetch_status",
+      "fixture": "response_401",
+      "expected": {
+        "failure": "unauthorized"
+      }
+    },
+    {
+      "name": "get_payouts_payout_id_http_403",
+      "operation": "fetch_status",
+      "fixture": "response_403",
+      "expected": {
+        "failure": "forbidden"
+      }
+    },
+    {
+      "name": "get_payouts_payout_id_http_404",
+      "operation": "fetch_status",
+      "fixture": "response_404",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "get_payouts_payout_id_http_429",
+      "operation": "fetch_status",
+      "fixture": "response_429",
+      "expected": {
+        "failure": "too_many_requests"
+      }
+    },
+    {
+      "name": "get_payouts_payout_id_http_500",
+      "operation": "fetch_status",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    }
+  ],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

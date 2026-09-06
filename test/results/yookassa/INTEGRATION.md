@@ -81,7 +81,8 @@
 
 | Поле API провайдера | Источник в Space Payments |
 |---|---|
-| `amount` | `operation.amount` |
+| `amount.value` | **TODO:** подтвердить схему платформы |
+| `amount.currency` | **TODO:** подтвердить схему платформы |
 | `payout_destination_data` | **TODO:** подтвердить схему платформы |
 | `payout_token` | **TODO:** подтвердить схему платформы |
 | `payment_method_id` | **TODO:** подтвердить схему платформы |
@@ -89,6 +90,15 @@
 | `deal.id` | **TODO:** подтвердить схему платформы |
 | `personal_data` | **TODO:** подтвердить схему платформы |
 | `metadata` | **TODO:** подтвердить схему платформы |
+
+## Локальная проверка данных
+
+Ограничения из OpenAPI проверяются в `check_conditions` до обращения к провайдеру. При ошибке сервис возвращает `failure(:unprocessable_entity, ...)`.
+
+| Поле | Проверяемые ограничения |
+|---|---|
+| `amount.currency` | enum: `RUB, EUR, USD, KZT, BYN, UAH, UZS, TRY, INR, MDL, AZN, AMD` |
+| `deal.id` | minLength: `36`; maxLength: `50` |
 
 ## Обработка ошибок
 

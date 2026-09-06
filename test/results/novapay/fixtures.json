@@ -134,5 +134,421 @@
       }
     },
     "expected_operation_status": "rejected"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_amount",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "remove": "amount"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_currency",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "remove": "currency"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_currency",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_external_id",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "remove": "external_id"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_external_id",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_recipient",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "remove": "recipient"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_recipient",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_recipient_type",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "remove": "recipient.type"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_recipient_type",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_recipient_phone",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "remove": "recipient.phone"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_recipient_phone",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "amount_below_minimum",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "set": {
+          "amount": 99999
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "amount_below_minimum",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "currency_not_allowed",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "set": {
+          "currency": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "currency_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "external_id_too_long",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "set": {
+          "external_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "external_id_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "recipient_type_not_allowed",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "set": {
+          "recipient.type": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "recipient_type_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "recipient_phone_invalid_format",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "set": {
+          "recipient.phone": "__invalid__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "recipient_phone_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_recipient_phone_when_recipient_type_is_sbp",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "remove": "recipient.phone",
+        "set": {
+          "recipient.type": "sbp"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_recipient_phone",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_recipient_bank_code_when_recipient_type_is_sbp",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "remove": "recipient.bank_code",
+        "set": {
+          "recipient.type": "sbp"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_recipient_bank_code",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_recipient_card_number_when_recipient_type_is_card",
+      "valid_request": {
+        "amount": 1500000,
+        "currency": "RUB",
+        "external_id": "op_abc123",
+        "recipient": {
+          "type": "sbp",
+          "phone": "79001234567",
+          "bank_code": "044525225",
+          "bank_name": "Сбербанк"
+        }
+      },
+      "mutation": {
+        "remove": "recipient.card_number",
+        "set": {
+          "recipient.type": "card"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_recipient_card_number",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [
+    {
+      "name": "create_payout_http_400",
+      "operation": "create_request",
+      "fixture": "response_400",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "create_payout_http_401",
+      "operation": "create_request",
+      "fixture": "response_401",
+      "expected": {
+        "failure": "unauthorized"
+      }
+    },
+    {
+      "name": "create_payout_http_402",
+      "operation": "create_request",
+      "fixture": "response_402",
+      "expected": {
+        "failure": "unprocessable_entity"
+      }
+    },
+    {
+      "name": "create_payout_http_409",
+      "operation": "create_request",
+      "fixture": "response_409",
+      "expected": {
+        "failure": "unprocessable_entity"
+      }
+    },
+    {
+      "name": "create_payout_http_422",
+      "operation": "create_request",
+      "fixture": "response_422",
+      "expected": {
+        "failure": "unprocessable_entity"
+      }
+    },
+    {
+      "name": "create_payout_http_429",
+      "operation": "create_request",
+      "fixture": "response_429",
+      "expected": {
+        "failure": "too_many_requests"
+      }
+    },
+    {
+      "name": "create_payout_http_500",
+      "operation": "create_request",
+      "fixture": "response_500",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    },
+    {
+      "name": "get_payout_status_http_401",
+      "operation": "fetch_status",
+      "fixture": "response_401",
+      "expected": {
+        "failure": "unauthorized"
+      }
+    },
+    {
+      "name": "get_payout_status_http_404",
+      "operation": "fetch_status",
+      "fixture": "response_404",
+      "expected": {
+        "failure": "bad_request"
+      }
+    }
+  ],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

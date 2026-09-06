@@ -227,6 +227,23 @@
 | `token_id` | **TODO:** подтвердить схему платформы |
 | `save` | **TODO:** подтвердить схему платформы |
 
+## Локальная проверка данных
+
+Ограничения из OpenAPI проверяются в `check_conditions` до обращения к провайдеру. При ошибке сервис возвращает `failure(:unprocessable_entity, ...)`.
+
+| Поле | Проверяемые ограничения |
+|---|---|
+| `client_payment_id` | maxLength: `200` |
+| `method` | minLength: `1` |
+| `description` | maxLength: `250` |
+| `client_receipt.customer_email` | maxLength: `254` |
+| `client_receipt.customer_phone` | maxLength: `19` |
+| `client_crypto_addr` | maxLength: `100` |
+| `success_url` | maxLength: `200` |
+| `success_url_description` | maxLength: `30` |
+| `fee_mode` | enum: `on_top, from_tips` |
+| `token_id` | minLength: `1` |
+
 ## Обработка ошибок
 
 | HTTP | Код ошибки | Рекомендуемое действие |

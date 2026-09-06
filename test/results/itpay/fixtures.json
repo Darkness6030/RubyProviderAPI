@@ -633,5 +633,857 @@
   "callback": {
     "payload": {},
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_amount",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "remove": "amount"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_client_payment_id",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "remove": "client_payment_id"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_client_payment_id",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "client_payment_id_too_long",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "client_payment_id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "client_payment_id_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "method_too_short",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "method": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "method_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "description_too_long",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "description_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "client_receipt_customer_email_too_long",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "client_receipt.customer_email": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "client_receipt_customer_email_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "client_receipt_customer_phone_too_long",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "client_receipt.customer_phone": "xxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "client_receipt_customer_phone_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "client_crypto_addr_too_long",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "client_crypto_addr": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "client_crypto_addr_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "success_url_too_long",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "success_url": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "success_url_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "success_url_description_too_long",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "success_url_description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "success_url_description_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fee_mode_not_allowed",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "fee_mode": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fee_mode_not_allowed",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "token_id_too_short",
+      "valid_request": {
+        "amount": "string",
+        "client_payment_id": "string",
+        "method": "string",
+        "metadata": {},
+        "description": "string",
+        "cash_link_id": 0,
+        "client_receipt": {
+          "customer_email": "string",
+          "customer_phone": "string",
+          "taxation_system": 0,
+          "items": [
+            {
+              "vat": 2,
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "unit_of_measurement": "string",
+              "quantity_measurement_unit": 0,
+              "additional_attribute": "string",
+              "manufacturer_country_code": "string",
+              "customs_declaration_number": "string",
+              "excise": "string",
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ]
+        },
+        "client_crypto_addr": "string",
+        "catalog_items": [
+          {
+            "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+            "quantity": 0,
+            "modifiers": [
+              {
+                "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+                "quantity": 0
+              }
+            ],
+            "comment": "string"
+          }
+        ],
+        "success_url": "string",
+        "success_url_description": "string",
+        "tips_amount": "string",
+        "fee_mode": "on_top",
+        "expected_total": "string",
+        "expected_commission": "string",
+        "token_id": "string",
+        "save": true
+      },
+      "mutation": {
+        "set": {
+          "token_id": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "token_id_too_short",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

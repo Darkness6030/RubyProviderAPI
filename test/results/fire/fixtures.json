@@ -89,5 +89,90 @@
   "callback": {
     "payload": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ",
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "type_not_allowed",
+      "valid_request": {
+        "type": "BANK_TRANSFER",
+        "currency": "EUR",
+        "batchName": "January 2018 Payroll",
+        "jobNumber": "2022-01-PR",
+        "callbackUrl": "https://my.webserver.com/cb/payroll"
+      },
+      "mutation": {
+        "set": {
+          "type": "__not_allowed__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "type_not_allowed",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [
+    {
+      "name": "create_batch_payment_http_400",
+      "operation": "create_request",
+      "fixture": "response_400",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "create_batch_payment_http_401",
+      "operation": "create_request",
+      "fixture": "response_401",
+      "expected": {
+        "failure": "unauthorized"
+      }
+    },
+    {
+      "name": "create_batch_payment_http_403",
+      "operation": "create_request",
+      "fixture": "response_403",
+      "expected": {
+        "failure": "forbidden"
+      }
+    },
+    {
+      "name": "get_details_single_batch_http_400",
+      "operation": "fetch_status",
+      "fixture": "response_400",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "get_details_single_batch_http_401",
+      "operation": "fetch_status",
+      "fixture": "response_401",
+      "expected": {
+        "failure": "unauthorized"
+      }
+    },
+    {
+      "name": "get_details_single_batch_http_403",
+      "operation": "fetch_status",
+      "fixture": "response_403",
+      "expected": {
+        "failure": "forbidden"
+      }
+    }
+  ],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

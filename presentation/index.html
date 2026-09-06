@@ -605,7 +605,7 @@
             <span class="label">Что добавили мы</span>
             <span class="card-number">Доказательства</span>
             <h3>Проверяемый результат</h3>
-            <p>Оценки кандидатов, безопасные TODO, строгий режим, полный маппинг и проверка одного ядра на 12 API.</p>
+            <p>Объяснимый выбор, явные подтверждения, проверка без сети и одно ядро, испытанное на 12 API.</p>
           </article>
         </div>
       </div>
@@ -627,7 +627,7 @@
           <div class="stage"><span class="icon">RB</span><strong>Проверенные файлы</strong><span>Ruby · Markdown · JSON</span></div>
         </div>
         <div class="pill-row">
-          <span class="pill">без веток по провайдеру</span><span class="pill">payout важнее payment</span><span class="pill">второй кандидат виден</span><span class="pill">--strict останавливает ошибку</span><span class="pill">неизвестное не угадываем</span>
+          <span class="pill">без веток по провайдеру</span><span class="pill">payout важнее payment</span><span class="pill">роль можно подтвердить</span><span class="pill">--verify без сети</span><span class="pill">байты совпадают</span>
         </div>
       </div>
     </section>
@@ -649,10 +649,11 @@
 Авторизация: <span class="ok">ApiKeyAuth · X-API-Key</span>
 Предупреждений: <span class="ok">0</span>
 
-Созданы файлы:
-  <span class="ok">output/novapay_service.rb</span>
-  <span class="ok">output/INTEGRATION.md</span>
-  <span class="ok">output/fixtures.json</span></pre>
+Созданы файлы: <span class="ok">Ruby · руководство · фикстуры</span>
+Проверка пакета:
+  <span class="ok">✓</span> 3 из 3 файлов и синтаксис Ruby
+  <span class="ok">✓</span> контракт и сценарий без сети
+  <span class="ok">✓</span> повторная генерация совпала побайтово</pre>
         </div>
       </div>
     </section>
@@ -723,6 +724,7 @@
                 <tr><td><strong>Статус</strong></td><td>Значения из схемы, примеров и описания</td></tr>
                 <tr><td><strong>Необязательные</strong></td><td><code>.compact</code> удаляет отсутствующие значения</td></tr>
                 <tr><td><strong>Условные</strong></td><td><code>required_if</code> из подтверждённых уточнений</td></tr>
+                <tr><td><strong>Ограничения</strong></td><td>Диапазон, длина, шаблон и допустимые значения</td></tr>
                 <tr><td><strong>Неизвестные</strong></td><td>Понятная ошибка вместо догадки</td></tr>
               </tbody>
             </table>
@@ -781,7 +783,7 @@ webhook_signature:
             <h3>Что можно делать автоматически</h3>
             <div class="check-list">
               <div class="check-item"><span class="check-icon is-number">1</span><div><strong>Явно указано в OpenAPI</strong><span>Путь, схема, статусы и авторизация берутся автоматически.</span></div></div>
-              <div class="check-item warn"><span class="check-icon is-number">2</span><div><strong>Метод похож на нужный</strong><span>Показываем оценку и ближайший вариант для проверки.</span></div></div>
+              <div class="check-item warn"><span class="check-icon is-number">2</span><div><strong>Метод похож на нужный</strong><span>Показываем варианты; выбор можно закрепить в файле уточнений.</span></div></div>
               <div class="check-item warn"><span class="check-icon is-number">3</span><div><strong>Правило спрятано в тексте</strong><span>Просим подтвердить его или оставляем предупреждение.</span></div></div>
             </div>
             <div class="pill-row"><span class="pill">--strict для CI</span><span class="pill">unknown значит ошибка</span><span class="pill">все уточнения видны</span></div>
@@ -798,7 +800,7 @@ webhook_signature:
         <div class="grid cols-3">
           <article class="card artifact"><div class="artifact-icon">.rb</div><h3>Сервис</h3><p class="muted">Не заглушка, а исполняемый контракт.</p><ul><li>точный маппинг полей</li><li>безопасные деньги и статусы</li><li>контролируемые ошибки</li></ul></article>
           <article class="card artifact"><div class="artifact-icon">.md</div><h3>Руководство</h3><p class="muted">Отчёт о решениях генератора.</p><ul><li>оба кандидата и оценки</li><li>все адреса из OpenAPI</li><li>готовность и предупреждения</li></ul></article>
-          <article class="card artifact"><div class="artifact-icon">.json</div><h3>Фикстуры</h3><p class="muted">Набор проверяемых сценариев.</p><ul><li>каждый HTTP-ответ</li><li>все именованные вебхуки</li><li>ожидаемый итог операции</li></ul></article>
+          <article class="card artifact"><div class="artifact-icon">.json</div><h3>Фикстуры</h3><p class="muted">Набор проверяемых сценариев.</p><ul><li>14 локальных ошибок</li><li>9 HTTP-ошибок</li><li>вебхуки и неизвестный статус</li></ul></article>
         </div>
       </div>
     </section>
@@ -810,8 +812,8 @@ webhook_signature:
         <h2>Один генератор проверен на <span class="success">1 430 операциях</span></h2>
         <div class="grid cols-4">
           <div class="card"><span class="card-number">12/12</span><p>ожидаемые сценарии корпуса пройдены</p></div>
-          <div class="card"><span class="card-number">16</span><p>автоматических тестов</p></div>
-          <div class="card"><span class="card-number">228</span><p>проверок без ошибок</p></div>
+          <div class="card"><span class="card-number">21</span><p>автоматический тест</p></div>
+          <div class="card"><span class="card-number">281</span><p>проверка без ошибок</p></div>
           <div class="card"><span class="card-number">SHA-256</span><p>проверяет исходные файлы</p></div>
         </div>
         <div class="provider-grid" aria-label="Провайдеры в регрессионном корпусе">
@@ -831,7 +833,7 @@ webhook_signature:
           <article class="card">
             <h3 class="success">Подтверждено сейчас</h3>
             <div class="check-list">
-              <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Запуск через Docker</strong><span>NovaPay → три файла, 0 предупреждений.</span></div></div>
+              <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Самопроверка результата</strong><span>Шесть проверок: файлы, Ruby, контракт, сценарий и повторяемость.</span></div></div>
               <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Чтение OpenAPI и ссылок</strong><span>YAML/JSON, Swagger 2, внутренние и рекурсивные ссылки.</span></div></div>
               <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Выбор нужных методов</strong><span>Проверено на 12 сохранённых API.</span></div></div>
               <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Контракт NovaPay</strong><span>Реквизиты, ID, статусы и ошибки.</span></div></div>
@@ -878,25 +880,8 @@ webhook_signature:
       </div>
     </section>
 
-    <section class="slide" id="slide-13" data-title="План демонстрации">
+    <section class="slide" id="slide-13" data-accent="lime" data-title="Финал">
       <span class="slide-no">13</span>
-      <div class="content">
-        <div class="eyebrow">Сценарий демонстрации</div>
-        <h2>90 секунд, которые доказывают решение</h2>
-        <div class="timeline">
-          <div class="timeline-step"><time>00:00</time><strong>Запуск</strong><span><code>docker compose run --rm generator</code></span></div>
-          <div class="timeline-step"><time>00:15</time><strong>Почему выбран метод</strong><span>Открыть оценки NovaPay и приоритет payout у YooKassa.</span></div>
-          <div class="timeline-step"><time>00:30</time><strong>Безопасный маппинг</strong><span>Показать реквизиты, ID результата и адресный TODO.</span></div>
-          <div class="timeline-step"><time>00:50</time><strong>Руководство</strong><span>Два кандидата, все API-адреса, готовность и предупреждения.</span></div>
-          <div class="timeline-step"><time>01:10</time><strong>Доказательства</strong><span>12/12 и полный набор автоматических проверок.</span></div>
-        </div>
-        <div class="terminal" style="margin-top:38px"><pre><span class="prompt">$</span> <span class="cmd">docker compose run --rm --entrypoint ruby generator -I/workspace/lib /workspace/test/all_tests.rb --verbose</span>
-<span class="ok">16 runs, 228 assertions, 0 failures, 0 errors, 0 skips</span></pre></div>
-      </div>
-    </section>
-
-    <section class="slide" id="slide-14" data-accent="lime" data-title="Финал">
-      <span class="slide-no">14</span>
       <div class="content">
         <div class="eyebrow">Итог</div>
         <blockquote class="quote">Наш генератор показывает не только что он создал, но и почему этому результату можно доверять.</blockquote>
@@ -911,7 +896,7 @@ webhook_signature:
 
   <nav class="chrome" aria-label="Навигация по презентации">
     <button type="button" id="prev" aria-label="Предыдущий слайд">↑</button>
-    <span class="counter" aria-live="polite">01 / 14</span>
+    <span class="counter" aria-live="polite">01 / 13</span>
     <button type="button" id="next" aria-label="Следующий слайд">↓</button>
   </nav>
 

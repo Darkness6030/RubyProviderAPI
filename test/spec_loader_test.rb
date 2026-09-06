@@ -5,7 +5,7 @@ require "provider_generator"
 require "tempfile"
 
 class SpecLoaderTest < Minitest::Test
-  FIXTURE = File.expand_path("../docs/provider_api.yaml", __dir__)
+  FIXTURE = File.expand_path("../examples/novapay/openapi.yaml", __dir__)
 
   def test_loads_and_resolves_local_references
     spec = ProviderGenerator::SpecLoader.load(FIXTURE)
@@ -24,7 +24,7 @@ class SpecLoaderTest < Minitest::Test
   end
 
   def test_analyzes_novapay_contract
-    overrides = ProviderGenerator::OverrideConfig.load(File.expand_path("../docs/novapay_overrides.yaml", __dir__))
+    overrides = ProviderGenerator::OverrideConfig.load(File.expand_path("../examples/novapay/overrides.yaml", __dir__))
     model = ProviderGenerator::Analyzer.new(ProviderGenerator::SpecLoader.load(FIXTURE), provider: "novapay", overrides: overrides).call
     assert_equal 5, model.operations.length
     assert_equal "createPayout", model.create_operation.id
@@ -44,6 +44,36 @@ class SpecLoaderTest < Minitest::Test
     assert model.warnings.any? { |warning| warning.include?("TODO webhook_signature") }
   end
 
+  def test_explicit_operation_roles_override_scoring
+    overrides = ProviderGenerator::OverrideConfig.load(File.expand_path("../examples/novapay/overrides.yaml", __dir__))
+    overrides = overrides.merge(
+      "operations" => {
+        "create" => { "operation_id" => "cancelPayout" },
+        "status" => { "method" => "get", "path" => "/payouts/{payout_id}" },
+        "webhook" => { "operation_id" => "payoutWebhook" }
+      }
+    )
+    model = ProviderGenerator::Analyzer.new(
+      ProviderGenerator::SpecLoader.load(FIXTURE), provider: "novapay", overrides: overrides
+    ).call
+
+    assert_equal "cancelPayout", model.create_operation.id
+    assert_equal "getPayoutStatus", model.status_operation.id
+    assert_equal "payoutWebhook", model.webhook_operation.id
+    assert_equal "overrides", model.role_scores.dig("create", "selected", "source")
+    refute model.warnings.any? { |warning| warning.include?("Неоднозначный выбор операции") }
+  end
+
+  def test_missing_explicit_operation_is_rejected
+    overrides = { "operations" => { "create" => { "operation_id" => "missingOperation" } } }
+    error = assert_raises(ProviderGenerator::Error) do
+      ProviderGenerator::Analyzer.new(
+        ProviderGenerator::SpecLoader.load(FIXTURE), provider: "novapay", overrides: overrides
+      ).call
+    end
+    assert_includes error.message, "не найдена"
+  end
+
   def test_rejects_invalid_override_values
     file = Tempfile.new(["invalid-overrides", ".yaml"])
     file.write("version: 1\namount:\n  multiplier: 0\n")
@@ -51,6 +81,17 @@ class SpecLoaderTest < Minitest::Test
 
     error = assert_raises(ProviderGenerator::Error) { ProviderGenerator::OverrideConfig.load(file.path) }
     assert_includes error.message, "положительным"
+  ensure
+    file&.close!
+  end
+
+  def test_rejects_incomplete_operation_selector
+    file = Tempfile.new(["invalid-operation-overrides", ".yaml"])
+    file.write("version: 1\noperations:\n  create:\n    method: post\n")
+    file.close
+
+    error = assert_raises(ProviderGenerator::Error) { ProviderGenerator::OverrideConfig.load(file.path) }
+    assert_includes error.message, "method + path"
   ensure
     file&.close!
   end

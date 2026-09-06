@@ -78,8 +78,9 @@ module ProviderGenerator
               return base_result if base_result.respond_to?(:failed?) && base_result.failed?
               payload = build_payload(operation, request_method)
               #{required_fields_code(create)}
-              return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < #{minimum_amount(create)}
               #{conditional_conditions_code}
+              constraint_error = constraint_violation(payload)
+              return failure(:unprocessable_entity, constraint_error) if constraint_error
               success
             end
 
@@ -87,6 +88,11 @@ module ProviderGenerator
 
             def build_payload(operation, request_method = nil)
               #{payload_code(create)}
+            end
+
+            def constraint_violation(payload)
+              #{constraint_checks_code(create)}
+              nil
             end
 
             def create_headers(operation)
@@ -231,6 +237,18 @@ module ProviderGenerator
               value.nil? || (value.respond_to?(:empty?) && value.empty?)
             end
 
+            def numeric_constraint_value(value)
+              BigDecimal(value.to_s)
+            rescue ArgumentError, TypeError
+              nil
+            end
+
+            def constraint_pattern_match?(value, pattern)
+              Regexp.new(pattern).match?(value.to_s)
+            rescue RegexpError
+              false
+            end
+
             def expand_path(template, operation)
               template.gsub(/\{([^}]+)\}/) do
                 name = Regexp.last_match(1)
@@ -328,6 +346,14 @@ module ProviderGenerator
         |---|---|
         #{field_mapping_rows(@model.create_operation)}
 
+        ## Локальная проверка данных
+
+        Ограничения из OpenAPI проверяются в `check_conditions` до обращения к провайдеру. При ошибке сервис возвращает `failure(:unprocessable_entity, ...)`.
+
+        | Поле | Проверяемые ограничения |
+        |---|---|
+        #{constraint_rows(@model.create_operation)}
+
         ## Обработка ошибок
 
         | HTTP | Код ошибки | Рекомендуемое действие |
@@ -358,12 +384,127 @@ module ProviderGenerator
       create = @model.create_operation
       status = @model.status_operation
       webhook = @model.webhook_operation
-      {
+      result = {
         "create_request" => {
           "request" => create&.request_example || schema_example(create&.request_schema || {}, direction: :request)
         }.merge(response_examples(create)),
         "fetch_status" => response_examples(status)
       }.merge(callback_fixtures(webhook))
+      result["validation_scenarios"] = validation_scenarios(create)
+      result["provider_error_scenarios"] = provider_error_scenarios(create, status)
+      result["unknown_status_scenario"] = {
+        "provider_response" => { "status" => 200, "body" => { "id" => "provider_test_id", "status" => "__unknown__" } },
+        "expected" => { "failure" => "unprocessable_entity", "message" => "provider.unknown_status" }
+      }
+      result
+    end
+
+    def validation_scenarios(operation)
+      return [] unless operation
+
+      valid_payload = operation.request_example || schema_example(operation.request_schema || {}, direction: :request)
+      scenarios = required_field_paths(operation.request_schema || {}).map do |path|
+        validation_scenario("missing_#{snake(path)}", valid_payload, remove: path,
+                            message: "missing_#{path.tr('.', '_')}")
+      end
+
+      schema_leaf_fields(operation.request_schema || {}).each do |path, schema|
+        next unless schema.is_a?(Hash)
+
+        if schema.key?("minimum")
+          scenarios << validation_scenario("#{snake(path)}_below_minimum", valid_payload,
+                                           set: { path => below(schema.fetch("minimum")) },
+                                           message: "#{snake(path)}_below_minimum")
+        end
+        if schema.key?("maximum")
+          scenarios << validation_scenario("#{snake(path)}_above_maximum", valid_payload,
+                                           set: { path => above(schema.fetch("maximum")) },
+                                           message: "#{snake(path)}_above_maximum")
+        end
+        if schema["pattern"] && (invalid = invalid_pattern_value(schema["pattern"]))
+          scenarios << validation_scenario("#{snake(path)}_invalid_format", valid_payload,
+                                           set: { path => invalid }, message: "#{snake(path)}_invalid_format")
+        end
+        unless Array(schema["enum"]).empty?
+          scenarios << validation_scenario("#{snake(path)}_not_allowed", valid_payload,
+                                           set: { path => "__not_allowed__" }, message: "#{snake(path)}_not_allowed")
+        end
+        if schema["minLength"].to_i.positive?
+          scenarios << validation_scenario("#{snake(path)}_too_short", valid_payload,
+                                           set: { path => "x" * [schema["minLength"].to_i - 1, 0].max },
+                                           message: "#{snake(path)}_too_short")
+        end
+        if schema.key?("maxLength") && schema["maxLength"].to_i.between?(0, 256)
+          scenarios << validation_scenario("#{snake(path)}_too_long", valid_payload,
+                                           set: { path => "x" * (schema["maxLength"].to_i + 1) },
+                                           message: "#{snake(path)}_too_long")
+        end
+      end
+
+      conditional_validation_scenarios(valid_payload).each { |scenario| scenarios << scenario }
+      scenarios.compact.uniq { |scenario| scenario["name"] }
+    end
+
+    def validation_scenario(name, valid_payload, remove: nil, set: nil, message:)
+      mutation = {}
+      mutation["remove"] = remove if remove
+      mutation["set"] = set if set
+      {
+        "name" => name,
+        "valid_request" => deep_copy(valid_payload || {}),
+        "mutation" => mutation,
+        "expected" => { "failure" => "unprocessable_entity", "message" => message, "http_calls" => 0 }
+      }
+    end
+
+    def conditional_validation_scenarios(valid_payload)
+      Array(@model.overrides["required_if"]).map do |rule|
+        validation_scenario(
+          "missing_#{snake(rule.fetch('field'))}_when_#{snake(rule.fetch('when'))}_is_#{snake(rule.fetch('equals').to_s)}",
+          valid_payload,
+          remove: rule.fetch("field"),
+          set: { rule.fetch("when") => rule.fetch("equals") },
+          message: "missing_#{rule.fetch('field').tr('.', '_')}"
+        )
+      end
+    end
+
+    def provider_error_scenarios(*operations)
+      operations.compact.flat_map do |operation|
+        operation.responses.filter_map do |code, _response|
+          next unless code.to_s.match?(/\A[45]\d\d\z/)
+
+          {
+            "name" => "#{snake(operation.id)}_http_#{code}",
+            "operation" => operation.equal?(@model.create_operation) ? "create_request" : "fetch_status",
+            "fixture" => "response_#{code}",
+            "expected" => { "failure" => @model.errors.fetch(code.to_i, "internal_server_error") }
+          }
+        end
+      end
+    end
+
+    def below(value)
+      value.is_a?(Integer) ? value - 1 : value.to_f - 1
+    end
+
+    def above(value)
+      value.is_a?(Integer) ? value + 1 : value.to_f + 1
+    end
+
+    def invalid_pattern_value(pattern)
+      verbose = $VERBOSE
+      $VERBOSE = nil
+      regexp = Regexp.new(pattern.to_s)
+      ["__invalid__", "", "not-a-match", "0"].find { |candidate| !regexp.match?(candidate) }
+    rescue RegexpError
+      "__invalid_pattern__"
+    ensure
+      $VERBOSE = verbose
+    end
+
+    def deep_copy(value)
+      JSON.parse(JSON.generate(value))
     end
 
     def response_examples(operation)
@@ -413,9 +554,11 @@ module ProviderGenerator
     def schema_example(schema, direction: nil, success: false)
       return schema["example"] if schema.key?("example")
       return schema["enum"].first if schema["enum"]
-      case schema["type"]
+      type = schema["type"]
+      type = "object" if type.nil? && !schema_properties(schema).empty?
+      case type
       when "object"
-        properties = schema.fetch("properties", {}).reject do |name, child|
+        properties = schema_properties(schema).reject do |name, child|
           (direction == :request && child["readOnly"]) ||
             (direction == :response && child["writeOnly"]) ||
             (success && snake(name.to_s) == "error")
@@ -448,12 +591,6 @@ module ProviderGenerator
         return nested unless nested.nil?
       end
       nil
-    end
-
-    def minimum_amount(operation)
-      amount = operation&.request_schema&.fetch("properties", {})&.find { |name, _| name.to_s.casecmp?("amount") }&.last
-      minimum = amount&.fetch("minimum", 0) || 0
-      minimum / @model.amount_multiplier
     end
 
     def required_fields_code(operation)
@@ -494,6 +631,43 @@ module ProviderGenerator
       end.join("\n      ")
     end
 
+    def constraint_checks_code(operation)
+      checks = schema_leaf_fields(operation&.request_schema || {}).flat_map do |path, schema|
+        next [] unless schema.is_a?(Hash)
+
+        value = "read_path(payload, #{path.inspect})"
+        key = snake(path)
+        lines = []
+        if schema.key?("minimum")
+          limit = schema.fetch("minimum")
+          lines << "number = numeric_constraint_value(#{value}); return #{"#{key}_below_minimum".inspect} if number && number < BigDecimal(#{limit.to_s.inspect})"
+        end
+        if schema.key?("maximum")
+          limit = schema.fetch("maximum")
+          lines << "number = numeric_constraint_value(#{value}); return #{"#{key}_above_maximum".inspect} if number && number > BigDecimal(#{limit.to_s.inspect})"
+        end
+        if schema["pattern"]
+          lines << "value = #{value}; return #{"#{key}_invalid_format".inspect} if !value_missing?(value) && !constraint_pattern_match?(value, #{schema['pattern'].to_s.inspect})"
+        end
+        enum = Array(schema["enum"])
+        unless enum.empty?
+          lines << "value = #{value}; return #{"#{key}_not_allowed".inspect} if !value_missing?(value) && !#{ruby_literal(enum)}.include?(value)"
+        end
+        if schema.key?("minLength")
+          limit = Integer(schema.fetch("minLength"))
+          lines << "value = #{value}; return #{"#{key}_too_short".inspect} if !value_missing?(value) && value.to_s.length < #{limit}"
+        end
+        if schema.key?("maxLength")
+          limit = Integer(schema.fetch("maxLength"))
+          lines << "value = #{value}; return #{"#{key}_too_long".inspect} if !value_missing?(value) && value.to_s.length > #{limit}"
+        end
+        lines
+      rescue ArgumentError, TypeError
+        []
+      end
+      checks.empty? ? "# В OpenAPI нет ограничений полей для локальной проверки." : checks.join("\n      ")
+    end
+
     def idempotency_header_code(operation)
       parameter = operation&.parameters&.find do |item|
         item["in"] == "header" && item["name"].to_s.match?(/idempot/i)
@@ -507,6 +681,10 @@ module ProviderGenerator
       return "Не переданы. Элементы из свободного текста остаются TODO в предупреждениях." if @model.overrides.empty?
 
       lines = []
+      @model.overrides.fetch("operations", {}).each do |role, selector|
+        chosen = selector["operation_id"] || "#{selector['method'].to_s.upcase} #{selector['path']}"
+        lines << "- Роль `#{role}` подтверждена вручную: `#{chosen}`."
+      end
       lines << "- Единица суммы: `#{@model.overrides.dig('amount', 'unit')}`, множитель `#{@model.amount_multiplier}`." if @model.overrides["amount"]
       Array(@model.overrides["required_if"]).each do |rule|
         lines << "- `#{rule['field']}` обязательно, когда `#{rule['when']} = #{rule['equals']}`."
@@ -535,7 +713,8 @@ module ProviderGenerator
         role_name = { "create" => "создание", "status" => "проверка статуса" }.fetch(role, role)
         next "- `#{role}` (#{role_name}): кандидаты отсутствуют." unless selected
 
-        line = "- `#{role}` (#{role_name}): #{selected['method'].upcase} `#{selected['path']}` — оценка #{selected['score']}"
+        confirmation = selected["source"] == "overrides" ? "; выбор подтверждён в overrides" : ""
+        line = "- `#{role}` (#{role_name}): #{selected['method'].upcase} `#{selected['path']}` — оценка #{selected['score']}#{confirmation}"
         if runner_up
           line += "; следующий кандидат #{runner_up['method'].upcase} `#{runner_up['path']}` — " \
                   "оценка #{runner_up['score']}; разница #{scores['margin']}"
@@ -550,7 +729,7 @@ module ProviderGenerator
     end
 
     def payload_hash_code(schema, prefix: nil, request_method_expression:)
-      properties = schema.fetch("properties", {})
+      properties = schema_properties(schema)
       return "{}" if properties.empty?
 
       pairs = properties.map do |key, child|
@@ -611,12 +790,37 @@ module ProviderGenerator
       end.join("\n")
     end
 
+    def constraint_rows(operation)
+      rows = schema_leaf_fields(operation&.request_schema || {}).filter_map do |path, schema|
+        values = []
+        values << "minimum: `#{schema['minimum']}`" if schema.key?("minimum")
+        values << "maximum: `#{schema['maximum']}`" if schema.key?("maximum")
+        values << "pattern: `#{markdown_cell(schema['pattern'])}`" if schema["pattern"]
+        values << "enum: `#{Array(schema['enum']).join(', ')}`" unless Array(schema["enum"]).empty?
+        values << "minLength: `#{schema['minLength']}`" if schema.key?("minLength")
+        values << "maxLength: `#{schema['maxLength']}`" if schema.key?("maxLength")
+        "| `#{path}` | #{values.join('; ')} |" unless values.empty?
+      end
+      rows.empty? ? "| — | В OpenAPI не объявлены |" : rows.join("\n")
+    end
+
     def schema_leaf_fields(schema, prefix = nil)
-      schema.fetch("properties", {}).flat_map do |key, child|
+      schema_properties(schema).flat_map do |key, child|
         path = [prefix, key].compact.join(".")
-        nested = child.is_a?(Hash) ? child.fetch("properties", {}) : {}
+        nested = child.is_a?(Hash) ? schema_properties(child) : {}
         nested.empty? ? [[path, child || {}]] : schema_leaf_fields(child, path)
       end
+    end
+
+    def schema_properties(schema, seen = {})
+      return {} unless schema.is_a?(Hash)
+      return {} if seen[schema.object_id]
+
+      branch_seen = seen.merge(schema.object_id => true)
+      composed = Array(schema["allOf"]).each_with_object({}) do |part, result|
+        result.merge!(schema_properties(part, branch_seen))
+      end
+      composed.merge(schema.fetch("properties", {}))
     end
 
     def auth_header_code(auth)

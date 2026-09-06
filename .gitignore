@@ -25,3 +25,6 @@ tmp/
 *.tmp
 *.bak
 *~
+
+# Local project documentation
+/docs/

@@ -4,9 +4,9 @@
     {
       "id": "novapay",
       "provider": "NovaPay Payout API",
-      "url": "local://docs/provider_api.yaml",
-      "file": "../../../docs/provider_api.yaml",
-      "overrides": "../../../docs/novapay_overrides.yaml",
+      "url": "local://examples/novapay/openapi.yaml",
+      "file": "../../../examples/novapay/openapi.yaml",
+      "overrides": "../../../examples/novapay/overrides.yaml",
       "mode": "local",
       "sha256": "415f50ee36fb331dfab49ceed0e8ed3b0ebe16053d7e00dbabd32282f4396551",
       "expected": {

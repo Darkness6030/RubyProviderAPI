@@ -488,6 +488,135 @@
 | `threeDSAuthenticationOnly` | `literal:false` |
 | `trustedShopper` | **TODO:** подтвердить схему платформы |
 
+## Локальная проверка данных
+
+Ограничения из OpenAPI проверяются в `check_conditions` до обращения к провайдеру. При ошибке сервис возвращает `failure(:unprocessable_entity, ...)`.
+
+| Поле | Проверяемые ограничения |
+|---|---|
+| `accountInfo.accountAgeIndicator` | enum: `notApplicable, thisTransaction, lessThan30Days, from30To60Days, moreThan60Days` |
+| `accountInfo.accountChangeIndicator` | enum: `thisTransaction, lessThan30Days, from30To60Days, moreThan60Days` |
+| `accountInfo.accountType` | enum: `notApplicable, credit, debit` |
+| `accountInfo.deliveryAddressUsageIndicator` | enum: `thisTransaction, lessThan30Days, from30To60Days, moreThan60Days` |
+| `accountInfo.passwordChangeIndicator` | enum: `notApplicable, thisTransaction, lessThan30Days, from30To60Days, moreThan60Days` |
+| `accountInfo.paymentAccountIndicator` | enum: `notApplicable, thisTransaction, lessThan30Days, from30To60Days, moreThan60Days` |
+| `additionalAmount.currency` | minLength: `3`; maxLength: `3` |
+| `amount.currency` | minLength: `3`; maxLength: `3` |
+| `authenticationData.attemptAuthentication` | enum: `always, never` |
+| `authenticationData.threeDSRequestData.challengeWindowSize` | enum: `01, 02, 03, 04, 05` |
+| `authenticationData.threeDSRequestData.dataOnly` | enum: `false, true` |
+| `authenticationData.threeDSRequestData.nativeThreeDS` | enum: `preferred, disabled` |
+| `authenticationData.threeDSRequestData.threeDSVersion` | enum: `2.1.0, 2.2.0` |
+| `bankAccount.accountType` | enum: `balance, checking, deposit, general, other, payment, savings` |
+| `billingAddress.city` | maxLength: `3000` |
+| `billingAddress.houseNumberOrName` | maxLength: `3000` |
+| `billingAddress.postalCode` | maxLength: `10` |
+| `billingAddress.stateOrProvince` | maxLength: `3` |
+| `billingAddress.street` | maxLength: `3000` |
+| `channel` | enum: `iOS, Android, Web` |
+| `checkoutAttemptId` | maxLength: `256` |
+| `countryCode` | maxLength: `100` |
+| `dccQuote.baseAmount.currency` | minLength: `3`; maxLength: `3` |
+| `dccQuote.buy.currency` | minLength: `3`; maxLength: `3` |
+| `dccQuote.interbank.currency` | minLength: `3`; maxLength: `3` |
+| `dccQuote.sell.currency` | minLength: `3`; maxLength: `3` |
+| `deliveryAddress.city` | maxLength: `3000` |
+| `deliveryAddress.houseNumberOrName` | maxLength: `3000` |
+| `deliveryAddress.postalCode` | maxLength: `10` |
+| `deliveryAddress.stateOrProvince` | maxLength: `3` |
+| `deliveryAddress.street` | maxLength: `3000` |
+| `deviceFingerprint` | maxLength: `5000` |
+| `enhancedSchemeData.carRental.rateType` | enum: `daily, weekly` |
+| `enhancedSchemeData.lodging.lodgingChargeType` | enum: `advanceDeposit, noShow, stay` |
+| `entityType` | enum: `NaturalPerson, CompanyName` |
+| `fundOrigin.billingAddress.city` | maxLength: `3000` |
+| `fundOrigin.billingAddress.houseNumberOrName` | maxLength: `3000` |
+| `fundOrigin.billingAddress.street` | maxLength: `3000` |
+| `fundOrigin.shopperName.firstName` | maxLength: `80` |
+| `fundOrigin.shopperName.lastName` | maxLength: `80` |
+| `fundRecipient.billingAddress.city` | maxLength: `3000` |
+| `fundRecipient.billingAddress.houseNumberOrName` | maxLength: `3000` |
+| `fundRecipient.billingAddress.street` | maxLength: `3000` |
+| `fundRecipient.paymentMethod.encryptedCard` | maxLength: `40000` |
+| `fundRecipient.paymentMethod.encryptedCardNumber` | maxLength: `15000` |
+| `fundRecipient.paymentMethod.encryptedExpiryMonth` | maxLength: `15000` |
+| `fundRecipient.paymentMethod.encryptedExpiryYear` | maxLength: `15000` |
+| `fundRecipient.paymentMethod.encryptedPassword` | maxLength: `15000` |
+| `fundRecipient.paymentMethod.encryptedSecurityCode` | maxLength: `15000` |
+| `fundRecipient.paymentMethod.fundingSource` | enum: `credit, debit, prepaid` |
+| `fundRecipient.paymentMethod.holderName` | maxLength: `15000` |
+| `fundRecipient.paymentMethod.sdkData` | maxLength: `50000` |
+| `fundRecipient.paymentMethod.storedPaymentMethodId` | maxLength: `64` |
+| `fundRecipient.paymentMethod.threeDS2SdkVersion` | maxLength: `12` |
+| `fundRecipient.paymentMethod.type` | enum: `bcmc, scheme, networkToken, giftcard, card, clicktopay` |
+| `fundRecipient.shopperName.firstName` | maxLength: `80` |
+| `fundRecipient.shopperName.lastName` | maxLength: `80` |
+| `fundRecipient.shopperReference` | minLength: `3`; maxLength: `256` |
+| `fundRecipient.storedPaymentMethodId` | maxLength: `64` |
+| `fundRecipient.walletPurpose` | enum: `identifiedBoleto, transferDifferentWallet, transferOwnWallet, transferSameWallet, unidentifiedBoleto` |
+| `industryUsage` | enum: `delayedCharge, installment, noShow` |
+| `installments.plan` | enum: `bonus, buynow_paylater, interes_refund_prctg, interest_bonus, nointeres_refund_prctg, nointerest_bonus, refund_prctg, regular, revolving, with_interest` |
+| `mandate.amountRule` | enum: `max, exact` |
+| `mandate.billingAttemptsRule` | enum: `on, before, after` |
+| `mandate.frequency` | enum: `adhoc, daily, weekly, biWeekly, monthly, quarterly, halfYearly, yearly` |
+| `merchantOrderReference` | maxLength: `1000` |
+| `merchantRiskIndicator.deliveryAddressIndicator` | enum: `shipToBillingAddress, shipToVerifiedAddress, shipToNewAddress, shipToStore, digitalGoods, goodsNotShipped, other` |
+| `merchantRiskIndicator.deliveryEmailAddress` | maxLength: `254` |
+| `merchantRiskIndicator.deliveryTimeframe` | enum: `electronicDelivery, sameDayShipping, overnightShipping, twoOrMoreDaysShipping` |
+| `merchantRiskIndicator.giftCardAmount.currency` | minLength: `3`; maxLength: `3` |
+| `mpiData.authenticationResponse` | enum: `Y, N, U, A` |
+| `mpiData.challengeCancel` | enum: `01, 02, 03, 04, 05, 06, 07` |
+| `mpiData.directoryResponse` | enum: `A, C, D, I, N, R, U, Y` |
+| `order.orderData` | maxLength: `5000` |
+| `origin` | maxLength: `80` |
+| `platformChargebackLogic.behavior` | enum: `deductFromOneBalanceAccount, deductAccordingToSplitRatio, deductFromLiableAccount` |
+| `recurringProcessingModel` | enum: `CardOnFile, Subscription, UnscheduledCardOnFile` |
+| `reference` | maxLength: `80` |
+| `returnUrl` | maxLength: `1024` |
+| `riskData.clientData` | maxLength: `5000` |
+| `shopperConversionId` | maxLength: `256` |
+| `shopperEmail` | maxLength: `256` |
+| `shopperIP` | maxLength: `50` |
+| `shopperInteraction` | enum: `Ecommerce, ContAuth, Moto, POS` |
+| `shopperName.firstName` | maxLength: `80` |
+| `shopperName.lastName` | maxLength: `80` |
+| `shopperReference` | minLength: `3`; maxLength: `256` |
+| `shopperStatement` | maxLength: `10000` |
+| `shopperTaxInfo.taxCountryCode` | maxLength: `2` |
+| `shopperTaxInfo.taxIdentificationNumber` | maxLength: `20` |
+| `socialSecurityNumber` | maxLength: `50` |
+| `store` | minLength: `1`; maxLength: `64` |
+| `telephoneNumber` | maxLength: `64` |
+| `threeDS2RequestData.acctInfo.chAccAgeInd` | enum: `01, 02, 03, 04, 05`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.acctInfo.chAccChangeInd` | enum: `01, 02, 03, 04`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.acctInfo.chAccPwChangeInd` | enum: `01, 02, 03, 04, 05`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.acctInfo.paymentAccInd` | enum: `01, 02, 03, 04, 05`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.acctInfo.shipAddressUsageInd` | enum: `01, 02, 03, 04`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.acctInfo.shipNameIndicator` | enum: `01, 02`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.acctInfo.suspiciousAccActivity` | enum: `01, 02`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.acctInfo.txnActivityDay` | maxLength: `3` |
+| `threeDS2RequestData.acctInfo.txnActivityYear` | maxLength: `3` |
+| `threeDS2RequestData.acctType` | enum: `01, 02, 03`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.addrMatch` | enum: `Y, N`; minLength: `1`; maxLength: `1` |
+| `threeDS2RequestData.challengeIndicator` | enum: `noPreference, requestNoChallenge, requestChallenge, requestChallengeAsMandate` |
+| `threeDS2RequestData.deviceRenderOptions.sdkInterface` | enum: `native, html, both` |
+| `threeDS2RequestData.homePhone.cc` | minLength: `1`; maxLength: `3` |
+| `threeDS2RequestData.homePhone.subscriber` | maxLength: `15` |
+| `threeDS2RequestData.mobilePhone.cc` | minLength: `1`; maxLength: `3` |
+| `threeDS2RequestData.mobilePhone.subscriber` | maxLength: `15` |
+| `threeDS2RequestData.purchaseInstalData` | minLength: `1`; maxLength: `3` |
+| `threeDS2RequestData.recurringFrequency` | maxLength: `4` |
+| `threeDS2RequestData.threeDSRequestorAuthenticationInfo.threeDSReqAuthMethod` | enum: `01, 02, 03, 04, 05, 06`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.threeDSRequestorAuthenticationInfo.threeDSReqAuthTimestamp` | minLength: `12`; maxLength: `12` |
+| `threeDS2RequestData.threeDSRequestorChallengeInd` | enum: `01, 02, 03, 04, 05, 06` |
+| `threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthMethod` | enum: `01, 02, 03, 04`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorAuthTimestamp` | minLength: `12`; maxLength: `12` |
+| `threeDS2RequestData.threeDSRequestorPriorAuthenticationInfo.threeDSReqPriorRef` | minLength: `36`; maxLength: `36` |
+| `threeDS2RequestData.transType` | enum: `01, 03, 10, 11, 28`; minLength: `2`; maxLength: `2` |
+| `threeDS2RequestData.transactionType` | enum: `goodsOrServicePurchase, checkAcceptance, accountFunding, quasiCashTransaction, prepaidActivationAndLoad` |
+| `threeDS2RequestData.workPhone.cc` | minLength: `1`; maxLength: `3` |
+| `threeDS2RequestData.workPhone.subscriber` | maxLength: `15` |
+
 ## Обработка ошибок
 
 | HTTP | Код ошибки | Рекомендуемое действие |

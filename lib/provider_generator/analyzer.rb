@@ -67,14 +67,17 @@ module ProviderGenerator
     def call
       operations = extract_operations
       create, create_scores = choose_create(operations)
+      create, create_scores = apply_operation_override("create", operations, create, create_scores) if operation_overridden?("create")
       status, status_scores = choose_status(operations, create)
+      status, status_scores = apply_operation_override("status", operations, create, status_scores) if operation_overridden?("status")
       webhook = operations.find { |operation| incoming_webhook?(operation) }
+      webhook = find_overridden_operation("webhook", operations) if operation_overridden?("webhook")
       warnings = []
       warnings << "Не удалось определить операцию создания платежа или выплаты." unless create
       warnings << "Не удалось определить операцию проверки статуса." unless status
       warnings << "Не удалось определить входящий webhook." unless webhook
-      warnings << ambiguity_warning("создания", create_scores) if create && ambiguous?(create_scores)
-      warnings << ambiguity_warning("проверки статуса", status_scores) if status && ambiguous?(status_scores)
+      warnings << ambiguity_warning("создания", create_scores) if create && ambiguous?(create_scores) && !operation_overridden?("create")
+      warnings << ambiguity_warning("проверки статуса", status_scores) if status && ambiguous?(status_scores) && !operation_overridden?("status")
       warnings << "Авторизация через Token/signature в теле запроса требует явной настройки для провайдера." if body_token_auth?(create)
       [create, status].compact.uniq.each do |operation|
         next if operation.security.nil? || operation.security == [] || supported_security?(operation)
@@ -105,6 +108,44 @@ module ProviderGenerator
     end
 
     private
+
+    def operation_overridden?(role)
+      @overrides.fetch("operations", {}).key?(role)
+    end
+
+    def find_overridden_operation(role, operations)
+      selector = @overrides.fetch("operations").fetch(role)
+      matches = operations.select do |operation|
+        if selector["operation_id"]
+          operation.id.to_s == selector["operation_id"].to_s
+        else
+          operation.method.to_s.casecmp?(selector["method"].to_s) && operation.path.to_s == selector["path"].to_s
+        end
+      end
+      description = selector["operation_id"] || "#{selector['method'].to_s.upcase} #{selector['path']}"
+      raise Error, "operations.#{role}: операция #{description} не найдена в спецификации." if matches.empty?
+      raise Error, "operations.#{role}: выбор #{description} соответствует нескольким операциям." if matches.length > 1
+
+      matches.first
+    end
+
+    def apply_operation_override(role, operations, create_context, _scores)
+      selected = find_overridden_operation(role, operations)
+      scorer = role == "create" ? method(:create_score) : ->(operation) { status_score(operation, create_context) }
+      alternatives = operations.reject { |operation| operation.equal?(selected) || incoming_webhook?(operation) }
+      runner_up = rank(alternatives, &scorer).first
+      selected_score = scorer.call(selected)
+      summary = {
+        "selected" => operation_score_entry(selected, selected_score).merge("source" => "overrides"),
+        "runner_up" => runner_up && operation_score_entry(runner_up[1], runner_up[0]),
+        "margin" => runner_up ? selected_score - runner_up[0] : nil
+      }
+      [selected, summary]
+    end
+
+    def operation_score_entry(operation, score)
+      { "score" => score, "method" => operation.method, "path" => operation.path, "operation_id" => operation.id }
+    end
 
     def extract_operations
       [[@spec.fetch("paths"), false], [@spec.fetch("webhooks", {}), true]].flat_map do |collection, inbound|

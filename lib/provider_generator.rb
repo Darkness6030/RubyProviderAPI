@@ -4,6 +4,7 @@ require_relative "provider_generator/spec_loader"
 require_relative "provider_generator/override_config"
 require_relative "provider_generator/analyzer"
 require_relative "provider_generator/generator"
+require_relative "provider_generator/verifier"
 
 module ProviderGenerator
   class Error < StandardError; end

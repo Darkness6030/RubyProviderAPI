@@ -43,8 +43,9 @@ class Provider
       payload = build_payload(operation, request_method)
       return failure(:unprocessable_entity, "missing_amount") if value_missing?(read_path(payload, "amount"))
       return failure(:unprocessable_entity, "missing_client_payment_id") if value_missing?(read_path(payload, "client_payment_id"))
-      return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < 0
       # Подтверждённых условно обязательных полей нет.
+      constraint_error = constraint_violation(payload)
+      return failure(:unprocessable_entity, constraint_error) if constraint_error
       success
     end
 
@@ -52,6 +53,20 @@ class Provider
 
     def build_payload(operation, request_method = nil)
       { "amount" => read_operation(operation, "amount"), "client_payment_id" => nil, "method" => nil, "metadata" => nil, "description" => nil, "cash_link_id" => nil, "client_receipt" => { "customer_email" => nil, "customer_phone" => nil, "taxation_system" => nil, "items" => nil }.compact, "client_crypto_addr" => nil, "catalog_items" => nil, "success_url" => nil, "success_url_description" => nil, "tips_amount" => nil, "fee_mode" => "on_top", "expected_total" => nil, "expected_commission" => nil, "token_id" => nil, "save" => nil }.compact
+    end
+
+    def constraint_violation(payload)
+      value = read_path(payload, "client_payment_id"); return "client_payment_id_too_long" if !value_missing?(value) && value.to_s.length > 200
+      value = read_path(payload, "method"); return "method_too_short" if !value_missing?(value) && value.to_s.length < 1
+      value = read_path(payload, "description"); return "description_too_long" if !value_missing?(value) && value.to_s.length > 250
+      value = read_path(payload, "client_receipt.customer_email"); return "client_receipt_customer_email_too_long" if !value_missing?(value) && value.to_s.length > 254
+      value = read_path(payload, "client_receipt.customer_phone"); return "client_receipt_customer_phone_too_long" if !value_missing?(value) && value.to_s.length > 19
+      value = read_path(payload, "client_crypto_addr"); return "client_crypto_addr_too_long" if !value_missing?(value) && value.to_s.length > 100
+      value = read_path(payload, "success_url"); return "success_url_too_long" if !value_missing?(value) && value.to_s.length > 200
+      value = read_path(payload, "success_url_description"); return "success_url_description_too_long" if !value_missing?(value) && value.to_s.length > 30
+      value = read_path(payload, "fee_mode"); return "fee_mode_not_allowed" if !value_missing?(value) && !["on_top", "from_tips"].include?(value)
+      value = read_path(payload, "token_id"); return "token_id_too_short" if !value_missing?(value) && value.to_s.length < 1
+      nil
     end
 
     def create_headers(operation)
@@ -194,6 +209,18 @@ class Provider
 
     def value_missing?(value)
       value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+
+    def numeric_constraint_value(value)
+      BigDecimal(value.to_s)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def constraint_pattern_match?(value, pattern)
+      Regexp.new(pattern).match?(value.to_s)
+    rescue RegexpError
+      false
     end
 
     def expand_path(template, operation)

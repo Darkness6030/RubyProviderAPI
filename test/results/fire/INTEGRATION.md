@@ -121,6 +121,14 @@
 | `jobNumber` | **TODO:** подтвердить схему платформы |
 | `callbackUrl` | **TODO:** подтвердить схему платформы |
 
+## Локальная проверка данных
+
+Ограничения из OpenAPI проверяются в `check_conditions` до обращения к провайдеру. При ошибке сервис возвращает `failure(:unprocessable_entity, ...)`.
+
+| Поле | Проверяемые ограничения |
+|---|---|
+| `type` | enum: `BANK_TRANSFER, INTERNAL_TRANSFER, INTERNATIONAL_TRANSFER` |
+
 ## Обработка ошибок
 
 | HTTP | Код ошибки | Рекомендуемое действие |

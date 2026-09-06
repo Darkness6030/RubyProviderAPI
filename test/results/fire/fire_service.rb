@@ -42,8 +42,9 @@ class Provider
       return base_result if base_result.respond_to?(:failed?) && base_result.failed?
       payload = build_payload(operation, request_method)
       # В OpenAPI нет обязательных полей запроса.
-      return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < 0
       # Подтверждённых условно обязательных полей нет.
+      constraint_error = constraint_violation(payload)
+      return failure(:unprocessable_entity, constraint_error) if constraint_error
       success
     end
 
@@ -51,6 +52,11 @@ class Provider
 
     def build_payload(operation, request_method = nil)
       { "type" => nil, "currency" => nil, "batchName" => nil, "jobNumber" => nil, "callbackUrl" => nil }.compact
+    end
+
+    def constraint_violation(payload)
+      value = read_path(payload, "type"); return "type_not_allowed" if !value_missing?(value) && !["BANK_TRANSFER", "INTERNAL_TRANSFER", "INTERNATIONAL_TRANSFER"].include?(value)
+      nil
     end
 
     def create_headers(operation)
@@ -193,6 +199,18 @@ class Provider
 
     def value_missing?(value)
       value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+
+    def numeric_constraint_value(value)
+      BigDecimal(value.to_s)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def constraint_pattern_match?(value, pattern)
+      Regexp.new(pattern).match?(value.to_s)
+    rescue RegexpError
+      false
     end
 
     def expand_path(template, operation)

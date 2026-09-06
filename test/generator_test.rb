@@ -6,9 +6,30 @@ require "ostruct"
 require "provider_generator"
 
 class GeneratorTest < Minitest::Test
+  def test_generates_every_supported_schema_constraint
+    spec = ProviderGenerator::SpecLoader.load(File.expand_path("../examples/novapay/openapi.yaml", __dir__))
+    schema = spec.dig("paths", "/payouts", "post", "requestBody", "content", "application/json", "schema")
+    schema.dig("properties", "amount")["maximum"] = 200_000
+    schema.dig("properties", "external_id")["minLength"] = 3
+    overrides = ProviderGenerator::OverrideConfig.load(File.expand_path("../examples/novapay/overrides.yaml", __dir__))
+    model = ProviderGenerator::Analyzer.new(spec, provider: "novapay", overrides: overrides).call
+
+    Dir.mktmpdir do |directory|
+      ProviderGenerator::Generator.new(model, output: directory).call
+      service = File.read(File.join(directory, "novapay_service.rb"))
+      fixtures = JSON.parse(File.read(File.join(directory, "fixtures.json")))
+      names = fixtures.fetch("validation_scenarios").map { |scenario| scenario.fetch("name") }
+
+      assert_includes service, 'return "amount_above_maximum"'
+      assert_includes service, 'return "external_id_too_short"'
+      assert_includes names, "amount_above_maximum"
+      assert_includes names, "external_id_too_short"
+    end
+  end
+
   def test_generates_expected_files
-    spec = ProviderGenerator::SpecLoader.load(File.expand_path("../docs/provider_api.yaml", __dir__))
-    overrides = ProviderGenerator::OverrideConfig.load(File.expand_path("../docs/novapay_overrides.yaml", __dir__))
+    spec = ProviderGenerator::SpecLoader.load(File.expand_path("../examples/novapay/openapi.yaml", __dir__))
+    overrides = ProviderGenerator::OverrideConfig.load(File.expand_path("../examples/novapay/overrides.yaml", __dir__))
     model = ProviderGenerator::Analyzer.new(spec, provider: "novapay", overrides: overrides).call
     Dir.mktmpdir do |directory|
       files = ProviderGenerator::Generator.new(model, output: directory).call
@@ -23,6 +44,10 @@ class GeneratorTest < Minitest::Test
       assert_includes service, 'BigDecimal(read_operation(operation, "amount").to_s) * 100'
       assert_includes service, 'read_path(read_operation(operation, "payout_requisite"), "sbp.phone")'
       assert_includes service, 'read_path(read_operation(operation, "payout_requisite"), "card_number")'
+      assert_includes service, "def constraint_violation(payload)"
+      assert_includes service, 'return "amount_below_minimum"'
+      assert_includes service, 'return "recipient_phone_invalid_format"'
+      assert_includes service, 'return "external_id_too_long"'
       assert_includes service, 'WEBHOOK_EVENTS = ["payout.completed", "payout.failed", "payout.processing", "payout.cancelled"]'
       assert_includes service, "payment_state payout_status transaction_status order_status status state result_code"
       assert_includes service, "resource_payloads(payload)"
@@ -45,8 +70,16 @@ class GeneratorTest < Minitest::Test
       assert_equal "approved", fixtures.dig("callback", "expected_operation_status")
       assert_equal "rejected", fixtures.dig("callback_failed", "expected_operation_status")
       refute fixtures.dig("fetch_status", "response_200").key?("error")
+      validation_names = fixtures.fetch("validation_scenarios").map { |scenario| scenario.fetch("name") }
+      assert_includes validation_names, "amount_below_minimum"
+      assert_includes validation_names, "recipient_phone_invalid_format"
+      assert_includes validation_names, "external_id_too_long"
+      assert fixtures.fetch("provider_error_scenarios").any? { |scenario| scenario["name"].end_with?("http_429") }
+      assert_equal "provider.unknown_status", fixtures.dig("unknown_status_scenario", "expected", "message")
       assert_includes guide, "RUB_SBP_WITHDRAW"
       assert_includes guide, "критичных предупреждений нет"
+      assert_includes guide, "выбор подтверждён в overrides"
+      assert_includes guide, "Локальная проверка данных"
 
       Object.const_set(:BaseService, Class.new do
         def success(**value) = { success: value }
@@ -109,6 +142,18 @@ class GeneratorTest < Minitest::Test
                                        payout_requisite: { "sbp" => { "phone" => "79001234567", "bank_code" => "044525225" } })
       assert service_instance.check_conditions(valid_operation, "create").key?(:success)
 
+      low_amount = OpenStruct.new(id: "op_3", amount: 999,
+                                  payout_requisite: { "sbp" => { "phone" => "79001234567", "bank_code" => "044525225" } })
+      assert_equal "amount_below_minimum", service_instance.check_conditions(low_amount, "sbp")[:message]
+
+      invalid_phone = OpenStruct.new(id: "op_3", amount: 1_500,
+                                     payout_requisite: { "sbp" => { "phone" => "123", "bank_code" => "044525225" } })
+      assert_equal "recipient_phone_invalid_format", service_instance.check_conditions(invalid_phone, "sbp")[:message]
+
+      long_id = OpenStruct.new(id: "x" * 65, amount: 1_500,
+                               payout_requisite: { "sbp" => { "phone" => "79001234567", "bank_code" => "044525225" } })
+      assert_equal "external_id_too_long", service_instance.check_conditions(long_id, "sbp")[:message]
+
       card_operation = OpenStruct.new(id: "op_4", amount: 2_000,
                                       payout_requisite: { "card_number" => "4111111111111111" })
       card_payload = service_instance.send(:build_payload, card_operation, "p2p")
@@ -136,6 +181,19 @@ class GeneratorTest < Minitest::Test
         { "event" => "payout.completed", "payout_id" => "np_2", "status" => "failed" }
       )
       assert_equal "np_2", conflicting_callback[:rejected]
+
+      verification = ProviderGenerator::Verifier.new(
+        model, files: files, output: directory, documentation_output: directory
+      ).call
+      assert verification[:passed], verification[:checks].reject { |check| check[:passed] }.inspect
+      assert verification[:checks].any? { |check| check[:name] == "повторяемость" && check[:passed] }
+
+      File.write(File.join(directory, "novapay_service.rb"), service + "\n# изменение после генерации\n")
+      changed = ProviderGenerator::Verifier.new(
+        model, files: files, output: directory, documentation_output: directory
+      ).call
+      refute changed[:passed]
+      assert changed[:checks].any? { |check| check[:name] == "повторяемость" && !check[:passed] }
       ENV["NOVAPAY_API_KEY"] = previous_api_key
     ensure
       ENV["NOVAPAY_API_KEY"] = previous_api_key if defined?(previous_api_key)

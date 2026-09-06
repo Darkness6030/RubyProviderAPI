@@ -45,8 +45,9 @@ class Provider
       return failure(:unprocessable_entity, "missing_Token") if value_missing?(read_path(payload, "Token"))
       return failure(:unprocessable_entity, "missing_Amount") if value_missing?(read_path(payload, "Amount"))
       return failure(:unprocessable_entity, "missing_OrderId") if value_missing?(read_path(payload, "OrderId"))
-      return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < 0
       # Подтверждённых условно обязательных полей нет.
+      constraint_error = constraint_violation(payload)
+      return failure(:unprocessable_entity, constraint_error) if constraint_error
       success
     end
 
@@ -54,6 +55,18 @@ class Provider
 
     def build_payload(operation, request_method = nil)
       { "TerminalKey" => nil, "Amount" => nil, "OrderId" => nil, "Token" => nil, "Description" => nil, "CustomerKey" => nil, "Recurrent" => "Y", "PayType" => nil, "Language" => "ru", "NotificationURL" => nil, "SuccessURL" => nil, "FailURL" => nil, "RedirectDueDate" => nil, "DATA" => nil, "Receipt" => nil, "Shops" => nil }.compact
+    end
+
+    def constraint_violation(payload)
+      value = read_path(payload, "TerminalKey"); return "terminal_key_too_long" if !value_missing?(value) && value.to_s.length > 64
+      value = read_path(payload, "OrderId"); return "order_id_too_long" if !value_missing?(value) && value.to_s.length > 50
+      value = read_path(payload, "Description"); return "description_too_long" if !value_missing?(value) && value.to_s.length > 140
+      value = read_path(payload, "CustomerKey"); return "customer_key_too_long" if !value_missing?(value) && value.to_s.length > 255
+      value = read_path(payload, "Recurrent"); return "recurrent_not_allowed" if !value_missing?(value) && !["Y"].include?(value)
+      value = read_path(payload, "Recurrent"); return "recurrent_too_long" if !value_missing?(value) && value.to_s.length > 1
+      value = read_path(payload, "PayType"); return "pay_type_not_allowed" if !value_missing?(value) && !["O", "T"].include?(value)
+      value = read_path(payload, "Language"); return "language_too_long" if !value_missing?(value) && value.to_s.length > 2
+      nil
     end
 
     def create_headers(operation)
@@ -196,6 +209,18 @@ class Provider
 
     def value_missing?(value)
       value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+
+    def numeric_constraint_value(value)
+      BigDecimal(value.to_s)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def constraint_pattern_match?(value, pattern)
+      Regexp.new(pattern).match?(value.to_s)
+    rescue RegexpError
+      false
     end
 
     def expand_path(template, operation)

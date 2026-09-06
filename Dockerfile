@@ -4,7 +4,7 @@ WORKDIR /app
 COPY bin ./bin
 COPY lib ./lib
 COPY test ./test
-COPY docs/*.yaml ./docs/
+COPY examples/novapay/*.yaml ./examples/novapay/
 
 RUN addgroup -S app && adduser -S app -G app && chown -R app:app /app
 USER app

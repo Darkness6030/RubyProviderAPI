@@ -97,6 +97,28 @@
 | `email` | **TODO:** подтвердить схему платформы |
 | `dynamicCallbackUrl` | **TODO:** подтвердить схему платформы |
 
+## Локальная проверка данных
+
+Ограничения из OpenAPI проверяются в `check_conditions` до обращения к провайдеру. При ошибке сервис возвращает `failure(:unprocessable_entity, ...)`.
+
+| Поле | Проверяемые ограничения |
+|---|---|
+| `userName` | pattern: `^[A-Za-z0-9-_-]+$`; minLength: `1`; maxLength: `30` |
+| `password` | pattern: `^[ -~]+$`; minLength: `1`; maxLength: `36` |
+| `orderNumber` | pattern: `^[ -~А-Яа-яЁёA-Za-z0-9-_№]*$`; minLength: `1`; maxLength: `36` |
+| `amount` | minimum: `0`; maximum: `999999999999` |
+| `currency` | pattern: `^\d{3}$`; minLength: `3`; maxLength: `3` |
+| `returnUrl` | pattern: `^(http://\|https://).*$`; minLength: `12`; maxLength: `2048` |
+| `features` | pattern: `^[ -~]*$`; minLength: `1`; maxLength: `255` |
+| `failUrl` | pattern: `^(http://\|https://).*$`; minLength: `12`; maxLength: `2048` |
+| `description` | pattern: `^[ -~А-Яа-яЁёA-Za-z0-9-_№]*$`; minLength: `1`; maxLength: `512` |
+| `language` | pattern: `^[a-z]+$`; minLength: `2`; maxLength: `2` |
+| `merchantLogin` | pattern: `^[A-Za-z0-9-_.-]+$`; minLength: `1`; maxLength: `30` |
+| `sessionTimeoutSecs` | minimum: `0`; maximum: `999999999` |
+| `phone` | pattern: `^(\+?)\d{7,15}$`; minLength: `1`; maxLength: `16` |
+| `email` | pattern: `^[ -~]+$`; minLength: `3`; maxLength: `128` |
+| `dynamicCallbackUrl` | pattern: `^(https://).*$`; minLength: `12`; maxLength: `512` |
+
 ## Обработка ошибок
 
 | HTTP | Код ошибки | Рекомендуемое действие |

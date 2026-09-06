@@ -33,8 +33,8 @@
 
 ## Обоснование выбора операций
 
-- `create` (создание): POST `/payouts` — оценка 108; следующий кандидат GET `/payouts/{payout_id}` — оценка 11; разница 97.
-- `status` (проверка статуса): GET `/payouts/{payout_id}` — оценка 150; следующий кандидат POST `/payouts` — оценка 12; разница 138.
+- `create` (создание): POST `/payouts` — оценка 108; выбор подтверждён в overrides; следующий кандидат GET `/payouts/{payout_id}` — оценка 11; разница 97.
+- `status` (проверка статуса): GET `/payouts/{payout_id}` — оценка 150; выбор подтверждён в overrides; следующий кандидат POST `/payouts` — оценка 12; разница 138.
 
 ## Маппинг статусов
 
@@ -62,6 +62,18 @@
 | `recipient.bank_code` | `payout_requisite.sbp.bank_code` |
 | `recipient.bank_name` | `payout_requisite.sbp.bank_name` |
 | `recipient.card_number` | `payout_requisite.card_number` |
+
+## Локальная проверка данных
+
+Ограничения из OpenAPI проверяются в `check_conditions` до обращения к провайдеру. При ошибке сервис возвращает `failure(:unprocessable_entity, ...)`.
+
+| Поле | Проверяемые ограничения |
+|---|---|
+| `amount` | minimum: `100000` |
+| `currency` | enum: `RUB` |
+| `external_id` | maxLength: `64` |
+| `recipient.type` | enum: `sbp, card` |
+| `recipient.phone` | pattern: `^7\d{10}$` |
 
 ## Обработка ошибок
 
@@ -93,6 +105,9 @@ X-NovaPay-Signature / HMAC-SHA256 / hex / проверка платформой 
 
 ## Подтверждённые overrides
 
+- Роль `create` подтверждена вручную: `createPayout`.
+- Роль `status` подтверждена вручную: `GET /payouts/{payout_id}`.
+- Роль `webhook` подтверждена вручную: `payoutWebhook`.
 - Единица суммы: `minor`, множитель `100`.
 - `recipient.phone` обязательно, когда `recipient.type = sbp`.
 - `recipient.bank_code` обязательно, когда `recipient.type = sbp`.

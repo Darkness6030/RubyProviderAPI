@@ -42,8 +42,9 @@ class Provider
       return base_result if base_result.respond_to?(:failed?) && base_result.failed?
       payload = build_payload(operation, request_method)
       return failure(:unprocessable_entity, "missing_amount account bik name") if value_missing?(read_path(payload, "amount account bik name"))
-      return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < 0
       # Подтверждённых условно обязательных полей нет.
+      constraint_error = constraint_violation(payload)
+      return failure(:unprocessable_entity, constraint_error) if constraint_error
       success
     end
 
@@ -51,6 +52,11 @@ class Provider
 
     def build_payload(operation, request_method = nil)
       { "amount" => read_operation(operation, "amount"), "account" => nil, "bik" => nil, "name" => nil, "inn" => nil, "description" => nil, "order_slug" => nil, "receipt_ids" => nil, "beneficiary_id" => nil, "income_code" => nil, "currency_control_file_id" => nil }.compact
+    end
+
+    def constraint_violation(payload)
+      # В OpenAPI нет ограничений полей для локальной проверки.
+      nil
     end
 
     def create_headers(operation)
@@ -193,6 +199,18 @@ class Provider
 
     def value_missing?(value)
       value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+
+    def numeric_constraint_value(value)
+      BigDecimal(value.to_s)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def constraint_pattern_match?(value, pattern)
+      Regexp.new(pattern).match?(value.to_s)
+    rescue RegexpError
+      false
     end
 
     def expand_path(template, operation)

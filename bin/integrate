@@ -6,7 +6,7 @@ $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 require "optparse"
 require "provider_generator"
 
-options = { lang: "ruby", output: "output", verbose: false, strict: false }
+options = { lang: "ruby", output: "output", verbose: false, strict: false, verify: false }
 parser = OptionParser.new do |opts|
   opts.banner = "Использование: integrate --spec ФАЙЛ --provider ИМЯ [--overrides ФАЙЛ] [--lang ruby] [--output КАТАЛОГ]"
   opts.on("--spec FILE", "OpenAPI 3 или Swagger 2.0 в YAML/JSON") { |value| options[:spec] = value }
@@ -17,6 +17,7 @@ parser = OptionParser.new do |opts|
   opts.on("--overrides FILE", "Необязательный универсальный YAML-файл уточнений") { |value| options[:overrides] = value }
   opts.on("-v", "--verbose", "Показать все найденные операции") { options[:verbose] = true }
   opts.on("--strict", "Вернуть ошибку, если остались предупреждения") { options[:strict] = true }
+  opts.on("--verify", "Проверить синтаксис, контракт, сценарий и повторяемость результата") { options[:verify] = true }
   opts.on("-h", "--help", "Показать справку") { puts opts; exit }
 end
 
@@ -50,6 +51,23 @@ begin
   if options[:strict] && model.warnings.any?
     warn "Строгая проверка не пройдена: устраните предупреждения или подтвердите их через overrides."
     exit 3
+  end
+  if options[:verify]
+    puts "Проверка сгенерированного пакета…"
+    verification = ProviderGenerator::Verifier.new(
+      model,
+      files: files,
+      output: options[:output],
+      documentation_output: options[:docs_output] || options[:output]
+    ).call
+    verification[:checks].each do |check|
+      marker = check[:passed] ? "✓" : "✗"
+      puts "  #{marker} #{check[:name]}: #{check[:detail]}"
+    end
+    unless verification[:passed]
+      warn "Проверка результата не пройдена."
+      exit 4
+    end
   end
 rescue OptionParser::ParseError, ProviderGenerator::Error => e
   warn "Ошибка: #{e.message}"

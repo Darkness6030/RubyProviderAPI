@@ -5,9 +5,12 @@
 ## Чем отличается решение
 
 - Для каждой роли сохраняются выбранный метод, ближайший кандидат, оценки и разница между ними — выбор можно перепроверить.
+- Спорный выбор можно явно подтвердить в `overrides` по `operation_id` либо по паре HTTP-метод + путь.
 - Выплатные методы имеют явный приоритет; платежи используются только как запасной сценарий для спецификаций без выплат.
 - Неподтверждённые единицы суммы, поля и статусы не превращаются в правдоподобный код: генератор оставляет адресный `TODO`, а `--strict` останавливает сборку.
-- Обязательные артефакты дополнены маппингом полей, всеми адресами API, реакциями на ошибки, итогом готовности и отдельными сценариями вебхуков.
+- Ограничения `minimum`, `maximum`, `pattern`, `enum`, `minLength` и `maxLength` проверяются до HTTP-вызова.
+- `--verify` проверяет синтаксис, контракт, сценарий без сети и побайтовую повторяемость результата.
+- Обязательные артефакты дополнены маппингом полей, всеми адресами API, реакциями на ошибки, итогом готовности и отрицательными сценариями.
 - То же ядро проверяется на 12 сохранённых API и 1430 операциях; в анализаторе нет веток по имени провайдера.
 
 ## Как устроено
@@ -41,13 +44,37 @@ docker compose run --rm generator
 
 ```bash
 docker compose run --rm generator \
-  --spec docs/provider_api.yaml \
+  --spec examples/novapay/openapi.yaml \
   --provider novapay \
-  --overrides docs/novapay_overrides.yaml \
+  --overrides examples/novapay/overrides.yaml \
   --output output
 ```
 
-`--verbose` выводит все найденные операции. `--strict` завершает процесс с кодом `3`, если остались решения, требующие подтверждения.
+Для генерации с полной самопроверкой:
+
+```bash
+docker compose run --rm generator \
+  --spec examples/novapay/openapi.yaml \
+  --provider novapay \
+  --overrides examples/novapay/overrides.yaml \
+  --output output \
+  --verify
+```
+
+`--verbose` выводит все найденные операции. `--strict` завершает процесс с кодом `3`, если остались решения, требующие подтверждения. `--verify` возвращает код `4`, если пакет не прошёл проверку.
+
+Явное подтверждение ролей в `overrides`:
+
+```yaml
+operations:
+  create:
+    operation_id: createPayout
+  status:
+    method: get
+    path: /payouts/{payout_id}
+  webhook:
+    operation_id: payoutWebhook
+```
 
 ## Проверка
 
@@ -65,15 +92,11 @@ docker compose run --rm --entrypoint ruby \
   generator /workspace/bin/run_real_corpus /workspace/test/results
 ```
 
-Текущий результат: 16 тестов, 228 проверок, 12 из 12 сценариев корпуса без ошибок.
+Текущий результат: 21 тест, 281 проверка, 12 из 12 сценариев корпуса без ошибок.
 
-## Документы
+## Материалы
 
-- [Полное описание задачи](docs/README.md)
-- [Архитектура и рассказ для защиты](docs/brief.md)
-- [Подтверждённый контракт платформы](docs/questions.md)
-- [Инженерная самооценка](docs/evaluation.md)
-- [Исследование и ограничения](docs/research.md)
+- [Пример OpenAPI и подтверждённые настройки NovaPay](examples/novapay/)
 - [Финальная презентация](presentation/index.html)
 
 ## Граница решения

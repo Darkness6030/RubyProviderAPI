@@ -681,6 +681,17 @@
 | `source_type` | **TODO:** подтвердить схему платформы |
 | `statement_descriptor` | **TODO:** подтвердить схему платформы |
 
+## Локальная проверка данных
+
+Ограничения из OpenAPI проверяются в `check_conditions` до обращения к провайдеру. При ошибке сервис возвращает `failure(:unprocessable_entity, ...)`.
+
+| Поле | Проверяемые ограничения |
+|---|---|
+| `description` | maxLength: `5000` |
+| `method` | enum: `instant, standard`; maxLength: `5000` |
+| `source_type` | enum: `bank_account, card, fpx`; maxLength: `5000` |
+| `statement_descriptor` | maxLength: `22` |
+
 ## Обработка ошибок
 
 | HTTP | Код ошибки | Рекомендуемое действие |

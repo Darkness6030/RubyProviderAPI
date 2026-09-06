@@ -48,8 +48,9 @@ class Provider
       return failure(:unprocessable_entity, "missing_returnUrl") if value_missing?(read_path(payload, "returnUrl"))
       return failure(:unprocessable_entity, "missing_features") if value_missing?(read_path(payload, "features"))
       return failure(:unprocessable_entity, "missing_email") if value_missing?(read_path(payload, "email"))
-      return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < 0
       # Подтверждённых условно обязательных полей нет.
+      constraint_error = constraint_violation(payload)
+      return failure(:unprocessable_entity, constraint_error) if constraint_error
       success
     end
 
@@ -57,6 +58,53 @@ class Provider
 
     def build_payload(operation, request_method = nil)
       { "userName" => nil, "password" => nil, "orderNumber" => nil, "amount" => read_operation(operation, "amount"), "currency" => "643", "returnUrl" => nil, "features" => nil, "failUrl" => nil, "description" => nil, "language" => "ru", "merchantLogin" => nil, "jsonParams" => { "keyValue" => { "name1" => nil, "name2" => nil }.compact }.compact, "sessionTimeoutSecs" => "1200", "expirationDate" => nil, "phone" => nil, "email" => nil, "dynamicCallbackUrl" => nil }.compact
+    end
+
+    def constraint_violation(payload)
+      value = read_path(payload, "userName"); return "user_name_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^[A-Za-z0-9-_-]+$")
+      value = read_path(payload, "userName"); return "user_name_too_short" if !value_missing?(value) && value.to_s.length < 1
+      value = read_path(payload, "userName"); return "user_name_too_long" if !value_missing?(value) && value.to_s.length > 30
+      value = read_path(payload, "password"); return "password_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^[ -~]+$")
+      value = read_path(payload, "password"); return "password_too_short" if !value_missing?(value) && value.to_s.length < 1
+      value = read_path(payload, "password"); return "password_too_long" if !value_missing?(value) && value.to_s.length > 36
+      value = read_path(payload, "orderNumber"); return "order_number_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^[ -~А-Яа-яЁёA-Za-z0-9-_№]*$")
+      value = read_path(payload, "orderNumber"); return "order_number_too_short" if !value_missing?(value) && value.to_s.length < 1
+      value = read_path(payload, "orderNumber"); return "order_number_too_long" if !value_missing?(value) && value.to_s.length > 36
+      number = numeric_constraint_value(read_path(payload, "amount")); return "amount_below_minimum" if number && number < BigDecimal("0")
+      number = numeric_constraint_value(read_path(payload, "amount")); return "amount_above_maximum" if number && number > BigDecimal("999999999999")
+      value = read_path(payload, "currency"); return "currency_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^\\d{3}$")
+      value = read_path(payload, "currency"); return "currency_too_short" if !value_missing?(value) && value.to_s.length < 3
+      value = read_path(payload, "currency"); return "currency_too_long" if !value_missing?(value) && value.to_s.length > 3
+      value = read_path(payload, "returnUrl"); return "return_url_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^(http://|https://).*$")
+      value = read_path(payload, "returnUrl"); return "return_url_too_short" if !value_missing?(value) && value.to_s.length < 12
+      value = read_path(payload, "returnUrl"); return "return_url_too_long" if !value_missing?(value) && value.to_s.length > 2048
+      value = read_path(payload, "features"); return "features_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^[ -~]*$")
+      value = read_path(payload, "features"); return "features_too_short" if !value_missing?(value) && value.to_s.length < 1
+      value = read_path(payload, "features"); return "features_too_long" if !value_missing?(value) && value.to_s.length > 255
+      value = read_path(payload, "failUrl"); return "fail_url_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^(http://|https://).*$")
+      value = read_path(payload, "failUrl"); return "fail_url_too_short" if !value_missing?(value) && value.to_s.length < 12
+      value = read_path(payload, "failUrl"); return "fail_url_too_long" if !value_missing?(value) && value.to_s.length > 2048
+      value = read_path(payload, "description"); return "description_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^[ -~А-Яа-яЁёA-Za-z0-9-_№]*$")
+      value = read_path(payload, "description"); return "description_too_short" if !value_missing?(value) && value.to_s.length < 1
+      value = read_path(payload, "description"); return "description_too_long" if !value_missing?(value) && value.to_s.length > 512
+      value = read_path(payload, "language"); return "language_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^[a-z]+$")
+      value = read_path(payload, "language"); return "language_too_short" if !value_missing?(value) && value.to_s.length < 2
+      value = read_path(payload, "language"); return "language_too_long" if !value_missing?(value) && value.to_s.length > 2
+      value = read_path(payload, "merchantLogin"); return "merchant_login_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^[A-Za-z0-9-_.-]+$")
+      value = read_path(payload, "merchantLogin"); return "merchant_login_too_short" if !value_missing?(value) && value.to_s.length < 1
+      value = read_path(payload, "merchantLogin"); return "merchant_login_too_long" if !value_missing?(value) && value.to_s.length > 30
+      number = numeric_constraint_value(read_path(payload, "sessionTimeoutSecs")); return "session_timeout_secs_below_minimum" if number && number < BigDecimal("0")
+      number = numeric_constraint_value(read_path(payload, "sessionTimeoutSecs")); return "session_timeout_secs_above_maximum" if number && number > BigDecimal("999999999")
+      value = read_path(payload, "phone"); return "phone_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^(\\+?)\\d{7,15}$")
+      value = read_path(payload, "phone"); return "phone_too_short" if !value_missing?(value) && value.to_s.length < 1
+      value = read_path(payload, "phone"); return "phone_too_long" if !value_missing?(value) && value.to_s.length > 16
+      value = read_path(payload, "email"); return "email_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^[ -~]+$")
+      value = read_path(payload, "email"); return "email_too_short" if !value_missing?(value) && value.to_s.length < 3
+      value = read_path(payload, "email"); return "email_too_long" if !value_missing?(value) && value.to_s.length > 128
+      value = read_path(payload, "dynamicCallbackUrl"); return "dynamic_callback_url_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^(https://).*$")
+      value = read_path(payload, "dynamicCallbackUrl"); return "dynamic_callback_url_too_short" if !value_missing?(value) && value.to_s.length < 12
+      value = read_path(payload, "dynamicCallbackUrl"); return "dynamic_callback_url_too_long" if !value_missing?(value) && value.to_s.length > 512
+      nil
     end
 
     def create_headers(operation)
@@ -199,6 +247,18 @@ class Provider
 
     def value_missing?(value)
       value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+
+    def numeric_constraint_value(value)
+      BigDecimal(value.to_s)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def constraint_pattern_match?(value, pattern)
+      Regexp.new(pattern).match?(value.to_s)
+    rescue RegexpError
+      false
     end
 
     def expand_path(template, operation)

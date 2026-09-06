@@ -44,8 +44,9 @@ class Provider
       return failure(:unprocessable_entity, "missing_quoteId") if value_missing?(read_path(payload, "quoteId"))
       return failure(:unprocessable_entity, "missing_beneficiaryIdentityId") if value_missing?(read_path(payload, "beneficiaryIdentityId"))
       return failure(:unprocessable_entity, "missing_beneficiaryFinancialInstrumentId") if value_missing?(read_path(payload, "beneficiaryFinancialInstrumentId"))
-      return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < 0
       # Подтверждённых условно обязательных полей нет.
+      constraint_error = constraint_violation(payload)
+      return failure(:unprocessable_entity, constraint_error) if constraint_error
       success
     end
 
@@ -53,6 +54,11 @@ class Provider
 
     def build_payload(operation, request_method = nil)
       { "quoteId" => nil, "originatorIdentityId" => nil, "beneficiaryIdentityId" => nil, "internalId" => nil, "purposeCode" => nil, "sourceOfCash" => nil, "paymentLabels" => nil, "beneficiaryFinancialInstrumentId" => nil, "receiverRelationship" => nil, "paymentMemo" => nil }.compact
+    end
+
+    def constraint_violation(payload)
+      value = read_path(payload, "internalId"); return "internal_id_too_long" if !value_missing?(value) && value.to_s.length > 36
+      nil
     end
 
     def create_headers(operation)
@@ -195,6 +201,18 @@ class Provider
 
     def value_missing?(value)
       value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+
+    def numeric_constraint_value(value)
+      BigDecimal(value.to_s)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def constraint_pattern_match?(value, pattern)
+      Regexp.new(pattern).match?(value.to_s)
+    rescue RegexpError
+      false
     end
 
     def expand_path(template, operation)

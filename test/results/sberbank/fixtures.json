@@ -39,5 +39,935 @@
       }
     },
     "expected_operation_status": "unknown"
+  },
+  "validation_scenarios": [
+    {
+      "name": "missing_user_name",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "remove": "userName"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_userName",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_password",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "remove": "password"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_password",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_order_number",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "remove": "orderNumber"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_orderNumber",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_amount",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "remove": "amount"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_amount",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_return_url",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "remove": "returnUrl"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_returnUrl",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_features",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "remove": "features"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_features",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "missing_email",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "remove": "email"
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "missing_email",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "user_name_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "userName": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "user_name_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "user_name_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "userName": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "user_name_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "user_name_too_long",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "userName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "user_name_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "password_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "password": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "password_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "password_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "password": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "password_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "password_too_long",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "password": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "password_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "order_number_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "orderNumber": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "order_number_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "order_number_too_long",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "orderNumber": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "order_number_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "amount_below_minimum",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "amount": -1
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "amount_below_minimum",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "amount_above_maximum",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "amount": 1000000000000
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "amount_above_maximum",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "currency_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "currency": "__invalid__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "currency_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "currency_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "currency": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "currency_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "currency_too_long",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "currency": "xxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "currency_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "return_url_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "returnUrl": "__invalid__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "return_url_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "return_url_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "returnUrl": "xxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "return_url_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "features_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "features": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "features_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "features_too_long",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "features": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "features_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fail_url_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "failUrl": "__invalid__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fail_url_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "fail_url_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "failUrl": "xxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "fail_url_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "description_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "description": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "description_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "language_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "language": "__invalid__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "language_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "language_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "language": "x"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "language_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "language_too_long",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "language": "xxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "language_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "merchant_login_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "merchantLogin": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "merchant_login_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "merchant_login_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "merchantLogin": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "merchant_login_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "merchant_login_too_long",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "merchantLogin": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "merchant_login_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "session_timeout_secs_below_minimum",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "sessionTimeoutSecs": -1
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "session_timeout_secs_below_minimum",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "session_timeout_secs_above_maximum",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "sessionTimeoutSecs": 1000000000
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "session_timeout_secs_above_maximum",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "phone_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "phone": "__invalid__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "phone_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "phone_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "phone": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "phone_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "phone_too_long",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "phone": "xxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "phone_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "email_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "email": ""
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "email_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "email_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "email": "xx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "email_too_short",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "email_too_long",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "email": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "email_too_long",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dynamic_callback_url_invalid_format",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "dynamicCallbackUrl": "__invalid__"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dynamic_callback_url_invalid_format",
+        "http_calls": 0
+      }
+    },
+    {
+      "name": "dynamic_callback_url_too_short",
+      "valid_request": {
+        "userName": "testUserName",
+        "password": "testPassword",
+        "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+        "amount": 19900,
+        "returnUrl": "https://testmerchant.ru/return",
+        "features": "ORIGINAL_CREDIT"
+      },
+      "mutation": {
+        "set": {
+          "dynamicCallbackUrl": "xxxxxxxxxxx"
+        }
+      },
+      "expected": {
+        "failure": "unprocessable_entity",
+        "message": "dynamic_callback_url_too_short",
+        "http_calls": 0
+      }
+    }
+  ],
+  "provider_error_scenarios": [
+    {
+      "name": "register_p2_p_http_404",
+      "operation": "create_request",
+      "fixture": "response_404",
+      "expected": {
+        "failure": "bad_request"
+      }
+    },
+    {
+      "name": "register_p2_p_http_405",
+      "operation": "create_request",
+      "fixture": "response_405",
+      "expected": {
+        "failure": "internal_server_error"
+      }
+    },
+    {
+      "name": "register_p2_p_http_429",
+      "operation": "create_request",
+      "fixture": "response_429",
+      "expected": {
+        "failure": "too_many_requests"
+      }
+    }
+  ],
+  "unknown_status_scenario": {
+    "provider_response": {
+      "status": 200,
+      "body": {
+        "id": "provider_test_id",
+        "status": "__unknown__"
+      }
+    },
+    "expected": {
+      "failure": "unprocessable_entity",
+      "message": "provider.unknown_status"
+    }
   }
 }

@@ -43,8 +43,9 @@ class Provider
       payload = build_payload(operation, request_method)
       return failure(:unprocessable_entity, "missing_amount") if value_missing?(read_path(payload, "amount"))
       return failure(:unprocessable_entity, "missing_currency") if value_missing?(read_path(payload, "currency"))
-      return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < 0
       # Подтверждённых условно обязательных полей нет.
+      constraint_error = constraint_violation(payload)
+      return failure(:unprocessable_entity, constraint_error) if constraint_error
       success
     end
 
@@ -52,6 +53,16 @@ class Provider
 
     def build_payload(operation, request_method = nil)
       { "amount" => read_operation(operation, "amount"), "currency" => nil, "description" => nil, "destination" => nil, "expand" => nil, "metadata" => nil, "method" => nil, "payout_method" => nil, "source_type" => nil, "statement_descriptor" => nil }.compact
+    end
+
+    def constraint_violation(payload)
+      value = read_path(payload, "description"); return "description_too_long" if !value_missing?(value) && value.to_s.length > 5000
+      value = read_path(payload, "method"); return "method_not_allowed" if !value_missing?(value) && !["instant", "standard"].include?(value)
+      value = read_path(payload, "method"); return "method_too_long" if !value_missing?(value) && value.to_s.length > 5000
+      value = read_path(payload, "source_type"); return "source_type_not_allowed" if !value_missing?(value) && !["bank_account", "card", "fpx"].include?(value)
+      value = read_path(payload, "source_type"); return "source_type_too_long" if !value_missing?(value) && value.to_s.length > 5000
+      value = read_path(payload, "statement_descriptor"); return "statement_descriptor_too_long" if !value_missing?(value) && value.to_s.length > 22
+      nil
     end
 
     def create_headers(operation)
@@ -196,6 +207,18 @@ class Provider
 
     def value_missing?(value)
       value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+
+    def numeric_constraint_value(value)
+      BigDecimal(value.to_s)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def constraint_pattern_match?(value, pattern)
+      Regexp.new(pattern).match?(value.to_s)
+    rescue RegexpError
+      false
     end
 
     def expand_path(template, operation)

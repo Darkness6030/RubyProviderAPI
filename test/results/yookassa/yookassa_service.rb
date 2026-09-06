@@ -44,8 +44,9 @@ class Provider
       return failure(:unprocessable_entity, "missing_amount") if value_missing?(read_path(payload, "amount"))
       return failure(:unprocessable_entity, "missing_amount_value") if value_missing?(read_path(payload, "amount.value"))
       return failure(:unprocessable_entity, "missing_amount_currency") if value_missing?(read_path(payload, "amount.currency"))
-      return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < 0
       # Подтверждённых условно обязательных полей нет.
+      constraint_error = constraint_violation(payload)
+      return failure(:unprocessable_entity, constraint_error) if constraint_error
       success
     end
 
@@ -53,6 +54,13 @@ class Provider
 
     def build_payload(operation, request_method = nil)
       { "amount" => read_operation(operation, "amount"), "payout_destination_data" => nil, "payout_token" => nil, "payment_method_id" => nil, "description" => nil, "deal" => { "id" => nil }.compact, "personal_data" => nil, "metadata" => nil }.compact
+    end
+
+    def constraint_violation(payload)
+      value = read_path(payload, "amount.currency"); return "amount_currency_not_allowed" if !value_missing?(value) && !["RUB", "EUR", "USD", "KZT", "BYN", "UAH", "UZS", "TRY", "INR", "MDL", "AZN", "AMD"].include?(value)
+      value = read_path(payload, "deal.id"); return "deal_id_too_short" if !value_missing?(value) && value.to_s.length < 36
+      value = read_path(payload, "deal.id"); return "deal_id_too_long" if !value_missing?(value) && value.to_s.length > 50
+      nil
     end
 
     def create_headers(operation)
@@ -197,6 +205,18 @@ class Provider
 
     def value_missing?(value)
       value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+
+    def numeric_constraint_value(value)
+      BigDecimal(value.to_s)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def constraint_pattern_match?(value, pattern)
+      Regexp.new(pattern).match?(value.to_s)
+    rescue RegexpError
+      false
     end
 
     def expand_path(template, operation)

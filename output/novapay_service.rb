@@ -46,10 +46,11 @@ class Provider
       return failure(:unprocessable_entity, "missing_external_id") if value_missing?(read_path(payload, "external_id"))
       return failure(:unprocessable_entity, "missing_recipient") if value_missing?(read_path(payload, "recipient"))
       return failure(:unprocessable_entity, "missing_recipient_type") if value_missing?(read_path(payload, "recipient.type"))
-      return failure(:unprocessable_entity, "amount_too_low") if read_operation(operation, "amount").to_i < 1000
       return failure(:unprocessable_entity, "missing_recipient_phone") if read_path(payload, "recipient.type").to_s == "sbp" && value_missing?(read_path(payload, "recipient.phone"))
       return failure(:unprocessable_entity, "missing_recipient_bank_code") if read_path(payload, "recipient.type").to_s == "sbp" && value_missing?(read_path(payload, "recipient.bank_code"))
       return failure(:unprocessable_entity, "missing_recipient_card_number") if read_path(payload, "recipient.type").to_s == "card" && value_missing?(read_path(payload, "recipient.card_number"))
+      constraint_error = constraint_violation(payload)
+      return failure(:unprocessable_entity, constraint_error) if constraint_error
       success
     end
 
@@ -57,6 +58,15 @@ class Provider
 
     def build_payload(operation, request_method = nil)
       { "amount" => (BigDecimal(read_operation(operation, "amount").to_s) * 100).to_i, "currency" => "RUB", "external_id" => read_operation(operation, "id"), "recipient" => { "type" => payout_type(operation, request_method), "phone" => read_path(read_operation(operation, "payout_requisite"), "sbp.phone"), "bank_code" => read_path(read_operation(operation, "payout_requisite"), "sbp.bank_code"), "bank_name" => read_path(read_operation(operation, "payout_requisite"), "sbp.bank_name"), "card_number" => read_path(read_operation(operation, "payout_requisite"), "card_number") }.compact }.compact
+    end
+
+    def constraint_violation(payload)
+      number = numeric_constraint_value(read_path(payload, "amount")); return "amount_below_minimum" if number && number < BigDecimal("100000")
+      value = read_path(payload, "currency"); return "currency_not_allowed" if !value_missing?(value) && !["RUB"].include?(value)
+      value = read_path(payload, "external_id"); return "external_id_too_long" if !value_missing?(value) && value.to_s.length > 64
+      value = read_path(payload, "recipient.type"); return "recipient_type_not_allowed" if !value_missing?(value) && !["sbp", "card"].include?(value)
+      value = read_path(payload, "recipient.phone"); return "recipient_phone_invalid_format" if !value_missing?(value) && !constraint_pattern_match?(value, "^7\\d{10}$")
+      nil
     end
 
     def create_headers(operation)
@@ -199,6 +209,18 @@ class Provider
 
     def value_missing?(value)
       value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+
+    def numeric_constraint_value(value)
+      BigDecimal(value.to_s)
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    def constraint_pattern_match?(value, pattern)
+      Regexp.new(pattern).match?(value.to_s)
+    rescue RegexpError
+      false
     end
 
     def expand_path(template, operation)
