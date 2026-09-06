@@ -384,6 +384,13 @@
     .check-list { display: grid; gap: 13px; }
     .check-item { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; }
     .check-icon { width: 24px; height: 24px; position: relative; display: flex; flex: 0 0 24px; align-items: center; justify-content: center; padding: 0; border-radius: 8px; color: var(--lime); background: rgba(166,237,134,.11); border: 1px solid rgba(166,237,134,.2); font-size: 12px; font-weight: 900; line-height: 1; }
+    .check-item .check-icon.is-number {
+      display: grid;
+      place-items: center;
+      padding: 0;
+      color: var(--lime);
+      font: 900 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
     .check-icon.is-check svg {
       position: absolute;
       inset: 0;
@@ -520,6 +527,11 @@
       #slide-12 th { font-size: 11.5px; }
       #slide-12 td { font-size: 12.5px; line-height: 1.25; }
       #slide-12 .score-hero small { margin-top: 10px; }
+    }
+
+    #slide-8 .check-item .check-icon.is-number {
+      font-size: 12px;
+      line-height: 1;
     }
 
     @media (max-width: 980px) {
@@ -768,9 +780,9 @@ webhook_signature:
           <article class="card">
             <h3>Что можно делать автоматически</h3>
             <div class="check-list">
-              <div class="check-item"><span class="check-icon">1</span><div><strong>Явно указано в OpenAPI</strong><span>Путь, схема, статусы и авторизация берутся автоматически.</span></div></div>
-              <div class="check-item warn"><span class="check-icon">2</span><div><strong>Метод похож на нужный</strong><span>Показываем оценку и ближайший вариант для проверки.</span></div></div>
-              <div class="check-item warn"><span class="check-icon">3</span><div><strong>Правило спрятано в тексте</strong><span>Просим подтвердить его или оставляем предупреждение.</span></div></div>
+              <div class="check-item"><span class="check-icon is-number">1</span><div><strong>Явно указано в OpenAPI</strong><span>Путь, схема, статусы и авторизация берутся автоматически.</span></div></div>
+              <div class="check-item warn"><span class="check-icon is-number">2</span><div><strong>Метод похож на нужный</strong><span>Показываем оценку и ближайший вариант для проверки.</span></div></div>
+              <div class="check-item warn"><span class="check-icon is-number">3</span><div><strong>Правило спрятано в тексте</strong><span>Просим подтвердить его или оставляем предупреждение.</span></div></div>
             </div>
             <div class="pill-row"><span class="pill">--strict для CI</span><span class="pill">unknown значит ошибка</span><span class="pill">все уточнения видны</span></div>
           </article>
@@ -889,9 +901,8 @@ webhook_signature:
         <div class="eyebrow">Итог</div>
         <blockquote class="quote">Наш генератор показывает не только что он создал, но и почему этому результату можно доверять.</blockquote>
         <div class="metrics" style="margin-top:54px">
-          <div class="metric"><strong>Объясняет</strong><span>кандидаты, оценки и отрыв</span></div>
-          <div class="metric"><strong>Не угадывает</strong><span>TODO вместо опасной догадки</span></div>
-          <div class="metric"><strong>Следует контракту</strong><span>ответы QA закреплены тестами</span></div>
+          <div class="metric"><strong>Объясняет</strong><span>кандидаты и скоринг</span></div>
+          <div class="metric"><strong>Не угадывает</strong><span>TODO вместо догадок</span></div>
           <div class="metric"><strong>Проверено</strong><span>12 API · 1 430 операций</span></div>
         </div>
       </div>
