@@ -1,0 +1,43 @@
+{
+  "create_request": {
+    "request": {
+      "userName": "testUserName",
+      "password": "testPassword",
+      "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+      "amount": 19900,
+      "returnUrl": "https://testmerchant.ru/return",
+      "features": "ORIGINAL_CREDIT"
+    },
+    "response_200": {
+      "errorCode": "0",
+      "errorMessage": "Обработка запроса прошла без системных ошибок",
+      "orderId": "a67b0ced-c9a4-4cfb-bce3-b9595afaafc1",
+      "formUrl": "https://ecomtest.sberbank.ru/pp/pay_ru?orderId=a67b0ced-c9a4-4cfb-bce3-b9595afaafc1"
+    },
+    "response_404": null,
+    "response_405": null,
+    "response_429": null
+  },
+  "fetch_status": {},
+  "callback": {
+    "payload": {
+      "mdOrder": "a67b0ced-c9a4-4cfb-bce3-b9595afaafc1",
+      "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+      "operation": "deposited",
+      "status": 1
+    },
+    "expected_operation_status": "unknown"
+  },
+  "callback_callback_spb": {
+    "payload": {
+      "mdOrder": "a67b0ced-c9a4-4cfb-bce3-b9595afaafc1",
+      "orderNumber": "e2574f1785324f1592d9029cb05adbbd",
+      "operation": "deposited",
+      "status": 1,
+      "additionalParams": {
+        "value": "{\"qrcId\":\"BD1P123EM1KKUS123SS12SHIVUEFQTK3\",\"subscriptionId\":\"01234567890fabcdef01234567890abc\",\"phone\":\"*********1234\",\"memberId\":\"100000000111\"}"
+      }
+    },
+    "expected_operation_status": "unknown"
+  }
+}

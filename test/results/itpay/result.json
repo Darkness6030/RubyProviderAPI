@@ -1,0 +1,86 @@
+{
+  "id": "itpay",
+  "provider": "ITPAY",
+  "specification": "itpay.json",
+  "source_url": "https://docs.gw.itpay.ru/?format=openapi",
+  "openapi_operations": 151,
+  "expected_roles": {
+    "create": "/v1/payments",
+    "status": "/v1/payments/{id}",
+    "webhook": null
+  },
+  "detected_roles": {
+    "create": "/v1/payments",
+    "status": "/v1/payments/{id}",
+    "webhook": null
+  },
+  "auth": "Merchant Authentication (basic), JWT Authentication (basic)",
+  "statuses": {
+    "new": "in_progress",
+    "paid": "approved",
+    "processing": "in_progress",
+    "completed": "approved",
+    "cancelled": "rejected",
+    "rejected": "rejected",
+    "error": "rejected",
+    "paying": "in_progress",
+    "bill": "in_progress",
+    "deleted": "rejected"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 82,
+        "method": "post",
+        "path": "/v1/payments",
+        "operation_id": "Создать платеж"
+      },
+      "runner_up": {
+        "score": 82,
+        "method": "post",
+        "path": "/v1/tips/withdrawals/",
+        "operation_id": "Вывести чаевые"
+      },
+      "margin": 0
+    },
+    "status": {
+      "selected": {
+        "score": 67,
+        "method": "get",
+        "path": "/v1/payments/{id}",
+        "operation_id": "Получить платеж по id"
+      },
+      "runner_up": {
+        "score": 28,
+        "method": "put",
+        "path": "/v1/payments/{id}",
+        "operation_id": "Инициализировать платеж"
+      },
+      "margin": 39
+    }
+  },
+  "warnings": [
+    "Не удалось определить входящий webhook.",
+    "Неоднозначный выбор операции создания: POST /v1/payments — оценка 82; следующий кандидат POST /v1/tips/withdrawals/ — оценка 82; разница 0. Проверьте выбор вручную.",
+    "Для POST /v1/payments не поддерживается объявленная схема авторизации; требуется явная реализация.",
+    "Для GET /v1/payments/{id} не поддерживается объявленная схема авторизации; требуется явная реализация.",
+    "TODO required_if client_receipt.customer_email: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO required_if client_receipt.customer_phone: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO field_map client_payment_id: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides."
+  ],
+  "generated_files": [
+    "test/results/itpay/itpay_service.rb",
+    "test/results/itpay/INTEGRATION.md",
+    "test/results/itpay/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 30
+}

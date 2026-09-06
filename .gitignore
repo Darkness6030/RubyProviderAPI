@@ -1,0 +1,27 @@
+# IDE and operating system
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Local environments and secrets
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Ruby and test artifacts
+.bundle/
+vendor/bundle/
+coverage/
+pkg/
+tmp/
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*~

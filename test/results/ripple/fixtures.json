@@ -1,0 +1,288 @@
+{
+  "create_request": {
+    "request": {
+      "quoteId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+      "originatorIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+      "beneficiaryIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+      "internalId": "Invoice-123",
+      "purposeCode": "PAYR",
+      "sourceOfCash": "EMIN",
+      "paymentLabels": [
+        "batchId=aaaaaaaa-1111-bbbb-abab-123412341234"
+      ],
+      "beneficiaryFinancialInstrumentId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+      "receiverRelationship": "SUBS",
+      "paymentMemo": "ORDER 2025-09-001 PAYMENT"
+    },
+    "response_201": {
+      "paymentId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+      "cryptoTransactionHash": "0x2b1f8b57dd6008143ff926ea9d9cd2365774cd0c5e6f379558a88c61c52071eb",
+      "initiatedAt": "2019-08-24T14:15:22Z",
+      "expiresAt": "2019-08-24T14:15:22Z",
+      "jitFundingExpiresAt": "2019-08-24T14:15:22Z",
+      "lastStateUpdatedAt": "2019-08-24T14:15:22Z",
+      "paymentState": "INITIATED",
+      "originator": {
+        "originatorIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "originatorIdentityIdVersion": 1,
+        "originatorIdentityNickName": "Successful Business Sender",
+        "internalId": "Invoice-123",
+        "sourceCurrency": "USD",
+        "sourceAmount": 100,
+        "payin": "FUNDED"
+      },
+      "destination": {
+        "beneficiaryFinancialInstrumentId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "destinationAmount": 1234.111223,
+        "destinationCountry": "US",
+        "destinationCurrency": "USD",
+        "destinationBlockchainNetwork": "Ethereum, TRON",
+        "beneficiaryIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "beneficiaryIdentityVersion": 1,
+        "beneficiaryIdentityNickName": "Successful business beneficiary",
+        "payout": "BANK",
+        "selectedPaymentRail": "XRP_LEDGER"
+      },
+      "adjustedExchangeRate": {
+        "adjustedRate": 2
+      },
+      "fees": [
+        {
+          "totalFee": 12.23,
+          "feeCurrency": "USD",
+          "feeBreakdown": [
+            {
+              "calculatedFee": 2.43,
+              "feeName": "Service fee",
+              "feeDescription": "The service fee charged for this transaction."
+            }
+          ]
+        }
+      ],
+      "taxes": [
+        {
+          "totalTaxes": 5.12,
+          "taxCurrency": "USD",
+          "taxBreakdown": [
+            {
+              "taxAmount": 2.43,
+              "taxName": "ISS/ VAT/ GST etc",
+              "taxDescription": "The service fee tax charged for this transaction.",
+              "taxRate": 5
+            }
+          ]
+        }
+      ],
+      "sourceOfCash": "EMIN",
+      "purposeCode": "PAYR",
+      "transactionDetails": {
+        "paymentProduct": "string",
+        "flowType": "string",
+        "thirdPartyPayment": false,
+        "businessUseCase": "string"
+      },
+      "paymentLabels": [
+        "batchId=aaaaaaaa-1111-bbbb-abab-123412341234"
+      ],
+      "receiverRelationship": "SUBS",
+      "paymentMemo": "ORDER 2025-09-001 PAYMENT"
+    },
+    "response_400": {
+      "errors": [
+        {
+          "code": "SYS_090",
+          "type": "SYSTEM_ERROR",
+          "title": "Internal server error",
+          "description": "Unable to process the request due to an internal server error.",
+          "timestamp": "2024-11-21T14:15:22Z"
+        }
+      ],
+      "status": 400
+    },
+    "response_402": {
+      "errors": [
+        {
+          "code": "SYS_090",
+          "type": "SYSTEM_ERROR",
+          "title": "Internal server error",
+          "description": "Unable to process the request due to an internal server error.",
+          "timestamp": "2024-11-21T14:15:22Z"
+        }
+      ],
+      "status": 400
+    },
+    "response_403": {
+      "errors": [
+        {
+          "code": "SYS_090",
+          "type": "SYSTEM_ERROR",
+          "title": "Internal server error",
+          "description": "Unable to process the request due to an internal server error.",
+          "timestamp": "2024-11-21T14:15:22Z"
+        }
+      ],
+      "status": 400
+    },
+    "response_415": {
+      "errors": [
+        {
+          "code": "SYS_090",
+          "type": "SYSTEM_ERROR",
+          "title": "Internal server error",
+          "description": "Unable to process the request due to an internal server error.",
+          "timestamp": "2024-11-21T14:15:22Z"
+        }
+      ],
+      "status": 400
+    },
+    "response_500": {
+      "errors": [
+        {
+          "code": "SYS_090",
+          "type": "SYSTEM_ERROR",
+          "title": "Internal server error",
+          "description": "Unable to process the request due to an internal server error.",
+          "timestamp": "2024-11-21T14:15:22Z"
+        }
+      ],
+      "status": 400
+    }
+  },
+  "fetch_status": {
+    "response_200": {
+      "paymentId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+      "cryptoTransactionHash": "0x2b1f8b57dd6008143ff926ea9d9cd2365774cd0c5e6f379558a88c61c52071eb",
+      "initiatedAt": "2019-08-24T14:15:22Z",
+      "expiresAt": "2019-08-24T14:15:22Z",
+      "jitFundingExpiresAt": "2019-08-24T14:15:22Z",
+      "lastStateUpdatedAt": "2019-08-24T14:15:22Z",
+      "paymentState": "INITIATED",
+      "originator": {
+        "originatorIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "originatorIdentityIdVersion": 1,
+        "originatorIdentityNickName": "Successful Business Sender",
+        "internalId": "Invoice-123",
+        "sourceCurrency": "USD",
+        "sourceAmount": 100,
+        "payin": "FUNDED"
+      },
+      "destination": {
+        "beneficiaryFinancialInstrumentId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "destinationAmount": 1234.111223,
+        "destinationCountry": "US",
+        "destinationCurrency": "USD",
+        "destinationBlockchainNetwork": "Ethereum, TRON",
+        "beneficiaryIdentityId": "7ea3399c-1234-5678-8d8f-d320ea406630",
+        "beneficiaryIdentityVersion": 1,
+        "beneficiaryIdentityNickName": "Successful business beneficiary",
+        "payout": "BANK",
+        "selectedPaymentRail": "XRP_LEDGER"
+      },
+      "adjustedExchangeRate": {
+        "adjustedRate": 2
+      },
+      "fees": [
+        {
+          "totalFee": 12.23,
+          "feeCurrency": "USD",
+          "feeBreakdown": [
+            {
+              "calculatedFee": 2.43,
+              "feeName": "Service fee",
+              "feeDescription": "The service fee charged for this transaction."
+            }
+          ]
+        }
+      ],
+      "taxes": [
+        {
+          "totalTaxes": 5.12,
+          "taxCurrency": "USD",
+          "taxBreakdown": [
+            {
+              "taxAmount": 2.43,
+              "taxName": "ISS/ VAT/ GST etc",
+              "taxDescription": "The service fee tax charged for this transaction.",
+              "taxRate": 5
+            }
+          ]
+        }
+      ],
+      "sourceOfCash": "EMIN",
+      "purposeCode": "PAYR",
+      "transactionDetails": {
+        "paymentProduct": "string",
+        "flowType": "string",
+        "thirdPartyPayment": false,
+        "businessUseCase": "string"
+      },
+      "errors": [
+        {
+          "code": "SYS_090",
+          "type": "SYSTEM_ERROR",
+          "title": "Internal server error",
+          "description": "Unable to process the request due to an internal server error.",
+          "timestamp": "2024-11-21T14:15:22Z"
+        }
+      ],
+      "paymentLabels": [
+        "batchId=aaaaaaaa-1111-bbbb-abab-123412341234"
+      ],
+      "receiverRelationship": "SUBS",
+      "paymentMemo": "ORDER 2025-09-001 PAYMENT",
+      "payoutExecutionDetails": {
+        "paymentRailUsed": "FEDWIRE",
+        "payoutStartTime": "2026-02-18T14:22:15.789Z",
+        "payoutEndTime": "2026-02-18T14:25:30.123Z",
+        "trackingReferences": [
+          {
+            "referenceType": "IMAD",
+            "value": "TXN-RTP-20260218-456789",
+            "displayName": "IMAD Number",
+            "description": "Input Message Accountability Data (IMAD) for Fedwire transfer tracking"
+          }
+        ]
+      }
+    },
+    "response_400": {
+      "errors": [
+        {
+          "code": "SYS_090",
+          "type": "SYSTEM_ERROR",
+          "title": "Internal server error",
+          "description": "Unable to process the request due to an internal server error.",
+          "timestamp": "2024-11-21T14:15:22Z"
+        }
+      ],
+      "status": 400
+    },
+    "response_404": {
+      "errors": [
+        {
+          "code": "SYS_090",
+          "type": "SYSTEM_ERROR",
+          "title": "Internal server error",
+          "description": "Unable to process the request due to an internal server error.",
+          "timestamp": "2024-11-21T14:15:22Z"
+        }
+      ],
+      "status": 400
+    },
+    "response_500": {
+      "errors": [
+        {
+          "code": "SYS_090",
+          "type": "SYSTEM_ERROR",
+          "title": "Internal server error",
+          "description": "Unable to process the request due to an internal server error.",
+          "timestamp": "2024-11-21T14:15:22Z"
+        }
+      ],
+      "status": 400
+    }
+  },
+  "callback": {
+    "payload": {},
+    "expected_operation_status": "unknown"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "id": "square",
+  "provider": "Square Connect API",
+  "specification": "square.json",
+  "source_url": "https://raw.githubusercontent.com/square/connect-api-specification/master/api.json",
+  "openapi_operations": 334,
+  "expected_roles": {
+    "create": "/v2/payments",
+    "status": "/v2/payments/{payment_id}",
+    "webhook": null
+  },
+  "detected_roles": {
+    "create": "/v2/payments",
+    "status": "/v2/payments/{payment_id}",
+    "webhook": null
+  },
+  "auth": "oauth2 (oauth2: сценарии: authorizationCode), oauth2ClientSecret (apiKey: header Authorization)",
+  "statuses": {
+    "APPROVED": "approved",
+    "PENDING": "in_progress",
+    "COMPLETED": "approved",
+    "CANCELED": "rejected",
+    "FAILED": "rejected"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 86,
+        "method": "post",
+        "path": "/v2/payments",
+        "operation_id": "CreatePayment"
+      },
+      "runner_up": {
+        "score": 48,
+        "method": "post",
+        "path": "/v2/catalog/images",
+        "operation_id": "CreateCatalogImage"
+      },
+      "margin": 38
+    },
+    "status": {
+      "selected": {
+        "score": 85,
+        "method": "get",
+        "path": "/v2/payments/{payment_id}",
+        "operation_id": "GetPayment"
+      },
+      "runner_up": {
+        "score": 50,
+        "method": "get",
+        "path": "/v2/payouts/{payout_id}",
+        "operation_id": "GetPayout"
+      },
+      "margin": 35
+    }
+  },
+  "warnings": [
+    "Не удалось определить входящий webhook.",
+    "Для POST /v2/payments не поддерживается объявленная схема авторизации; требуется явная реализация.",
+    "Для GET /v2/payments/{payment_id} не поддерживается объявленная схема авторизации; требуется явная реализация.",
+    "Обнаружены внешние $ref. Они сохранены без сетевой загрузки; перед генерацией объедините схемы или подтвердите локальные копии.",
+    "TODO required_if cash_details: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO required_if external_details: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO field_map source_id: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map idempotency_key: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides."
+  ],
+  "generated_files": [
+    "test/results/square/square_service.rb",
+    "test/results/square/INTEGRATION.md",
+    "test/results/square/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 304
+}

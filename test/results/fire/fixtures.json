@@ -1,0 +1,93 @@
+{
+  "create_request": {
+    "request": {
+      "type": "BANK_TRANSFER",
+      "currency": "EUR",
+      "batchName": "January 2018 Payroll",
+      "jobNumber": "2022-01-PR",
+      "callbackUrl": "https://my.webserver.com/cb/payroll"
+    },
+    "response_200": {
+      "batchUuid": "F2AF3F2B-4406-4199-B249-B354F2CC6019"
+    },
+    "response_400": {
+      "errors": [
+        {
+          "code": 50051,
+          "message": "Sorry, we are unable to proceed with your request."
+        }
+      ]
+    },
+    "response_401": {
+      "errors": [
+        {
+          "code": 50051,
+          "message": "Sorry, we are unable to proceed with your request."
+        }
+      ]
+    },
+    "response_403": {
+      "errors": [
+        {
+          "code": 50051,
+          "message": "Sorry, we are unable to proceed with your request."
+        }
+      ]
+    }
+  },
+  "fetch_status": {
+    "response_200": {
+      "batchUuid": "F2AF3F2B-4406-4199-B249-B354F2CC6019",
+      "type": "INTERNAL_TRANSFER",
+      "status": "COMPLETE",
+      "sourceName": "Payment API",
+      "batchName": "January 2018 Payroll",
+      "jobNumber": "2018-01-PR",
+      "callbackUrl": "https://my.webserver.com/cb/payroll",
+      "currency": "EUR, GBP, USD",
+      "numberOfItemsSubmitted": 1,
+      "valueOfItemsSubmitted": 10000,
+      "numberOfItemsFailed": 0,
+      "valueOfItemsFailed": 0,
+      "numberOfItemsSucceeded": 1,
+      "valueOfItemsSucceeded": 10000,
+      "lastUpdated": "2021-04-04T10:48:53.540Z",
+      "dateCreated": "2021-04-04T10:48:53.540Z",
+      "payeeChecks": {
+        "countFullMatch": 1,
+        "countPartialMatch": 1,
+        "countNoMatch": 1,
+        "countUnableToMatch": 1,
+        "countPending": 1
+      }
+    },
+    "response_400": {
+      "errors": [
+        {
+          "code": 50051,
+          "message": "Sorry, we are unable to proceed with your request."
+        }
+      ]
+    },
+    "response_401": {
+      "errors": [
+        {
+          "code": 50051,
+          "message": "Sorry, we are unable to proceed with your request."
+        }
+      ]
+    },
+    "response_403": {
+      "errors": [
+        {
+          "code": 50051,
+          "message": "Sorry, we are unable to proceed with your request."
+        }
+      ]
+    }
+  },
+  "callback": {
+    "payload": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ",
+    "expected_operation_status": "unknown"
+  }
+}

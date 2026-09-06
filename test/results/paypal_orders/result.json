@@ -1,0 +1,80 @@
+{
+  "id": "paypal_orders",
+  "provider": "PayPal Orders API v2",
+  "specification": "paypal_orders.json",
+  "source_url": "https://raw.githubusercontent.com/paypal/paypal-rest-api-specifications/main/openapi/checkout_orders_v2.json",
+  "openapi_operations": 9,
+  "expected_roles": {
+    "create": "/v2/checkout/orders",
+    "status": "/v2/checkout/orders/{id}",
+    "webhook": null
+  },
+  "detected_roles": {
+    "create": "/v2/checkout/orders",
+    "status": "/v2/checkout/orders/{id}",
+    "webhook": null
+  },
+  "auth": "Oauth2 (oauth2: сценарии: clientCredentials)",
+  "statuses": {
+    "CREATED": "in_progress",
+    "SAVED": "in_progress",
+    "APPROVED": "approved",
+    "VOIDED": "rejected",
+    "COMPLETED": "approved",
+    "PAYER_ACTION_REQUIRED": "in_progress"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 36,
+        "method": "post",
+        "path": "/v2/checkout/orders",
+        "operation_id": "orders.create"
+      },
+      "runner_up": {
+        "score": 26,
+        "method": "post",
+        "path": "/v2/checkout/orders/order-update-callback",
+        "operation_id": "server.callback"
+      },
+      "margin": 10
+    },
+    "status": {
+      "selected": {
+        "score": 57,
+        "method": "get",
+        "path": "/v2/checkout/orders/{id}",
+        "operation_id": "orders.get"
+      },
+      "runner_up": {
+        "score": 18,
+        "method": "post",
+        "path": "/v2/checkout/orders/{id}/authorize",
+        "operation_id": "orders.authorize"
+      },
+      "margin": 39
+    }
+  },
+  "warnings": [
+    "Не удалось определить входящий webhook.",
+    "Для POST /v2/checkout/orders не поддерживается объявленная схема авторизации; требуется явная реализация.",
+    "Для GET /v2/checkout/orders/{id} не поддерживается объявленная схема авторизации; требуется явная реализация.",
+    "TODO field_map intent: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map purchase_units: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides."
+  ],
+  "generated_files": [
+    "test/results/paypal_orders/paypal_orders_service.rb",
+    "test/results/paypal_orders/INTEGRATION.md",
+    "test/results/paypal_orders/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 22
+}

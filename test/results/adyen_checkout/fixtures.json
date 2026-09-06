@@ -1,0 +1,160 @@
+{
+  "create_request": {
+    "request": {
+      "amount": {
+        "currency": "USD",
+        "value": 1000
+      },
+      "reference": "Your order number",
+      "paymentMethod": {
+        "type": "applepay",
+        "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+      },
+      "returnUrl": "https://your-company.example.com/...",
+      "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+    },
+    "response_200": {
+      "action": null,
+      "additionalData": {},
+      "amount": {
+        "currency": "string",
+        "value": 0
+      },
+      "donationToken": "string",
+      "fraudResult": {
+        "accountScore": 0,
+        "results": [
+          {
+            "accountScore": 0,
+            "checkId": 0,
+            "name": "string"
+          }
+        ]
+      },
+      "merchantReference": "string",
+      "order": {
+        "amount": {
+          "currency": "string",
+          "value": 0
+        },
+        "expiresAt": "string",
+        "orderData": "string",
+        "pspReference": "string",
+        "reference": "string",
+        "remainingAmount": {
+          "currency": "string",
+          "value": 0
+        }
+      },
+      "paymentMethod": {
+        "brand": "string",
+        "type": "string"
+      },
+      "paymentValidations": {
+        "name": {
+          "rawResponse": {
+            "firstName": "string",
+            "fullName": "string",
+            "lastName": "string",
+            "middleName": "string",
+            "status": "string"
+          },
+          "result": {
+            "firstName": "string",
+            "fullName": "string",
+            "lastName": "string",
+            "middleName": "string"
+          },
+          "status": "notPerformed"
+        }
+      },
+      "pspReference": "string",
+      "refusalReason": "string",
+      "refusalReasonCode": "string",
+      "resultCode": "AuthenticationFinished",
+      "threeDS2ResponseData": {
+        "acsChallengeMandated": "string",
+        "acsOperatorID": "string",
+        "acsReferenceNumber": "string",
+        "acsSignedContent": "string",
+        "acsTransID": "string",
+        "acsURL": "string",
+        "authenticationType": "string",
+        "cardHolderInfo": "string",
+        "cavvAlgorithm": "string",
+        "challengeIndicator": "string",
+        "dsReferenceNumber": "string",
+        "dsTransID": "string",
+        "exemptionIndicator": "string",
+        "messageVersion": "string",
+        "riskScore": "string",
+        "sdkEphemPubKey": "string",
+        "threeDSServerTransID": "string",
+        "transStatus": "string",
+        "transStatusReason": "string"
+      },
+      "threeDS2Result": {
+        "authenticationValue": "string",
+        "cavvAlgorithm": "string",
+        "challengeCancel": "01",
+        "dsTransID": "string",
+        "eci": "string",
+        "exemptionIndicator": "lowValue",
+        "messageVersion": "string",
+        "riskScore": "string",
+        "threeDSRequestorChallengeInd": "01",
+        "threeDSServerTransID": "string",
+        "timestamp": "string",
+        "transStatus": "string",
+        "transStatusReason": "string",
+        "whiteListStatus": "string"
+      },
+      "threeDSPaymentData": "string"
+    },
+    "response_400": {
+      "additionalData": {},
+      "errorCode": "string",
+      "errorType": "string",
+      "message": "string",
+      "pspReference": "string",
+      "status": 0
+    },
+    "response_401": {
+      "additionalData": {},
+      "errorCode": "string",
+      "errorType": "string",
+      "message": "string",
+      "pspReference": "string",
+      "status": 0
+    },
+    "response_403": {
+      "additionalData": {},
+      "errorCode": "string",
+      "errorType": "string",
+      "message": "string",
+      "pspReference": "string",
+      "status": 0
+    },
+    "response_422": {
+      "additionalData": {},
+      "errorCode": "string",
+      "errorType": "string",
+      "message": "string",
+      "pspReference": "string",
+      "status": 0
+    },
+    "response_500": {
+      "additionalData": {},
+      "errorCode": "string",
+      "errorType": "string",
+      "message": "string",
+      "pspReference": "string",
+      "status": 0
+    }
+  },
+  "fetch_status": {},
+  "callback": {
+    "payload": {},
+    "expected_operation_status": "unknown"
+  }
+}

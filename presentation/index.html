@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b16">
+  <title>Provider API — финальная презентация</title>
+  <style>
+    :root {
+      --ink: #f6f7fb;
+      --muted: #a9b1c7;
+      --faint: #6e7893;
+      --bg: #080b16;
+      --panel: rgba(20, 26, 45, .78);
+      --line: rgba(255, 255, 255, .105);
+      --cyan: #59e1ff;
+      --violet: #9c7cff;
+      --coral: #ff8070;
+      --lime: #a6ed86;
+      --gold: #ffc968;
+      --red: #ff667d;
+      --shadow: 0 28px 80px rgba(0, 0, 0, .35);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(89, 225, 255, .09), transparent 28%),
+        radial-gradient(circle at 88% 82%, rgba(156, 124, 255, .10), transparent 32%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    button, a { font: inherit; }
+    button { color: inherit; }
+    ::selection { background: rgba(89, 225, 255, .3); }
+
+    .deck { scroll-snap-type: y mandatory; }
+    .slide {
+      min-height: 100vh;
+      min-height: 100svh;
+      scroll-snap-align: start;
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: clamp(64px, 7vw, 110px) clamp(26px, 7vw, 120px);
+      isolation: isolate;
+      overflow: hidden;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 80%, transparent);
+    }
+    .slide::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -260px;
+      top: -260px;
+      border: 1px solid rgba(89, 225, 255, .12);
+      border-radius: 50%;
+      box-shadow: 0 0 0 72px rgba(89,225,255,.018), 0 0 0 144px rgba(156,124,255,.016);
+      z-index: -1;
+    }
+    .slide[data-accent="violet"]::after { border-color: rgba(156,124,255,.18); }
+    .slide[data-accent="coral"]::after { border-color: rgba(255,128,112,.18); }
+    .slide[data-accent="lime"]::after { border-color: rgba(166,237,134,.18); }
+    .slide[data-accent="gold"]::after { border-color: rgba(255,201,104,.18); }
+
+    .content {
+      width: min(100%, 1320px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 20px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 2px; background: currentColor; border-radius: 2px; }
+    [data-accent="violet"] .eyebrow { color: var(--violet); }
+    [data-accent="coral"] .eyebrow { color: var(--coral); }
+    [data-accent="lime"] .eyebrow { color: var(--lime); }
+    [data-accent="gold"] .eyebrow { color: var(--gold); }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 1050px;
+      margin-bottom: 28px;
+      font-size: clamp(56px, 7.4vw, 118px);
+      line-height: .91;
+      letter-spacing: -.068em;
+      font-weight: 820;
+    }
+    h2 {
+      max-width: 1050px;
+      margin-bottom: 36px;
+      font-size: clamp(36px, 3.6vw, 60px);
+      line-height: .98;
+      letter-spacing: -.052em;
+      font-weight: 800;
+    }
+    h3 {
+      margin-bottom: 12px;
+      font-size: clamp(18px, 1.7vw, 26px);
+      line-height: 1.12;
+      letter-spacing: -.025em;
+    }
+    .lede {
+      max-width: 850px;
+      margin-bottom: 36px;
+      color: var(--muted);
+      font-size: clamp(20px, 2vw, 30px);
+      line-height: 1.38;
+      letter-spacing: -.018em;
+    }
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(100deg, var(--cyan), #9af7d1 45%, var(--violet));
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+    .muted { color: var(--muted); }
+    .fine { color: var(--faint); font-size: 13px; line-height: 1.5; }
+    .accent { color: var(--cyan); }
+    .success { color: var(--lime); }
+    .warning { color: var(--gold); }
+    .danger { color: var(--red); }
+
+    .brand {
+      position: fixed;
+      top: 24px;
+      left: 28px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: rgba(246,247,251,.84);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .brand-mark {
+      width: 27px;
+      height: 27px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(89,225,255,.35);
+      border-radius: 8px;
+      background: rgba(89,225,255,.08);
+      color: var(--cyan);
+      font-size: 15px;
+    }
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 30;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      transition: width .25s ease;
+      box-shadow: 0 0 18px rgba(89,225,255,.55);
+    }
+    .chrome {
+      position: fixed;
+      right: 24px;
+      bottom: 22px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(8, 11, 22, .72);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+    .chrome button {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 10px;
+      background: rgba(255,255,255,.055);
+      cursor: pointer;
+    }
+    .chrome button:hover { background: rgba(89,225,255,.14); }
+    .counter { min-width: 62px; text-align: center; color: var(--muted); font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .notes-toggle { width: auto !important; padding: 0 11px; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .08em; }
+
+    .grid { display: grid; gap: 18px; }
+    .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .span-2 { grid-column: span 2; }
+
+    .card {
+      position: relative;
+      min-width: 0;
+      padding: clamp(20px, 2vw, 30px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(27,34,56,.88), rgba(14,18,32,.8));
+      box-shadow: 0 14px 50px rgba(0,0,0,.16);
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.24), transparent);
+    }
+    .card p:last-child { margin-bottom: 0; }
+    .card-number {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--cyan);
+      font: 800 clamp(34px, 4vw, 62px)/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: -.06em;
+    }
+    .card p { color: var(--muted); line-height: 1.5; }
+    .card .label { color: var(--faint); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+
+    .metrics { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .metric {
+      min-width: 155px;
+      padding: 15px 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.035);
+    }
+    .metric strong { display: block; font-size: 23px; letter-spacing: -.035em; }
+    .metric span { color: var(--muted); font-size: 12px; }
+
+    .hero-layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(300px, .6fr); gap: 70px; align-items: end; }
+    .orb {
+      aspect-ratio: 1;
+      position: relative;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.16), transparent 19%),
+        radial-gradient(circle at 50% 50%, rgba(89,225,255,.2), rgba(156,124,255,.12) 46%, transparent 70%);
+      border: 1px solid rgba(89,225,255,.24);
+      box-shadow: inset 0 0 90px rgba(89,225,255,.08), 0 0 90px rgba(89,225,255,.08);
+    }
+    .orb::before, .orb::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 50%;
+    }
+    .orb::before { inset: 12%; }
+    .orb::after { inset: 26%; border-color: rgba(156,124,255,.3); }
+    .orb-core { z-index: 2; text-align: center; }
+    .orb-core strong { display: block; font: 800 clamp(48px, 6vw, 88px)/.9 ui-monospace, monospace; letter-spacing: -.08em; }
+    .orb-core span { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .15em; }
+
+    .before-after { align-items: stretch; }
+    .before-after .card { min-height: 310px; }
+    .big-arrow { display: grid; place-items: center; color: var(--cyan); font-size: 48px; }
+    .comparison { grid-template-columns: 1fr auto 1fr; }
+    .strike { color: var(--faint); text-decoration: line-through; text-decoration-color: rgba(255,102,125,.65); }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, auto));
+      align-items: center;
+      gap: 10px;
+      margin-top: 30px;
+    }
+    .stage {
+      min-width: 0;
+      padding: 26px 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.035);
+      text-align: center;
+    }
+    .stage .icon { display: block; margin-bottom: 14px; color: var(--cyan); font: 800 25px ui-monospace, monospace; }
+    .stage strong { display: block; font-size: 15px; }
+    .stage span { display: block; margin-top: 6px; color: var(--faint); font-size: 11px; line-height: 1.35; }
+    .pipe-arrow { color: var(--faint); font-size: 26px; }
+
+    .terminal {
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 24px;
+      background: #0a0d17;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .terminal-bar { display: flex; align-items: center; gap: 7px; padding: 13px 17px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.035); }
+    .terminal-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--coral); }
+    .terminal-dot:nth-child(2) { background: var(--gold); }
+    .terminal-dot:nth-child(3) { background: var(--lime); }
+    pre, code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    pre { margin: 0; white-space: pre-wrap; }
+    .terminal pre { padding: clamp(20px, 2.4vw, 34px); color: #cbd3e8; font-size: clamp(12px, 1.15vw, 17px); line-height: 1.62; }
+    .prompt { color: var(--cyan); }
+    .cmd { color: var(--ink); }
+    .ok { color: var(--lime); }
+    .dim { color: #68718a; }
+    .code-card pre { color: #d9def0; font-size: clamp(11px, .98vw, 14px); line-height: 1.58; }
+    .kw { color: #ca9cff; }
+    .fn { color: #66d9ff; }
+    .st { color: #a8e6a3; }
+    .cm { color: #69738d; }
+    .num { color: #ffc968; }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+    .pill {
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.035);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 14px 15px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+    th { color: var(--faint); font-size: 10px; text-transform: uppercase; letter-spacing: .12em; }
+    td { color: var(--muted); font-size: clamp(12px, 1vw, 15px); line-height: 1.35; }
+    tr:last-child td { border-bottom: 0; }
+    td strong { color: var(--ink); }
+    .status-dot { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: currentColor; box-shadow: 0 0 12px currentColor; }
+
+    .score-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .score-panel { padding: 26px; border: 1px solid var(--line); border-radius: 22px; background: rgba(255,255,255,.032); }
+    .score-panel h3 { display: flex; justify-content: space-between; align-items: baseline; }
+    .score-panel h3 span { color: var(--faint); font: 700 12px ui-monospace, monospace; }
+    .score-row { margin-top: 18px; }
+    .score-head { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 7px; color: var(--muted); font-size: 12px; }
+    .score-bar { height: 10px; background: rgba(255,255,255,.07); border-radius: 99px; overflow: hidden; }
+    .score-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), var(--violet)); }
+    .score-panel.warning-panel .score-bar i { background: linear-gradient(90deg, var(--gold), var(--coral)); }
+
+    .mapping { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; }
+    .mapping .node { padding: 15px 17px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.03); }
+    .mapping .node small { display: block; margin-bottom: 4px; color: var(--faint); font-size: 10px; text-transform: uppercase; letter-spacing: .1em; }
+    .mapping .node code { color: var(--ink); font-size: 13px; }
+    .mapping .arrow { color: var(--cyan); }
+
+    .provider-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 26px; }
+    .provider {
+      min-height: 72px;
+      display: grid;
+      place-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.035);
+      color: #d7dcee;
+      font-size: 12px;
+      font-weight: 750;
+      text-align: center;
+    }
+    .provider:first-child { color: var(--cyan); border-color: rgba(89,225,255,.28); background: rgba(89,225,255,.06); }
+
+    .check-list { display: grid; gap: 13px; }
+    .check-item { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; }
+    .check-icon { width: 24px; height: 24px; position: relative; display: flex; flex: 0 0 24px; align-items: center; justify-content: center; padding: 0; border-radius: 8px; color: var(--lime); background: rgba(166,237,134,.11); border: 1px solid rgba(166,237,134,.2); font-size: 12px; font-weight: 900; line-height: 1; }
+    .check-icon.is-check svg {
+      position: absolute;
+      inset: 0;
+      width: 14px;
+      height: 14px;
+      margin: auto;
+      display: block;
+      overflow: visible;
+    }
+    .check-icon.is-alert::before,
+    .check-icon.is-alert::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: currentColor;
+    }
+    .check-icon.is-alert::before { top: 5px; width: 2px; height: 8px; }
+    .check-icon.is-alert::after { bottom: 4px; width: 3px; height: 3px; }
+    .check-item.warn .check-icon { color: var(--gold); background: rgba(255,201,104,.1); border-color: rgba(255,201,104,.22); }
+    .check-item strong { display: block; margin-bottom: 3px; font-size: 14px; }
+    .check-item span { display: block; color: var(--muted); font-size: 12px; line-height: 1.4; }
+
+    .artifact { min-height: 270px; display: flex; flex-direction: column; }
+    .artifact-icon { margin-bottom: 28px; color: var(--cyan); font: 800 28px ui-monospace, monospace; }
+    .artifact ul { margin: auto 0 0; padding: 0; list-style: none; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .artifact li::before { content: "↳"; margin-right: 8px; color: var(--faint); }
+
+    .audit-score {
+      display: grid;
+      grid-template-columns: .7fr 1.3fr;
+      gap: 32px;
+      align-items: stretch;
+    }
+    .score-hero { display: grid; place-items: center; text-align: center; }
+    .score-hero strong { display: block; font: 850 clamp(58px, 7vw, 104px)/.85 ui-monospace, monospace; letter-spacing: -.09em; color: var(--lime); }
+    .score-hero span { color: var(--muted); font-size: 13px; }
+    .score-hero small { display: block; max-width: 250px; margin-top: 16px; color: var(--faint); line-height: 1.45; }
+    .audit-table td:last-child, .audit-table th:last-child { text-align: right; }
+    .audit-table .total td { color: var(--ink); font-weight: 800; border-top: 1px solid rgba(255,255,255,.2); }
+
+    .risk-card { border-left: 3px solid var(--gold); }
+    .risk-index { color: var(--gold); font: 800 13px ui-monospace, monospace; }
+    .risk-card.closed { border-left-color: var(--lime); }
+    .risk-card.closed .risk-index { color: var(--lime); }
+
+    .timeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 36px; }
+    .timeline-step { position: relative; padding: 28px 20px 0; border-top: 1px solid var(--line); }
+    .timeline-step::before { content: ""; position: absolute; top: -6px; left: 20px; width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 18px rgba(89,225,255,.7); }
+    .timeline-step time { display: block; margin-bottom: 10px; color: var(--cyan); font: 800 12px ui-monospace, monospace; }
+    .timeline-step strong { display: block; margin-bottom: 6px; font-size: 15px; }
+    .timeline-step span { color: var(--muted); font-size: 12px; line-height: 1.45; }
+
+    .quote {
+      max-width: 1040px;
+      margin: 0;
+      font-size: clamp(34px, 4.2vw, 66px);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+      font-weight: 760;
+    }
+    .quote::before { content: "“"; color: var(--cyan); }
+    .quote::after { content: "”"; color: var(--violet); }
+
+    .speaker-notes {
+      display: none;
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      z-index: 40;
+      width: min(820px, calc(100vw - 210px));
+      max-height: 34vh;
+      overflow: auto;
+      transform: translateX(-50%);
+      padding: 18px 22px;
+      border: 1px solid rgba(89,225,255,.24);
+      border-radius: 18px;
+      background: rgba(8,11,22,.94);
+      box-shadow: var(--shadow);
+      color: #d7dced;
+      font-size: 14px;
+      line-height: 1.55;
+      backdrop-filter: blur(20px);
+    }
+    body.notes-on .slide.is-current .speaker-notes { display: block; }
+    .speaker-notes b { color: var(--cyan); }
+
+    .slide-no { position: absolute; right: clamp(26px, 4vw, 62px); top: clamp(24px, 4vw, 52px); color: rgba(255,255,255,.15); font: 800 12px ui-monospace, monospace; letter-spacing: .08em; }
+
+    /* Слайды с терминалом, кодом или большой таблицей получают собственный
+       вертикальный ритм: перенос заголовка больше не выталкивает контент. */
+    .slide--dense {
+      padding-top: clamp(54px, 6vh, 76px);
+      padding-bottom: clamp(46px, 5.5vh, 70px);
+    }
+    .slide--dense .eyebrow { margin-bottom: 14px; }
+    .slide--dense h2 {
+      max-width: 1180px;
+      margin-bottom: 24px;
+      font-size: clamp(36px, 4.25vw, 62px);
+      line-height: .98;
+      text-wrap: balance;
+    }
+    #slide-4 .terminal pre {
+      padding: clamp(17px, 1.8vw, 27px);
+      font-size: clamp(11px, 1vw, 15px);
+      line-height: 1.42;
+    }
+    #slide-5 .grid { gap: 14px; }
+    #slide-5 .card { padding: clamp(17px, 1.7vw, 25px); }
+    #slide-5 .code-card pre {
+      font-size: clamp(10px, .88vw, 13px);
+      line-height: 1.42;
+    }
+    #slide-5 .check-list { gap: 10px; }
+    #slide-5 .check-item span { line-height: 1.32; }
+    #slide-5 .pill-row { margin-top: 14px; }
+    #slide-8 .card { padding: clamp(17px, 1.8vw, 26px); }
+    #slide-8 .code-card pre {
+      font-size: clamp(10px, .9vw, 13px);
+      line-height: 1.43;
+    }
+    #slide-8 .check-list { gap: 10px; }
+    #slide-8 .pill-row { margin-top: 14px; }
+    #slide-12 .audit-score { gap: 22px; }
+    #slide-12 .card { padding: clamp(16px, 1.7vw, 24px); }
+    #slide-12 th,
+    #slide-12 td { padding: 10px 12px; }
+    #slide-12 .score-hero strong { font-size: clamp(54px, 6.2vw, 90px); }
+
+    @media (max-height: 820px) and (min-width: 981px) {
+      .slide--dense {
+        padding-top: 44px;
+        padding-bottom: 38px;
+      }
+      .slide--dense h2 {
+        margin-bottom: 18px;
+        font-size: clamp(34px, 4vw, 54px);
+        line-height: .96;
+      }
+      .slide--dense .eyebrow { margin-bottom: 10px; }
+      #slide-4 .terminal-bar { padding: 9px 14px; }
+      #slide-4 .terminal pre { padding: 13px 22px; font-size: 13.5px; line-height: 1.28; }
+      #slide-5 .card,
+      #slide-8 .card { padding: 16px 20px; }
+      #slide-5 .code-card pre,
+      #slide-8 .code-card pre { font-size: 12px; line-height: 1.25; }
+      #slide-5 .check-list,
+      #slide-8 .check-list { gap: 8px; }
+      #slide-5 .check-item span,
+      #slide-8 .check-item span { font-size: 12.5px; line-height: 1.25; }
+      #slide-5 .fine { margin-bottom: 0; }
+      #slide-12 .card { padding: 12px 18px; }
+      #slide-12 th,
+      #slide-12 td { padding: 7px 10px; }
+      #slide-12 th { font-size: 11.5px; }
+      #slide-12 td { font-size: 12.5px; line-height: 1.25; }
+      #slide-12 .score-hero small { margin-top: 10px; }
+    }
+
+    @media (max-width: 980px) {
+      .slide { min-height: auto; padding: 86px 28px 100px; scroll-snap-align: none; }
+      .hero-layout, .cols-2, .cols-3, .cols-4, .score-pair, .audit-score { grid-template-columns: 1fr; }
+      .span-2 { grid-column: auto; }
+      .orb { width: min(330px, 75vw); justify-self: center; }
+      .comparison { grid-template-columns: 1fr; }
+      .big-arrow { transform: rotate(90deg); }
+      .pipeline { grid-template-columns: 1fr; }
+      .pipe-arrow { transform: rotate(90deg); text-align: center; }
+      .provider-grid { grid-template-columns: repeat(3, 1fr); }
+      .timeline { grid-template-columns: 1fr; gap: 24px; }
+      .timeline-step { border-top: 0; border-left: 1px solid var(--line); padding: 0 0 0 28px; }
+      .timeline-step::before { top: 2px; left: -6px; }
+      .speaker-notes { width: calc(100vw - 32px); bottom: 74px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+
+    @media print {
+      @page { size: 13.333in 7.5in; margin: 0; }
+      html, body { background: var(--bg) !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .brand, .progress, .chrome, .speaker-notes { display: none !important; }
+      .slide { width: 13.333in; height: 7.5in; min-height: 0; padding: .58in .72in; page-break-after: always; overflow: hidden; }
+      .content { width: 100%; }
+      h1 { font-size: 70px; }
+      h2 { font-size: 45px; margin-bottom: 22px; }
+      .lede { font-size: 20px; margin-bottom: 22px; }
+      .card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="brand"><span class="brand-mark">P</span> Provider API</div>
+
+  <main class="deck">
+    <section class="slide" id="slide-1" data-title="Титульный слайд">
+      <span class="slide-no">01</span>
+      <div class="content hero-layout">
+        <div>
+          <div class="eyebrow">Space Payments · задача 1</div>
+          <h1>API → <span class="gradient-text">проверяемая интеграция</span></h1>
+          <p class="lede">Наш генератор не только создаёт Ruby-сервис: он объясняет выбор методов, отмечает спорные решения и подтверждает результат тестами.</p>
+          <div class="metrics">
+            <div class="metric"><strong>2 кандидата</strong><span>видно, почему выбран лучший</span></div>
+            <div class="metric"><strong>0 догадок</strong><span>спорное становится TODO</span></div>
+            <div class="metric"><strong>12 API</strong><span>проверены одним кодом</span></div>
+          </div>
+        </div>
+        <div class="orb" aria-hidden="true">
+          <div class="orb-core"><strong>12</strong><span>API в корпусе</span></div>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Открытие, 20 секунд.</b> Все команды создают генератор по одному ТЗ. Наше отличие — результат можно проверить: видно обоснование выбора, неподтверждённые правила и доказательства работы на разных API.</aside>
+    </section>
+
+    <section class="slide" id="slide-2" data-accent="coral" data-title="Отличия решения">
+      <span class="slide-no">02</span>
+      <div class="content">
+        <div class="eyebrow">От обязательного результата — к сильному</div>
+        <h2>Три файла — это минимум. Наш плюс — их качество</h2>
+        <div class="grid comparison before-after">
+          <article class="card">
+            <span class="label">Что требует ТЗ</span>
+            <span class="card-number">3 файла</span>
+            <h3>Обязательный результат</h3>
+            <p>Ruby-сервис, руководство по подключению и тестовые фикстуры для нового платёжного провайдера.</p>
+          </article>
+          <div class="big-arrow" aria-hidden="true">→</div>
+          <article class="card">
+            <span class="label">Что добавили мы</span>
+            <span class="card-number">Доказательства</span>
+            <h3>Проверяемый результат</h3>
+            <p>Оценки кандидатов, безопасные TODO, строгий режим, полный маппинг и проверка одного ядра на 12 API.</p>
+          </article>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Главная мысль.</b> Мы не называем преимуществом то, что обязаны сделать все команды. Показываем дополнительные свойства наших файлов: объяснимость, безопасную неопределённость и автоматические проверки.</aside>
+    </section>
+
+    <section class="slide" id="slide-3" data-title="Архитектура">
+      <span class="slide-no">03</span>
+      <div class="content">
+        <div class="eyebrow">Архитектура</div>
+        <h2>Каждое решение проходит отдельную проверку</h2>
+        <p class="lede">Чтение фактов, сравнение кандидатов и выпуск кода разделены — генератор не меняет смысл спецификации по пути.</p>
+        <div class="pipeline" aria-label="Конвейер генерации">
+          <div class="stage"><span class="icon">{ }</span><strong>Факты OpenAPI</strong><span>методы · схемы · ответы</span></div>
+          <div class="pipe-arrow">→</div>
+          <div class="stage"><span class="icon">↗</span><strong>Единая модель</strong><span>JSON/YAML · $ref · Swagger 2</span></div>
+          <div class="pipe-arrow">→</div>
+          <div class="stage"><span class="icon">Σ</span><strong>Сравнение</strong><span>кандидаты · оценки · отрыв</span></div>
+          <div class="pipe-arrow">→</div>
+          <div class="stage"><span class="icon">RB</span><strong>Проверенные файлы</strong><span>Ruby · Markdown · JSON</span></div>
+        </div>
+        <div class="pill-row">
+          <span class="pill">без веток по провайдеру</span><span class="pill">payout важнее payment</span><span class="pill">второй кандидат виден</span><span class="pill">--strict останавливает ошибку</span><span class="pill">неизвестное не угадываем</span>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Почему архитектура важна.</b> Анализатор сначала строит единый набор фактов и только потом сравнивает методы. Генератор получает уже проверенную модель. В коде нет условий вида <code>provider == novapay</code>.</aside>
+    </section>
+
+    <section class="slide slide--dense" id="slide-4" data-accent="lime" data-title="Прозрачный запуск">
+      <span class="slide-no">04</span>
+      <div class="content">
+        <div class="eyebrow">Живая демонстрация</div>
+        <h2>В одном запуске виден ход решения</h2>
+        <div class="terminal" role="img" aria-label="Вывод команды генератора">
+          <div class="terminal-bar"><i class="terminal-dot"></i><i class="terminal-dot"></i><i class="terminal-dot"></i></div>
+          <pre><span class="prompt">$</span> <span class="cmd">docker compose run --rm generator</span>
+
+Чтение и анализ спецификации…
+Найдено операций: <span class="ok">5</span>
+Выбранная операция создания: <span class="ok">POST /payouts</span>
+Выбранная операция статуса: <span class="ok">GET /payouts/{payout_id}</span>
+Входящий webhook: <span class="ok">POST /webhooks/payout</span>
+Авторизация: <span class="ok">ApiKeyAuth · X-API-Key</span>
+Предупреждений: <span class="ok">0</span>
+
+Созданы файлы:
+  <span class="ok">output/novapay_service.rb</span>
+  <span class="ok">output/INTEGRATION.md</span>
+  <span class="ok">output/fixtures.json</span></pre>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Показываем живьём.</b> Ценность вывода не в одной команде, а в прозрачности: сразу видны найденные операции, выбранные роли, авторизация и число неподтверждённых решений.</aside>
+    </section>
+
+    <section class="slide slide--dense" id="slide-5" data-accent="violet" data-title="Сгенерированный сервис">
+      <span class="slide-no">05</span>
+      <div class="content">
+        <div class="eyebrow">Ruby-сервис</div>
+        <h2>Сервис с подтверждённым контрактом</h2>
+        <div class="grid cols-2">
+          <article class="card code-card">
+            <pre><span class="kw">class</span> Provider
+  <span class="kw">class</span> NovapayService &lt; BaseService
+    BASE_URL = ENV.fetch(<span class="st">"NOVAPAY_BASE_URL"</span>, ...)
+
+    <span class="kw">def</span> <span class="fn">create_request</span>(
+      operation, request_method = nil)
+      path = expand_path(<span class="st">"/payouts"</span>, operation)
+      response = client.public_send(<span class="st">"post"</span>,
+        <span class="st">"#{BASE_URL}#{path}"</span>,
+        **request_options(operation, request_method))
+      handle_create_response(response)
+    <span class="kw">end</span>
+
+    <span class="kw">def</span> <span class="fn">fetch_status</span>(operation)
+      path = expand_path(<span class="st">"/payouts/{payout_id}"</span>, operation)
+      response = client.public_send(<span class="st">"get"</span>,
+        <span class="st">"#{BASE_URL}#{path}"</span>, **status_request_options(operation))
+      handle_status_response(response)
+    <span class="kw">end</span>
+  <span class="kw">end</span>
+<span class="kw">end</span></pre>
+          </article>
+          <div class="grid">
+            <article class="card">
+              <h3>Что генерируется</h3>
+              <div class="check-list">
+                <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>HTTP-вызовы</strong><span>JSON или форма, заголовки, параметры пути</span></div></div>
+                <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Авторизация</strong><span>ключ API, Basic и Bearer</span></div></div>
+                <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Ответы</strong><span>ID провайдера, таблицы статусов и ошибок</span></div></div>
+                <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Вебхук</strong><span>события, подпись проверяет платформа</span></div></div>
+              </div>
+            </article>
+            <p class="fine">Поля операции, возврат ID и методы смены статуса соответствуют ответам организаторов.</p>
+          </div>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Не задерживаться на коде.</b> Достаточно показать четыре метода контракта и подчеркнуть, что HTTP-метод и путь взяты из выбранной операции, а не зашиты в генераторе.</aside>
+    </section>
+
+    <section class="slide" id="slide-6" data-title="Преобразование данных">
+      <span class="slide-no">06</span>
+      <div class="content">
+        <div class="eyebrow">Преобразование данных</div>
+        <h2>Каждое поле имеет понятный источник</h2>
+        <div class="grid cols-2">
+          <article class="card">
+            <h3>Пример NovaPay</h3>
+            <div class="mapping"><div class="node"><small>Space Payments</small><code>amount = 1500</code></div><div class="arrow">→</div><div class="node"><small>API провайдера</small><code>amount = 150000</code></div></div>
+            <div class="mapping" style="margin-top:12px"><div class="node"><small>Провайдер</small><code>completed</code></div><div class="arrow">→</div><div class="node"><small>Внутренняя система</small><code>approved</code></div></div>
+            <div class="mapping" style="margin-top:12px"><div class="node"><small>Ответ сервиса</small><code>result: { id: "np_2" }</code></div><div class="arrow">→</div><div class="node"><small>Платформа</small><code>provider_operation_key</code></div></div>
+          </article>
+          <article class="card">
+            <table>
+              <thead><tr><th>Слой</th><th>Как обработан</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Деньги</strong></td><td><code>BigDecimal × 100</code>, без Float</td></tr>
+                <tr><td><strong>Поля</strong></td><td>Из схемы запроса и объекта операции</td></tr>
+                <tr><td><strong>Статус</strong></td><td>Значения из схемы, примеров и описания</td></tr>
+                <tr><td><strong>Необязательные</strong></td><td><code>.compact</code> удаляет отсутствующие значения</td></tr>
+                <tr><td><strong>Условные</strong></td><td><code>required_if</code> из подтверждённых уточнений</td></tr>
+                <tr><td><strong>Неизвестные</strong></td><td>Понятная ошибка вместо догадки</td></tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Смысл слайда.</b> Всё, что явно задано в схеме, генератор переносит автоматически. Правила из обычного текста, например «сумма в копейках», сначала требуют подтверждения.</aside>
+    </section>
+
+    <section class="slide" id="slide-7" data-accent="violet" data-title="Почему выбран этот метод">
+      <span class="slide-no">07</span>
+      <div class="content">
+        <div class="eyebrow">Выбор метода API</div>
+        <h2>Выбор метода можно перепроверить</h2>
+        <div class="score-pair">
+          <article class="score-panel">
+            <h3>NovaPay <span>уверенный выбор</span></h3>
+            <div class="score-row"><div class="score-head"><span>POST /payouts</span><strong>108</strong></div><div class="score-bar"><i style="width:96%"></i></div></div>
+            <div class="score-row"><div class="score-head"><span>GET /payouts/{id}</span><strong>11</strong></div><div class="score-bar"><i style="width:10%"></i></div></div>
+            <p class="fine">Разница <strong class="success">97</strong> → выбор уверенный.</p>
+          </article>
+          <article class="score-panel warning-panel">
+            <h3>YooKassa <span>граница кейса учтена</span></h3>
+            <div class="score-row"><div class="score-head"><span>POST /payouts</span><strong>108</strong></div><div class="score-bar"><i style="width:96%"></i></div></div>
+            <div class="score-row"><div class="score-head"><span>POST /payments</span><strong>90</strong></div><div class="score-bar"><i style="width:80%"></i></div></div>
+            <p class="fine">Разница <strong class="success">18</strong> → выбрана именно выплата.</p>
+          </article>
+        </div>
+        <div class="pill-row"><span class="pill">HTTP-метод и путь</span><span class="pill">operationId и описание</span><span class="pill">сумма и валюта</span><span class="pill">ID провайдера</span><span class="pill">создание и статус рядом</span><span class="pill">исключаем возврат и отмену</span></div>
+      </div>
+      <aside class="speaker-notes"><b>Отличие проекта.</b> Показываем реальные числа из текущего анализатора. После QA-сессии payout имеет явный приоритет над payment. Точечных правил под YooKassa или NovaPay в коде нет.</aside>
+    </section>
+
+    <section class="slide slide--dense" id="slide-8" data-accent="gold" data-title="Безопасная работа с неопределённостью">
+      <span class="slide-no">08</span>
+      <div class="content">
+        <div class="eyebrow">Безопасность решения</div>
+        <h2>Не угадывать там, где цена ошибки — деньги</h2>
+        <div class="grid cols-2">
+          <article class="card code-card">
+            <pre><span class="cm"># novapay_overrides.yaml</span>
+amount:
+  unit: <span class="st">minor</span>
+  multiplier: <span class="num">100</span>
+
+required_if:
+  - field: <span class="st">recipient.bank_code</span>
+    when: <span class="st">recipient.type</span>
+    equals: <span class="st">sbp</span>
+
+webhook_signature:
+  header: <span class="st">X-NovaPay-Signature</span>
+  algorithm: <span class="st">HMAC-SHA256</span>
+  encoding: <span class="st">hex</span>
+  verification: <span class="st">platform_before_json</span></pre>
+          </article>
+          <article class="card">
+            <h3>Что можно делать автоматически</h3>
+            <div class="check-list">
+              <div class="check-item"><span class="check-icon">1</span><div><strong>Явно указано в OpenAPI</strong><span>Путь, схема, статусы и авторизация берутся автоматически.</span></div></div>
+              <div class="check-item warn"><span class="check-icon">2</span><div><strong>Метод похож на нужный</strong><span>Показываем оценку и ближайший вариант для проверки.</span></div></div>
+              <div class="check-item warn"><span class="check-icon">3</span><div><strong>Правило спрятано в тексте</strong><span>Просим подтвердить его или оставляем предупреждение.</span></div></div>
+            </div>
+            <div class="pill-row"><span class="pill">--strict для CI</span><span class="pill">unknown значит ошибка</span><span class="pill">все уточнения видны</span></div>
+          </article>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Зачем нужен файл уточнений.</b> В нём лежат правила, которые нельзя надёжно получить из OpenAPI: единицы суммы, условно обязательные поля и подпись. Формат общий и не привязан к NovaPay.</aside>
+    </section>
+
+    <section class="slide" id="slide-9" data-title="Больше обязательного минимума">
+      <span class="slide-no">09</span>
+      <div class="content">
+        <div class="eyebrow">Качество результата</div>
+        <h2>В каждом файле — больше, чем минимум ТЗ</h2>
+        <div class="grid cols-3">
+          <article class="card artifact"><div class="artifact-icon">.rb</div><h3>Сервис</h3><p class="muted">Не заглушка, а исполняемый контракт.</p><ul><li>точный маппинг полей</li><li>безопасные деньги и статусы</li><li>контролируемые ошибки</li></ul></article>
+          <article class="card artifact"><div class="artifact-icon">.md</div><h3>Руководство</h3><p class="muted">Отчёт о решениях генератора.</p><ul><li>оба кандидата и оценки</li><li>все адреса из OpenAPI</li><li>готовность и предупреждения</li></ul></article>
+          <article class="card artifact"><div class="artifact-icon">.json</div><h3>Фикстуры</h3><p class="muted">Набор проверяемых сценариев.</p><ul><li>каждый HTTP-ответ</li><li>все именованные вебхуки</li><li>ожидаемый итог операции</li></ul></article>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Связь с ТЗ.</b> Три файла обязаны сделать все. Наше отличие внутри: сервис исполняемый, руководство объясняет решения, а фикстуры покрывают не один красивый пример, а варианты ответа и вебхука.</aside>
+    </section>
+
+    <section class="slide" id="slide-10" data-accent="lime" data-title="Проверка на 12 API">
+      <span class="slide-no">10</span>
+      <div class="content">
+        <div class="eyebrow">Доказательства</div>
+        <h2>Один генератор проверен на <span class="success">1 430 операциях</span></h2>
+        <div class="grid cols-4">
+          <div class="card"><span class="card-number">12/12</span><p>ожидаемые сценарии корпуса пройдены</p></div>
+          <div class="card"><span class="card-number">16</span><p>автоматических тестов</p></div>
+          <div class="card"><span class="card-number">228</span><p>проверок без ошибок</p></div>
+          <div class="card"><span class="card-number">SHA-256</span><p>проверяет исходные файлы</p></div>
+        </div>
+        <div class="provider-grid" aria-label="Провайдеры в регрессионном корпусе">
+          <div class="provider">NovaPay</div><div class="provider">Т-Банк</div><div class="provider">YooKassa</div><div class="provider">Сбербанк</div><div class="provider">ITPAY</div><div class="provider">TalkBank</div>
+          <div class="provider">Adyen</div><div class="provider">PayPal</div><div class="provider">Stripe</div><div class="provider">Square</div><div class="provider">Ripple</div><div class="provider">Fire</div>
+        </div>
+        <p class="fine" style="margin-top:18px">NovaPay проверяет весь выплатный контракт. Остальные API намеренно разные: ими проверяются форматы, ссылки, авторизация, выбор ролей и синтаксис Ruby — это испытание ядра, а не заявление о 12 готовых интеграциях.</p>
+      </div>
+      <aside class="speaker-notes"><b>Формулировать точно.</b> Корпус — наше дополнительное доказательство качества. Не все его API относятся к выплатам; они специально проверяют парсер и анализатор на других формах спецификаций. Полный контракт запускается на NovaPay.</aside>
+    </section>
+
+    <section class="slide" id="slide-11" data-accent="gold" data-title="Что доказано тестами">
+      <span class="slide-no">11</span>
+      <div class="content">
+        <div class="eyebrow">Что проверили</div>
+        <h2>Что проверено сейчас и что осталось проверить</h2>
+        <div class="grid cols-2">
+          <article class="card">
+            <h3 class="success">Подтверждено сейчас</h3>
+            <div class="check-list">
+              <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Запуск через Docker</strong><span>NovaPay → три файла, 0 предупреждений.</span></div></div>
+              <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Чтение OpenAPI и ссылок</strong><span>YAML/JSON, Swagger 2, внутренние и рекурсивные ссылки.</span></div></div>
+              <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Выбор нужных методов</strong><span>Проверено на 12 сохранённых API.</span></div></div>
+              <div class="check-item"><span class="check-icon is-check" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M2.5 7.2 5.6 10.3 11.6 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Контракт NovaPay</strong><span>Реквизиты, ID, статусы и ошибки.</span></div></div>
+            </div>
+          </article>
+          <article class="card">
+            <h3 class="warning">Не заявляем без оговорки</h3>
+            <div class="check-list">
+              <div class="check-item warn"><span class="check-icon is-alert" aria-hidden="true"></span><div><strong>12 готовых интеграций</strong><span>Для остальных API проверяются код и выбор методов.</span></div></div>
+              <div class="check-item warn"><span class="check-icon is-alert" aria-hidden="true"></span><div><strong>Рабочая среда</strong><span>Остаётся прогон с настоящим HTTP-клиентом.</span></div></div>
+              <div class="check-item warn"><span class="check-icon is-alert" aria-hidden="true"></span><div><strong>Все возможности OpenAPI</strong><span>Callbacks, OAuth и внешние ссылки поддержаны не полностью.</span></div></div>
+              <div class="check-item warn"><span class="check-icon is-alert" aria-hidden="true"></span><div><strong>Подключение без ревью</strong><span>Сервис нужно проверить перед рабочим запуском.</span></div></div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Слайд для технических вопросов.</b> Здесь честно разделено, что мы уже запустили, а что можно окончательно проверить только внутри приложения Space Payments.</aside>
+    </section>
+
+    <section class="slide slide--dense" id="slide-12" data-accent="violet" data-title="Аудит по критериям">
+      <span class="slide-no">12</span>
+      <div class="content">
+        <div class="eyebrow">Оценка по ТЗ</div>
+        <h2>Каждый балл связан с доказательством</h2>
+        <div class="audit-score">
+          <article class="card score-hero">
+            <div><strong>120</strong><span>из 120 баллов на защите</span><small>Чек-поинты экспертов: <b class="success">100 / 100</b>.<br>Оценка по реализованным пунктам ТЗ.</small></div>
+          </article>
+          <article class="card">
+            <table class="audit-table">
+              <thead><tr><th>Блок технического жюри</th><th>Прогноз</th></tr></thead>
+              <tbody>
+                <tr><td>Разбор API-спецификации</td><td><strong>20 / 20</strong></td></tr>
+                <tr><td>Генерация интеграционного сервиса</td><td><strong>25 / 25</strong></td></tr>
+                <tr><td>Преобразование данных</td><td><strong>15 / 15</strong></td></tr>
+                <tr><td>Универсальность и адаптируемость</td><td><strong>10 / 10</strong></td></tr>
+                <tr><td>Документация и тестовые материалы</td><td><strong>13 / 13</strong></td></tr>
+                <tr><td>Удобство использования</td><td><strong>10 / 10</strong></td></tr>
+                <tr><td>Качество реализации</td><td><strong>10 / 10</strong></td></tr>
+                <tr class="total"><td>Техническое + отраслевое жюри</td><td>100 + 20 = 120</td></tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Как объяснить оценку.</b> Это инженерный прогноз, не обещание решения жюри. Для каждого пункта есть конкретный файл, участок кода, фикстура или автоматическая проверка, которые можно открыть на защите.</aside>
+    </section>
+
+    <section class="slide" id="slide-13" data-accent="lime" data-title="Улучшения после аудита">
+      <span class="slide-no">13</span>
+      <div class="content">
+        <div class="eyebrow">Вопросы → код → тест</div>
+        <h2>Ответы организаторов закреплены в проекте</h2>
+        <div class="grid cols-2">
+          <article class="card risk-card closed"><span class="risk-index">01 · ГРАНИЦА КЕЙСА</span><h3>Выплаты важнее платежей</h3><p>YooKassa теперь выбирает <code>/payouts</code>, а не одинаково похожий <code>/payments</code>.</p></article>
+          <article class="card risk-card closed"><span class="risk-index">02 · БЕЗ ПОДГОНКИ</span><h3>Удалены точечные бонусы</h3><p>В анализаторе больше нет особых правил для <code>GetState</code> и <code>register.do</code>.</p></article>
+          <article class="card risk-card closed"><span class="risk-index">03 · ДОКУМЕНТАЦИЯ</span><h3>Общий шаблон стал общим</h3><p>Убрана подсказка только для NovaPay; в руководстве выводятся все API-адреса.</p></article>
+          <article class="card risk-card closed"><span class="risk-index">04 · КОНТРАКТ</span><h3>Правила закреплены тестами</h3><p>Реквизиты, ID результата, статусы, ошибки и граница проверки HMAC проверяются автоматически.</p></article>
+        </div>
+      </div>
+      <aside class="speaker-notes"><b>Что подчеркнуть.</b> Мы не просто записали ответы QA в документ. Они изменили выбор методов, общий шаблон руководства и автоматические проверки. Это видно в текущем коде.</aside>
+    </section>
+
+    <section class="slide" id="slide-14" data-title="План демонстрации">
+      <span class="slide-no">14</span>
+      <div class="content">
+        <div class="eyebrow">Сценарий демонстрации</div>
+        <h2>90 секунд, которые доказывают решение</h2>
+        <div class="timeline">
+          <div class="timeline-step"><time>00:00</time><strong>Запуск</strong><span><code>docker compose run --rm generator</code></span></div>
+          <div class="timeline-step"><time>00:15</time><strong>Почему выбран метод</strong><span>Открыть оценки NovaPay и приоритет payout у YooKassa.</span></div>
+          <div class="timeline-step"><time>00:30</time><strong>Безопасный маппинг</strong><span>Показать реквизиты, ID результата и адресный TODO.</span></div>
+          <div class="timeline-step"><time>00:50</time><strong>Руководство</strong><span>Два кандидата, все API-адреса, готовность и предупреждения.</span></div>
+          <div class="timeline-step"><time>01:10</time><strong>Доказательства</strong><span>12/12 и полный набор автоматических проверок.</span></div>
+        </div>
+        <div class="terminal" style="margin-top:38px"><pre><span class="prompt">$</span> <span class="cmd">docker compose run --rm --entrypoint ruby generator -I/workspace/lib /workspace/test/all_tests.rb --verbose</span>
+<span class="ok">16 runs, 228 assertions, 0 failures, 0 errors, 0 skips</span></pre></div>
+      </div>
+      <aside class="speaker-notes"><b>Репетиция.</b> Заранее открыть три выходных файла и сохранить команду тестов в истории терминала. Во время показа не скачивать API заново. Если Docker запускается долго, сначала показать готовую сводку.</aside>
+    </section>
+
+    <section class="slide" id="slide-15" data-accent="lime" data-title="Финал">
+      <span class="slide-no">15</span>
+      <div class="content">
+        <div class="eyebrow">Итог</div>
+        <blockquote class="quote">Наш генератор показывает не только что он создал, но и почему этому результату можно доверять.</blockquote>
+        <div class="metrics" style="margin-top:54px">
+          <div class="metric"><strong>Объясняет</strong><span>кандидаты, оценки и отрыв</span></div>
+          <div class="metric"><strong>Не угадывает</strong><span>TODO вместо опасной догадки</span></div>
+          <div class="metric"><strong>Следует контракту</strong><span>ответы QA закреплены тестами</span></div>
+          <div class="metric"><strong>Проверено</strong><span>12 API · 1 430 операций</span></div>
+        </div>
+        <p class="lede" style="margin:42px 0 0">Спасибо. Готовы показать генерацию вживую.</p>
+      </div>
+      <aside class="speaker-notes"><b>Финальная фраза.</b> Обязательный результат у всех одинаков. Наше преимущество — каждое важное решение можно увидеть, объяснить и подтвердить тестом.</aside>
+    </section>
+  </main>
+
+  <nav class="chrome" aria-label="Навигация по презентации">
+    <button type="button" id="prev" aria-label="Предыдущий слайд">↑</button>
+    <span class="counter" aria-live="polite">01 / 15</span>
+    <button type="button" id="next" aria-label="Следующий слайд">↓</button>
+    <button type="button" class="notes-toggle" id="notes" aria-pressed="false" title="Показать заметки спикера (N)">ЗАМЕТКИ</button>
+  </nav>
+
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const progress = document.querySelector('.progress');
+      const counter = document.querySelector('.counter');
+      const notesButton = document.querySelector('#notes');
+      let current = 0;
+
+      const setCurrent = (index) => {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach((slide, i) => slide.classList.toggle('is-current', i === current));
+        counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+        progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+        document.title = `${String(current + 1).padStart(2, '0')} · ${slides[current].dataset.title} — Provider API`;
+      };
+
+      const go = (index) => {
+        setCurrent(index);
+        slides[current].scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      };
+
+      const toggleNotes = () => {
+        const on = document.body.classList.toggle('notes-on');
+        notesButton.setAttribute('aria-pressed', String(on));
+      };
+
+      document.querySelector('#prev').addEventListener('click', () => go(current - 1));
+      document.querySelector('#next').addEventListener('click', () => go(current + 1));
+      notesButton.addEventListener('click', toggleNotes);
+
+      document.addEventListener('keydown', (event) => {
+        if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); go(current + 1); }
+        if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); go(current - 1); }
+        if (event.key === 'Home') { event.preventDefault(); go(0); }
+        if (event.key === 'End') { event.preventDefault(); go(slides.length - 1); }
+        if (event.key.toLowerCase() === 'n') toggleNotes();
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setCurrent(slides.indexOf(visible.target));
+      }, { threshold: [.45, .6, .75] });
+      slides.forEach(slide => observer.observe(slide));
+      setCurrent(0);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{
+  "id": "adyen_checkout",
+  "provider": "Adyen Checkout API v72",
+  "specification": "adyen_checkout.yaml",
+  "source_url": "https://raw.githubusercontent.com/Adyen/adyen-openapi/main/yaml/CheckoutService-v72.yaml",
+  "openapi_operations": 29,
+  "expected_roles": {
+    "create": "/payments",
+    "status": null,
+    "webhook": null
+  },
+  "detected_roles": {
+    "create": "/payments",
+    "status": null,
+    "webhook": null
+  },
+  "auth": "ApiKeyAuth (apiKey: header X-API-Key), BasicAuth (http: basic)",
+  "statuses": {
+    "AuthenticationFinished": "in_progress",
+    "AuthenticationNotRequired": "in_progress",
+    "Authorised": "approved",
+    "Cancelled": "rejected",
+    "ChallengeShopper": "in_progress",
+    "Error": "rejected",
+    "IdentifyShopper": "in_progress",
+    "PartiallyAuthorised": "in_progress",
+    "Pending": "in_progress",
+    "PresentToShopper": "in_progress",
+    "Received": "in_progress",
+    "RedirectShopper": "in_progress",
+    "Refused": "rejected",
+    "Success": "approved"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 67,
+        "method": "post",
+        "path": "/payments",
+        "operation_id": "post-payments"
+      },
+      "runner_up": {
+        "score": 60,
+        "method": "post",
+        "path": "/sessions",
+        "operation_id": "post-sessions"
+      },
+      "margin": 7
+    },
+    "status": {
+      "selected": {
+        "score": 22,
+        "method": "get",
+        "path": "/sessions/{sessionId}",
+        "operation_id": "get-sessions-sessionId"
+      },
+      "runner_up": {
+        "score": 18,
+        "method": "post",
+        "path": "/payments/{paymentPspReference}/amountUpdates",
+        "operation_id": "post-payments-paymentPspReference-amountUpdates"
+      },
+      "margin": 4
+    }
+  },
+  "warnings": [
+    "Не удалось определить операцию проверки статуса.",
+    "Не удалось определить входящий webhook.",
+    "Неоднозначный выбор операции создания: POST /payments — оценка 67; следующий кандидат POST /sessions — оценка 60; разница 7. Проверьте выбор вручную.",
+    "TODO amount_unit: единица суммы указана только в description; подтвердите её в overrides.",
+    "TODO required_if authenticationData.threeDSRequestData.dataOnly: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO required_if fundRecipient.subMerchant: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO required_if recurringProcessingModel: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO required_if threeDS2RequestData.threeDSRequestorID: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO required_if threeDS2RequestData.threeDSRequestorName: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO field_map amount.currency: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map amount.value: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map merchantAccount: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map paymentMethod: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map reference: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map returnUrl: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides."
+  ],
+  "generated_files": [
+    "test/results/adyen_checkout/adyen_checkout_service.rb",
+    "test/results/adyen_checkout/INTEGRATION.md",
+    "test/results/adyen_checkout/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 79
+}

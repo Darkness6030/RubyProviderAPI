@@ -1,0 +1,82 @@
+{
+  "id": "ripple",
+  "provider": "Ripple Payments Direct v2026.03",
+  "specification": "ripple.yaml",
+  "source_url": "https://raw.githubusercontent.com/ripple/payments-direct/v2026.03/openapi_spec/rpd2_spec.yml",
+  "openapi_operations": 23,
+  "expected_roles": {
+    "create": "/v3/payments",
+    "status": "/v3/payments/{paymentId}",
+    "webhook": null
+  },
+  "detected_roles": {
+    "create": "/v3/payments",
+    "status": "/v3/payments/{paymentId}",
+    "webhook": null
+  },
+  "auth": "Bearer (http: bearer), BasicAuth (http: basic)",
+  "statuses": {
+    "INITIATED": "in_progress",
+    "QUOTED": "in_progress",
+    "VALIDATING": "in_progress",
+    "TRANSFERRING": "in_progress",
+    "COMPLETED": "approved",
+    "FAILED": "rejected",
+    "RETURNED": "rejected",
+    "DECLINED": "rejected",
+    "AWAITING_FUNDING": "in_progress"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 74,
+        "method": "post",
+        "path": "/v3/payments",
+        "operation_id": "createPaymentV2"
+      },
+      "runner_up": {
+        "score": 35,
+        "method": "post",
+        "path": "/v3/identities/{identity-id}/financial-instruments",
+        "operation_id": "createFinancialInstrument"
+      },
+      "margin": 39
+    },
+    "status": {
+      "selected": {
+        "score": 85,
+        "method": "get",
+        "path": "/v3/payments/{paymentId}",
+        "operation_id": "getPaymentByIdV2"
+      },
+      "runner_up": {
+        "score": 73,
+        "method": "get",
+        "path": "/v3/payments/{paymentId}/states",
+        "operation_id": "getPaymentStateTransitionsByIdV2"
+      },
+      "margin": 12
+    }
+  },
+  "warnings": [
+    "Не удалось определить входящий webhook.",
+    "TODO field_map quoteId: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map beneficiaryIdentityId: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map beneficiaryFinancialInstrumentId: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides."
+  ],
+  "generated_files": [
+    "test/results/ripple/ripple_service.rb",
+    "test/results/ripple/INTEGRATION.md",
+    "test/results/ripple/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 22
+}

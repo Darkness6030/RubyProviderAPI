@@ -1,0 +1,174 @@
+{
+  "captured_at": "2026-09-04",
+  "specifications": [
+    {
+      "id": "novapay",
+      "provider": "NovaPay Payout API",
+      "url": "local://docs/provider_api.yaml",
+      "file": "../../../docs/provider_api.yaml",
+      "overrides": "../../../docs/novapay_overrides.yaml",
+      "mode": "local",
+      "sha256": "415f50ee36fb331dfab49ceed0e8ed3b0ebe16053d7e00dbabd32282f4396551",
+      "expected": {
+        "operations": 5,
+        "create": "/payouts",
+        "status": "/payouts/{payout_id}",
+        "webhook": "/webhooks/payout"
+      }
+    },
+    {
+      "id": "tbank",
+      "provider": "T-Bank Internet Acquiring",
+      "url": "https://developer.tbank.ru/schemas/eacq/openapi.yaml",
+      "file": "tbank.yaml",
+      "mode": "direct",
+      "sha256": "b402214549505ee5d2e5ca4ffa8022ce07ae88d690c5102f2b0cc5301bf90b6e",
+      "expected": {
+        "operations": 37,
+        "create": "/v2/Init",
+        "status": "/v2/GetState",
+        "webhook": null
+      }
+    },
+    {
+      "id": "yookassa",
+      "provider": "YooKassa",
+      "url": "https://yookassa.ru/developers/api/yookassa-openapi-specification.yaml",
+      "file": "yookassa.yaml",
+      "mode": "direct",
+      "sha256": "e48898d42beef5c9d4339d85754c07f9e1714e3f1be0b8c36edff00ceec6f8dc",
+      "expected": {
+        "operations": 34,
+        "create": "/payouts",
+        "status": "/payouts/{payout_id}",
+        "webhook": null
+      }
+    },
+    {
+      "id": "adyen_checkout",
+      "provider": "Adyen Checkout API v72",
+      "url": "https://raw.githubusercontent.com/Adyen/adyen-openapi/main/yaml/CheckoutService-v72.yaml",
+      "file": "adyen_checkout.yaml",
+      "mode": "direct",
+      "sha256": "be7b374a940cac25153077183ae2f2b8b4e6f417e4dcd1ef9fd040432483169e",
+      "expected": {
+        "operations": 29,
+        "create": "/payments",
+        "status": null,
+        "webhook": null
+      }
+    },
+    {
+      "id": "sberbank",
+      "provider": "Sberbank Payment Gateway",
+      "url": "https://ecomtest.sberbank.ru/yaml/ecom.yaml",
+      "file": "sberbank.yaml",
+      "mode": "direct",
+      "sha256": "69f4c0d63b99c1d3d802b084a1b6b3d7172611b2e8a5b10bc68dfff8179dcb2f",
+      "expected": {
+        "operations": 33,
+        "create": "/ecomm/gw/partner/api/p2p/v1/register",
+        "status": null,
+        "webhook": "/callbackUrl"
+      }
+    },
+    {
+      "id": "itpay",
+      "provider": "ITPAY",
+      "url": "https://docs.gw.itpay.ru/?format=openapi",
+      "file": "itpay.json",
+      "mode": "direct",
+      "sha256": "b5d59ae2ac06978bfd347f96ddbad857582ee4d8d3a1d137123265a274ec1340",
+      "expected": {
+        "operations": 151,
+        "create": "/v1/payments",
+        "status": "/v1/payments/{id}",
+        "webhook": null
+      }
+    },
+    {
+      "id": "talkbank",
+      "provider": "TalkBank BaaS",
+      "url": "https://doc.baas.talkbank.io/",
+      "file": "talkbank.json",
+      "mode": "redoc_state",
+      "sha256": "5f07fb8b53f6e5348e25b34c06fdbe53a386790d5adc8b5b899f59874874ef7e",
+      "expected": {
+        "operations": 90,
+        "create": "/account/transfer",
+        "status": "/account/transfer/{order_slug}",
+        "webhook": null
+      }
+    },
+    {
+      "id": "paypal_orders",
+      "provider": "PayPal Orders API v2",
+      "url": "https://raw.githubusercontent.com/paypal/paypal-rest-api-specifications/main/openapi/checkout_orders_v2.json",
+      "file": "paypal_orders.json",
+      "mode": "direct",
+      "sha256": "14db0b9e0d7440e38595b823724599edc7ab8b7a2b41ac442463e81b7d477fd6",
+      "expected": {
+        "operations": 9,
+        "create": "/v2/checkout/orders",
+        "status": "/v2/checkout/orders/{id}",
+        "webhook": null
+      }
+    },
+    {
+      "id": "stripe",
+      "provider": "Stripe API (latest GA)",
+      "url": "https://raw.githubusercontent.com/stripe/openapi/master/latest/openapi.spec3.yaml",
+      "file": "stripe.yaml",
+      "mode": "direct",
+      "sha256": "a5e9e19d3afa47ca60f9c1025097c0e01c69de9505408c9102b543a750c3487f",
+      "expected": {
+        "operations": 621,
+        "create": "/v1/payouts",
+        "status": "/v1/payouts/{payout}",
+        "webhook": null
+      }
+    },
+    {
+      "id": "square",
+      "provider": "Square Connect API",
+      "url": "https://raw.githubusercontent.com/square/connect-api-specification/master/api.json",
+      "file": "square.json",
+      "mode": "direct",
+      "sha256": "a0d0db22c202f68282fd359772461697b3f635df03d3b19b11bb60add7f8ff7c",
+      "expected": {
+        "operations": 334,
+        "create": "/v2/payments",
+        "status": "/v2/payments/{payment_id}",
+        "webhook": null
+      }
+    },
+    {
+      "id": "ripple",
+      "provider": "Ripple Payments Direct v2026.03",
+      "url": "https://raw.githubusercontent.com/ripple/payments-direct/v2026.03/openapi_spec/rpd2_spec.yml",
+      "file": "ripple.yaml",
+      "mode": "direct",
+      "sha256": "61cc5886f11e246dfe90f832292a3eb17d8ade42d71426dc8944f5edfbfb466f",
+      "expected": {
+        "operations": 23,
+        "create": "/v3/payments",
+        "status": "/v3/payments/{paymentId}",
+        "webhook": null
+      }
+    },
+    {
+      "id": "fire",
+      "provider": "Fire Business API v1",
+      "url": "https://raw.githubusercontent.com/firefinancialservices/fire-business-api-openapi/v2.0/fire-business-api-v1.yaml",
+      "file": "fire.yaml",
+      "mode": "direct",
+      "sha256": "1d19896d095cbe647cc8c45113db678393d4dd807c0d5fa472b75ccab660ca75",
+      "expected": {
+        "operations": 64,
+        "create": "/v1/batches",
+        "status": "/v1/batches/{batchUuid}",
+        "webhook": "webhook"
+      }
+    }
+  ]
+}

@@ -1,0 +1,637 @@
+{
+  "create_request": {
+    "request": {
+      "amount": "string",
+      "client_payment_id": "string",
+      "method": "string",
+      "metadata": {},
+      "description": "string",
+      "cash_link_id": 0,
+      "client_receipt": {
+        "customer_email": "string",
+        "customer_phone": "string",
+        "taxation_system": 0,
+        "items": [
+          {
+            "vat": 2,
+            "label": "string",
+            "quantity": "string",
+            "price": "string",
+            "vat_sum": "string",
+            "type": 1,
+            "object": 1,
+            "unit_of_measurement": "string",
+            "quantity_measurement_unit": 0,
+            "additional_attribute": "string",
+            "manufacturer_country_code": "string",
+            "customs_declaration_number": "string",
+            "excise": "string",
+            "marking_code": "string",
+            "marking_code_status": "string",
+            "nomenclature_code": "string",
+            "industry_attribute": {},
+            "payment_subject_name": "string"
+          }
+        ]
+      },
+      "client_crypto_addr": "string",
+      "catalog_items": [
+        {
+          "catalog_item_id": "00000000-0000-4000-8000-000000000000",
+          "quantity": 0,
+          "modifiers": [
+            {
+              "catalog_modifier_id": "00000000-0000-4000-8000-000000000000",
+              "quantity": 0
+            }
+          ],
+          "comment": "string"
+        }
+      ],
+      "success_url": "string",
+      "success_url_description": "string",
+      "tips_amount": "string",
+      "fee_mode": "on_top",
+      "expected_total": "string",
+      "expected_commission": "string",
+      "token_id": "string",
+      "save": true
+    },
+    "response_200": {
+      "id": "00000000-0000-4000-8000-000000000000",
+      "amount": "string",
+      "currency": "string",
+      "payout_amount": "string",
+      "payout_currency": "string",
+      "description": "string",
+      "shop": {
+        "id": 0,
+        "name": "string",
+        "description": "string",
+        "legal_entity": {
+          "id": 0,
+          "name": "string",
+          "theme": "red",
+          "opf_short": "string",
+          "short_name": "string",
+          "taxation_system": 0
+        },
+        "kassa": {
+          "id": 0,
+          "state": "new",
+          "setup_type": "integration",
+          "provider": {
+            "id": 0,
+            "name": "string",
+            "identifier": "string"
+          },
+          "config": {},
+          "default_receipt": {
+            "customer_email": "string",
+            "type": 0,
+            "object": 0,
+            "vat": 0,
+            "quantity": 0
+          },
+          "customer_email": "string",
+          "created": "2026-01-01T00:00:00Z",
+          "updated": "2026-01-01T00:00:00Z"
+        },
+        "type": "base",
+        "logo": "string",
+        "is_qr_nspk_in_bot": true,
+        "default_payment_description": "string",
+        "web_site": "string",
+        "success_url": "string",
+        "success_url_description": "string",
+        "phone": "string",
+        "address": "string",
+        "timezone": "string",
+        "payout_currency": "string",
+        "payment_methods": [
+          {
+            "id": 0,
+            "method": "sbp",
+            "status": "active",
+            "order": -2147483648,
+            "shop_uuid": "string",
+            "is_savable": true,
+            "payment_agent_percent": "string"
+          }
+        ],
+        "payment_tokens": [
+          {
+            "id": "00000000-0000-4000-8000-000000000000",
+            "method": "string",
+            "sbp_bank_id": "string",
+            "payer_info": "string"
+          }
+        ],
+        "loyalty": {
+          "id": "00000000-0000-4000-8000-000000000000",
+          "name": "string",
+          "state": "active",
+          "loyalty_provider": 0,
+          "url": "string"
+        },
+        "theme": "string",
+        "is_save_by_default": true,
+        "feedback_settings": {
+          "enable": true,
+          "external_link": "string",
+          "rating_threshold": 1
+        },
+        "tips": {
+          "tips_available": true,
+          "enable": true,
+          "acc_type": "legalentity_acc",
+          "managers": [
+            {
+              "id": 0,
+              "first_name": "string",
+              "last_name": "string",
+              "logo": "string"
+            }
+          ],
+          "presets": [
+            "string"
+          ],
+          "tips_fee_percent": "string",
+          "tips_balance": "string"
+        },
+        "display_settings": {},
+        "is_nspk_front_enabled": "string",
+        "tips_available": true,
+        "subscription": {
+          "status": "string",
+          "expires_at": "2026-01-01T00:00:00Z",
+          "limits": {
+            "templates": 0,
+            "catalog_items": 0,
+            "merchants": 0,
+            "accounts": 0,
+            "api_keys": true,
+            "branded_page": true
+          }
+        },
+        "brandpage": {
+          "brandpage_enable": true,
+          "brandpage_logo": "string",
+          "brandpage_background": "string",
+          "brandpage_shop_description": "string"
+        }
+      },
+      "account_first_name": "string",
+      "account_last_name": "string",
+      "type": 1,
+      "receipts": [
+        {
+          "id": "string",
+          "state": "new",
+          "link_to_receipt": "string",
+          "legal_entity_name": "string",
+          "inn": "string",
+          "address": "string",
+          "web_site": "string",
+          "payout_currency": "string",
+          "processed_at": "string",
+          "document_index": "string",
+          "shift_number": "string",
+          "type": 1,
+          "taxation_system": 0,
+          "positions": [
+            {
+              "id": "00000000-0000-4000-8000-000000000000",
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat": 1,
+              "vat_label": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ],
+          "supplier_name": "string",
+          "supplier_phone": "string",
+          "supplier_inn": "string",
+          "agent_type": 0,
+          "payment_agent_phone": "string",
+          "check_close_params": "string",
+          "device_rn": "string",
+          "device_sn": "string",
+          "fs_number": "string",
+          "ofd_name": "string",
+          "fp": "string",
+          "document_number": "string",
+          "provider_document_id": "string",
+          "customer_email": "string",
+          "customer_phone": "string",
+          "total_sum": "string"
+        }
+      ],
+      "created": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "tips_amount": "string",
+      "commission": "string",
+      "is_tips": true,
+      "kassa_connected": true,
+      "paid": "2026-01-01T00:00:00Z",
+      "expired_date": "2026-01-01T00:00:00Z",
+      "status": "new",
+      "status_code_error": 0,
+      "success_url": "string",
+      "success_url_description": "string",
+      "method": "string",
+      "payment_qr_urls": "string",
+      "payment_qr_images": "string",
+      "payment_services": [
+        "sbp"
+      ],
+      "client_payment_id": "string",
+      "loyalty_card_id": "string",
+      "payer": "string",
+      "card_id": {},
+      "qrc_id": "string",
+      "transaction_id": "string",
+      "pareq": {
+        "MD": "string",
+        "PAREQ": "string",
+        "ACSURL": "string",
+        "ACNUMBER": "string",
+        "CARDTYPE": "string",
+        "TERMURL": "string"
+      },
+      "tds_data": {
+        "TDS_DATA": "string",
+        "ACSURL": "string"
+      },
+      "creq": {
+        "CREQ": "string",
+        "ACSURL": "string"
+      },
+      "refund_amount": "string",
+      "client_crypto_addr": "string",
+      "feedback": {
+        "feedback_text": "string",
+        "stars": 1,
+        "is_followed_link": true
+      },
+      "order": {
+        "id": "00000000-0000-4000-8000-000000000000",
+        "state": "new",
+        "external_id": "string",
+        "number": "string",
+        "place": {
+          "id": "00000000-0000-4000-8000-000000000000",
+          "external_id": "string",
+          "name": "string",
+          "number": -2147483648,
+          "section_id": "00000000-0000-4000-8000-000000000000",
+          "section_name": "string"
+        },
+        "waiter": "string",
+        "total_amount": "string",
+        "paid_amount": "string",
+        "discount_amount": "string",
+        "external_updated": "2026-01-01T00:00:00Z",
+        "external_created": "2026-01-01T00:00:00Z",
+        "catalog_items": [
+          {
+            "id": "string",
+            "external_id": "string",
+            "catalog_item_id": "string",
+            "name": "string",
+            "quantity": 0,
+            "price": "string",
+            "is_locked": true,
+            "modifiers": [
+              {
+                "group_name": "string",
+                "group_min_value": 0,
+                "group_max_value": 0,
+                "items": [
+                  {
+                    "id": "string",
+                    "external_id": "string",
+                    "catalog_modifier_id": "string",
+                    "quantity": 0,
+                    "price": "string",
+                    "name": "string"
+                  }
+                ]
+              }
+            ],
+            "readiness_status": "string",
+            "comment": "string"
+          }
+        ],
+        "created": "2026-01-01T00:00:00Z",
+        "updated": "2026-01-01T00:00:00Z",
+        "readiness_status": "string"
+      },
+      "token": {
+        "id": "00000000-0000-4000-8000-000000000000",
+        "method": "string",
+        "sbp_bank_id": "string",
+        "payer_info": "string"
+      }
+    }
+  },
+  "fetch_status": {
+    "response_200": {
+      "id": "00000000-0000-4000-8000-000000000000",
+      "amount": "string",
+      "currency": "string",
+      "payout_amount": "string",
+      "payout_currency": "string",
+      "description": "string",
+      "shop": {
+        "id": 0,
+        "name": "string",
+        "description": "string",
+        "legal_entity": {
+          "id": 0,
+          "name": "string",
+          "theme": "red",
+          "opf_short": "string",
+          "short_name": "string",
+          "taxation_system": 0
+        },
+        "kassa": {
+          "id": 0,
+          "state": "new",
+          "setup_type": "integration",
+          "provider": {
+            "id": 0,
+            "name": "string",
+            "identifier": "string"
+          },
+          "config": {},
+          "default_receipt": {
+            "customer_email": "string",
+            "type": 0,
+            "object": 0,
+            "vat": 0,
+            "quantity": 0
+          },
+          "customer_email": "string",
+          "created": "2026-01-01T00:00:00Z",
+          "updated": "2026-01-01T00:00:00Z"
+        },
+        "type": "base",
+        "logo": "string",
+        "is_qr_nspk_in_bot": true,
+        "default_payment_description": "string",
+        "web_site": "string",
+        "success_url": "string",
+        "success_url_description": "string",
+        "phone": "string",
+        "address": "string",
+        "timezone": "string",
+        "payout_currency": "string",
+        "payment_methods": [
+          {
+            "id": 0,
+            "method": "sbp",
+            "status": "active",
+            "order": -2147483648,
+            "shop_uuid": "string",
+            "is_savable": true,
+            "payment_agent_percent": "string"
+          }
+        ],
+        "payment_tokens": [
+          {
+            "id": "00000000-0000-4000-8000-000000000000",
+            "method": "string",
+            "sbp_bank_id": "string",
+            "payer_info": "string"
+          }
+        ],
+        "loyalty": {
+          "id": "00000000-0000-4000-8000-000000000000",
+          "name": "string",
+          "state": "active",
+          "loyalty_provider": 0,
+          "url": "string"
+        },
+        "theme": "string",
+        "is_save_by_default": true,
+        "feedback_settings": {
+          "enable": true,
+          "external_link": "string",
+          "rating_threshold": 1
+        },
+        "tips": {
+          "tips_available": true,
+          "enable": true,
+          "acc_type": "legalentity_acc",
+          "managers": [
+            {
+              "id": 0,
+              "first_name": "string",
+              "last_name": "string",
+              "logo": "string"
+            }
+          ],
+          "presets": [
+            "string"
+          ],
+          "tips_fee_percent": "string",
+          "tips_balance": "string"
+        },
+        "display_settings": {},
+        "is_nspk_front_enabled": "string",
+        "tips_available": true,
+        "subscription": {
+          "status": "string",
+          "expires_at": "2026-01-01T00:00:00Z",
+          "limits": {
+            "templates": 0,
+            "catalog_items": 0,
+            "merchants": 0,
+            "accounts": 0,
+            "api_keys": true,
+            "branded_page": true
+          }
+        },
+        "brandpage": {
+          "brandpage_enable": true,
+          "brandpage_logo": "string",
+          "brandpage_background": "string",
+          "brandpage_shop_description": "string"
+        }
+      },
+      "account_first_name": "string",
+      "account_last_name": "string",
+      "type": 1,
+      "receipts": [
+        {
+          "id": "string",
+          "state": "new",
+          "link_to_receipt": "string",
+          "legal_entity_name": "string",
+          "inn": "string",
+          "address": "string",
+          "web_site": "string",
+          "payout_currency": "string",
+          "processed_at": "string",
+          "document_index": "string",
+          "shift_number": "string",
+          "type": 1,
+          "taxation_system": 0,
+          "positions": [
+            {
+              "id": "00000000-0000-4000-8000-000000000000",
+              "label": "string",
+              "quantity": "string",
+              "price": "string",
+              "vat": 1,
+              "vat_label": "string",
+              "vat_sum": "string",
+              "type": 1,
+              "object": 1,
+              "marking_code": "string",
+              "marking_code_status": "string",
+              "nomenclature_code": "string",
+              "industry_attribute": {},
+              "payment_subject_name": "string"
+            }
+          ],
+          "supplier_name": "string",
+          "supplier_phone": "string",
+          "supplier_inn": "string",
+          "agent_type": 0,
+          "payment_agent_phone": "string",
+          "check_close_params": "string",
+          "device_rn": "string",
+          "device_sn": "string",
+          "fs_number": "string",
+          "ofd_name": "string",
+          "fp": "string",
+          "document_number": "string",
+          "provider_document_id": "string",
+          "customer_email": "string",
+          "customer_phone": "string",
+          "total_sum": "string"
+        }
+      ],
+      "created": "2026-01-01T00:00:00Z",
+      "updated": "2026-01-01T00:00:00Z",
+      "tips_amount": "string",
+      "commission": "string",
+      "is_tips": true,
+      "kassa_connected": true,
+      "paid": "2026-01-01T00:00:00Z",
+      "expired_date": "2026-01-01T00:00:00Z",
+      "status": "new",
+      "status_code_error": 0,
+      "success_url": "string",
+      "success_url_description": "string",
+      "method": "string",
+      "payment_qr_urls": "string",
+      "payment_qr_images": "string",
+      "payment_services": [
+        "sbp"
+      ],
+      "client_payment_id": "string",
+      "loyalty_card_id": "string",
+      "payer": "string",
+      "card_id": {},
+      "qrc_id": "string",
+      "transaction_id": "string",
+      "pareq": {
+        "MD": "string",
+        "PAREQ": "string",
+        "ACSURL": "string",
+        "ACNUMBER": "string",
+        "CARDTYPE": "string",
+        "TERMURL": "string"
+      },
+      "tds_data": {
+        "TDS_DATA": "string",
+        "ACSURL": "string"
+      },
+      "creq": {
+        "CREQ": "string",
+        "ACSURL": "string"
+      },
+      "refund_amount": "string",
+      "client_crypto_addr": "string",
+      "feedback": {
+        "feedback_text": "string",
+        "stars": 1,
+        "is_followed_link": true
+      },
+      "order": {
+        "id": "00000000-0000-4000-8000-000000000000",
+        "state": "new",
+        "external_id": "string",
+        "number": "string",
+        "place": {
+          "id": "00000000-0000-4000-8000-000000000000",
+          "external_id": "string",
+          "name": "string",
+          "number": -2147483648,
+          "section_id": "00000000-0000-4000-8000-000000000000",
+          "section_name": "string"
+        },
+        "waiter": "string",
+        "total_amount": "string",
+        "paid_amount": "string",
+        "discount_amount": "string",
+        "external_updated": "2026-01-01T00:00:00Z",
+        "external_created": "2026-01-01T00:00:00Z",
+        "catalog_items": [
+          {
+            "id": "string",
+            "external_id": "string",
+            "catalog_item_id": "string",
+            "name": "string",
+            "quantity": 0,
+            "price": "string",
+            "is_locked": true,
+            "modifiers": [
+              {
+                "group_name": "string",
+                "group_min_value": 0,
+                "group_max_value": 0,
+                "items": [
+                  {
+                    "id": "string",
+                    "external_id": "string",
+                    "catalog_modifier_id": "string",
+                    "quantity": 0,
+                    "price": "string",
+                    "name": "string"
+                  }
+                ]
+              }
+            ],
+            "readiness_status": "string",
+            "comment": "string"
+          }
+        ],
+        "created": "2026-01-01T00:00:00Z",
+        "updated": "2026-01-01T00:00:00Z",
+        "readiness_status": "string"
+      },
+      "token": {
+        "id": "00000000-0000-4000-8000-000000000000",
+        "method": "string",
+        "sbp_bank_id": "string",
+        "payer_info": "string"
+      }
+    }
+  },
+  "callback": {
+    "payload": {},
+    "expected_operation_status": "unknown"
+  }
+}

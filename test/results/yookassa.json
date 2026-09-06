@@ -1,0 +1,76 @@
+{
+  "id": "yookassa",
+  "provider": "YooKassa",
+  "specification": "yookassa.yaml",
+  "source_url": "https://yookassa.ru/developers/api/yookassa-openapi-specification.yaml",
+  "openapi_operations": 34,
+  "expected_roles": {
+    "create": "/payouts",
+    "status": "/payouts/{payout_id}",
+    "webhook": null
+  },
+  "detected_roles": {
+    "create": "/payouts",
+    "status": "/payouts/{payout_id}",
+    "webhook": null
+  },
+  "auth": "BasicAuth (http: basic), OAuth2 (oauth2: сценарии: implicit)",
+  "statuses": {
+    "pending": "in_progress",
+    "succeeded": "approved",
+    "canceled": "rejected"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 108,
+        "method": "post",
+        "path": "/payouts",
+        "operation_id": "post_/payouts"
+      },
+      "runner_up": {
+        "score": 90,
+        "method": "post",
+        "path": "/payments",
+        "operation_id": "post_/payments"
+      },
+      "margin": 18
+    },
+    "status": {
+      "selected": {
+        "score": 67,
+        "method": "get",
+        "path": "/payouts/{payout_id}",
+        "operation_id": "get_/payouts/{payout_id}"
+      },
+      "runner_up": {
+        "score": 12,
+        "method": "post",
+        "path": "/payouts",
+        "operation_id": "post_/payouts"
+      },
+      "margin": 55
+    }
+  },
+  "warnings": [
+    "Не удалось определить входящий webhook.",
+    "TODO required_if payout_token: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO field_map amount.value: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map amount.currency: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides."
+  ],
+  "generated_files": [
+    "test/results/yookassa/yookassa_service.rb",
+    "test/results/yookassa/INTEGRATION.md",
+    "test/results/yookassa/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 31
+}

@@ -1,0 +1,79 @@
+{
+  "id": "fire",
+  "provider": "Fire Business API v1",
+  "specification": "fire.yaml",
+  "source_url": "https://raw.githubusercontent.com/firefinancialservices/fire-business-api-openapi/v2.0/fire-business-api-v1.yaml",
+  "openapi_operations": 64,
+  "expected_roles": {
+    "create": "/v1/batches",
+    "status": "/v1/batches/{batchUuid}",
+    "webhook": "webhook"
+  },
+  "detected_roles": {
+    "create": "/v1/batches",
+    "status": "/v1/batches/{batchUuid}",
+    "webhook": "webhook"
+  },
+  "auth": "bearerAuth (http: bearer)",
+  "statuses": {
+    "PENDING_APPROVAL": "in_progress",
+    "REJECTED": "rejected",
+    "COMPLETE": "approved",
+    "OPEN": "in_progress",
+    "CANCELLED": "rejected",
+    "PENDING_PARENT_BATCH_APPROVAL": "in_progress",
+    "READY_FOR_PROCESSING": "in_progress",
+    "PROCESSING": "in_progress"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 57,
+        "method": "post",
+        "path": "/v1/batches",
+        "operation_id": "createBatchPayment"
+      },
+      "runner_up": {
+        "score": 51,
+        "method": "post",
+        "path": "/v1/paymentrequests",
+        "operation_id": "newPaymentRequest"
+      },
+      "margin": 6
+    },
+    "status": {
+      "selected": {
+        "score": 57,
+        "method": "get",
+        "path": "/v1/batches/{batchUuid}",
+        "operation_id": "getDetailsSingleBatch"
+      },
+      "runner_up": {
+        "score": 50,
+        "method": "get",
+        "path": "/v2/payments/{paymentUuid}",
+        "operation_id": "getPaymentDetailsv2"
+      },
+      "margin": 7
+    }
+  },
+  "warnings": [
+    "Неоднозначный выбор операции создания: POST /v1/batches — оценка 57; следующий кандидат POST /v1/paymentrequests — оценка 51; разница 6. Проверьте выбор вручную.",
+    "Неоднозначный выбор операции проверки статуса: GET /v1/batches/{batchUuid} — оценка 57; следующий кандидат GET /v2/payments/{paymentUuid} — оценка 50; разница 7. Проверьте выбор вручную."
+  ],
+  "generated_files": [
+    "test/results/fire/fire_service.rb",
+    "test/results/fire/INTEGRATION.md",
+    "test/results/fire/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 31
+}

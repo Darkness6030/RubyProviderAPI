@@ -1,0 +1,74 @@
+{
+  "id": "talkbank",
+  "provider": "TalkBank BaaS",
+  "specification": "talkbank.json",
+  "source_url": "https://doc.baas.talkbank.io/",
+  "openapi_operations": 90,
+  "expected_roles": {
+    "create": "/account/transfer",
+    "status": "/account/transfer/{order_slug}",
+    "webhook": null
+  },
+  "detected_roles": {
+    "create": "/account/transfer",
+    "status": "/account/transfer/{order_slug}",
+    "webhook": null
+  },
+  "auth": "не объявлена",
+  "statuses": {
+    "new": "in_progress"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 85,
+        "method": "post",
+        "path": "/account/transfer",
+        "operation_id": "payment_to_account"
+      },
+      "runner_up": {
+        "score": 82,
+        "method": "post",
+        "path": "/clients/{client_id}/cards/{barcode}/withdrawal",
+        "operation_id": "card_withdrawal"
+      },
+      "margin": 3
+    },
+    "status": {
+      "selected": {
+        "score": 102,
+        "method": "get",
+        "path": "/account/transfer/{order_slug}",
+        "operation_id": "payment_to_account_status"
+      },
+      "runner_up": {
+        "score": 77,
+        "method": "get",
+        "path": "/payment/{order_slug}",
+        "operation_id": "payment_status"
+      },
+      "margin": 25
+    }
+  },
+  "warnings": [
+    "Не удалось определить входящий webhook.",
+    "Неоднозначный выбор операции создания: POST /account/transfer — оценка 85; следующий кандидат POST /clients/{client_id}/cards/{barcode}/withdrawal — оценка 82; разница 3. Проверьте выбор вручную.",
+    "TODO amount_unit: единица суммы указана только в description; подтвердите её в overrides.",
+    "TODO field_map amount account bik name: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides."
+  ],
+  "generated_files": [
+    "test/results/talkbank/talkbank_service.rb",
+    "test/results/talkbank/INTEGRATION.md",
+    "test/results/talkbank/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 13
+}

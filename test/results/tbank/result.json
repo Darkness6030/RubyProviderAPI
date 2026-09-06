@@ -1,0 +1,89 @@
+{
+  "id": "tbank",
+  "provider": "T-Bank Internet Acquiring",
+  "specification": "tbank.yaml",
+  "source_url": "https://developer.tbank.ru/schemas/eacq/openapi.yaml",
+  "openapi_operations": 37,
+  "expected_roles": {
+    "create": "/v2/Init",
+    "status": "/v2/GetState",
+    "webhook": null
+  },
+  "detected_roles": {
+    "create": "/v2/Init",
+    "status": "/v2/GetState",
+    "webhook": null
+  },
+  "auth": "не объявлена",
+  "statuses": {
+    "NEW": "in_progress",
+    "AUTHORIZED": "approved",
+    "CONFIRMED": "approved",
+    "REVERSED": "rejected",
+    "REFUNDED": "rejected",
+    "PARTIAL_REFUNDED": "rejected",
+    "REJECTED": "rejected",
+    "DEADLINE_EXPIRED": "rejected",
+    "3DS_CHECKING": "in_progress",
+    "3DS_CHECKED": "in_progress",
+    "FORM_SHOWED": "in_progress"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 82,
+        "method": "post",
+        "path": "/v2/Init",
+        "operation_id": "Init"
+      },
+      "runner_up": {
+        "score": 39,
+        "method": "post",
+        "path": "/v2/SbpPayTest",
+        "operation_id": "SbpPayTest"
+      },
+      "margin": 43
+    },
+    "status": {
+      "selected": {
+        "score": 65,
+        "method": "post",
+        "path": "/v2/GetState",
+        "operation_id": "GetState"
+      },
+      "runner_up": {
+        "score": 57,
+        "method": "post",
+        "path": "/v2/GetAddAccountQrState",
+        "operation_id": "GetAddAccountQrState"
+      },
+      "margin": 8
+    }
+  },
+  "warnings": [
+    "Не удалось определить входящий webhook.",
+    "Авторизация через Token/signature в теле запроса требует явной настройки для провайдера.",
+    "TODO amount_unit: единица суммы указана только в description; подтвердите её в overrides.",
+    "TODO required_if CustomerKey: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO required_if Receipt: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO field_map TerminalKey: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map Token: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map Amount: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map OrderId: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides."
+  ],
+  "generated_files": [
+    "test/results/tbank/tbank_service.rb",
+    "test/results/tbank/INTEGRATION.md",
+    "test/results/tbank/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 36
+}

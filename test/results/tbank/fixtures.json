@@ -1,0 +1,107 @@
+{
+  "create_request": {
+    "request": {
+      "TerminalKey": "TBankTest",
+      "Amount": 140000,
+      "OrderId": "21090",
+      "Description": "Подарочная карта на 1000 рублей",
+      "Token": "68711168852240a2f34b6a8b19d2cfbd296c7d2a6dff8b23eda6278985959346",
+      "DATA": {
+        "Phone": "+71234567890",
+        "Email": "a@test.com"
+      },
+      "Receipt": {
+        "Email": "a@test.ru",
+        "Phone": "+79031234567",
+        "Taxation": "osn",
+        "Items": [
+          {
+            "Name": "Наименование товара 1",
+            "Price": 10000,
+            "Quantity": 1,
+            "Amount": 10000,
+            "Tax": "vat10",
+            "Ean13": "303130323930303030630333435"
+          },
+          {
+            "Name": "Наименование товара 2",
+            "Price": 20000,
+            "Quantity": 2,
+            "Amount": 40000,
+            "Tax": "vat20"
+          },
+          {
+            "Name": "Наименование товара 3",
+            "Price": 30000,
+            "Quantity": 3,
+            "Amount": 90000,
+            "Tax": "vat10"
+          }
+        ]
+      }
+    },
+    "response_200": null,
+    "response_500": {
+      "Success": false,
+      "ErrorCode": "9999",
+      "Message": "Внутренняя ошибка системы.",
+      "Causes": [
+        "Internal Service Error."
+      ]
+    }
+  },
+  "fetch_status": {
+    "response_200": {
+      "Success": true,
+      "ErrorCode": "0",
+      "Message": "OK",
+      "TerminalKey": "TBankTest",
+      "Status": "AUTHORIZED",
+      "PaymentId": "13660",
+      "OrderId": "21050",
+      "Params": [
+        {
+          "Key": "Route",
+          "Value": "ACQ"
+        },
+        {
+          "Key": "Source",
+          "Value": "cards"
+        },
+        {
+          "Key": "CreditAmount",
+          "Value": "100000"
+        },
+        {
+          "Key": "EndCoolingPeriod",
+          "Value": "2024-12-31T23:59:59Z"
+        },
+        {
+          "Key": "ParticipantWalletId",
+          "Value": "g.ru.cbrdc.wlt.clt.1234****-****-****-****-**********12"
+        },
+        {
+          "Key": "DrPaymentId",
+          "Value": "a1b2c3d4-e5f6-4a7b-8c9d-e1f2g3h4i5j6"
+        },
+        {
+          "Key": "DrPaymentSettlementDate",
+          "Value": "2024-03-15T12:00:00Z"
+        }
+      ],
+      "Amount": 1230
+    },
+    "response_500": {
+      "Success": false,
+      "ErrorCode": "9999",
+      "Message": "Внутренняя ошибка системы.",
+      "Causes": [
+        "Internal Service Error."
+      ]
+    }
+  },
+  "callback": {
+    "payload": {},
+    "expected_operation_status": "unknown"
+  }
+}

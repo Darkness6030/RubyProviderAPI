@@ -1,0 +1,73 @@
+{
+  "id": "novapay",
+  "provider": "NovaPay Payout API",
+  "specification": "../../../docs/provider_api.yaml",
+  "source_url": "local://docs/provider_api.yaml",
+  "openapi_operations": 5,
+  "expected_roles": {
+    "create": "/payouts",
+    "status": "/payouts/{payout_id}",
+    "webhook": "/webhooks/payout"
+  },
+  "detected_roles": {
+    "create": "/payouts",
+    "status": "/payouts/{payout_id}",
+    "webhook": "/webhooks/payout"
+  },
+  "auth": "ApiKeyAuth (apiKey: header X-API-Key)",
+  "statuses": {
+    "pending": "in_progress",
+    "processing": "in_progress",
+    "completed": "approved",
+    "failed": "rejected",
+    "cancelled": "rejected"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 108,
+        "method": "post",
+        "path": "/payouts",
+        "operation_id": "createPayout"
+      },
+      "runner_up": {
+        "score": 11,
+        "method": "get",
+        "path": "/payouts/{payout_id}",
+        "operation_id": "getPayoutStatus"
+      },
+      "margin": 97
+    },
+    "status": {
+      "selected": {
+        "score": 150,
+        "method": "get",
+        "path": "/payouts/{payout_id}",
+        "operation_id": "getPayoutStatus"
+      },
+      "runner_up": {
+        "score": 12,
+        "method": "post",
+        "path": "/payouts",
+        "operation_id": "createPayout"
+      },
+      "margin": 138
+    }
+  },
+  "warnings": [],
+  "generated_files": [
+    "test/results/novapay/novapay_service.rb",
+    "test/results/novapay/INTEGRATION.md",
+    "test/results/novapay/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 6
+}

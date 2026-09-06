@@ -1,0 +1,76 @@
+{
+  "id": "stripe",
+  "provider": "Stripe API (latest GA)",
+  "specification": "stripe.yaml",
+  "source_url": "https://raw.githubusercontent.com/stripe/openapi/master/latest/openapi.spec3.yaml",
+  "openapi_operations": 621,
+  "expected_roles": {
+    "create": "/v1/payouts",
+    "status": "/v1/payouts/{payout}",
+    "webhook": null
+  },
+  "detected_roles": {
+    "create": "/v1/payouts",
+    "status": "/v1/payouts/{payout}",
+    "webhook": null
+  },
+  "auth": "basicAuth (http: basic), bearerAuth (http: bearer)",
+  "statuses": {
+    "paid": "approved",
+    "pending": "in_progress",
+    "in_transit": "in_progress",
+    "canceled": "rejected",
+    "failed": "rejected"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 104,
+        "method": "post",
+        "path": "/v1/payouts",
+        "operation_id": "PostPayouts"
+      },
+      "runner_up": {
+        "score": 86,
+        "method": "post",
+        "path": "/v1/transfers",
+        "operation_id": "PostTransfers"
+      },
+      "margin": 18
+    },
+    "status": {
+      "selected": {
+        "score": 85,
+        "method": "get",
+        "path": "/v1/payouts/{payout}",
+        "operation_id": "GetPayoutsPayout"
+      },
+      "runner_up": {
+        "score": 28,
+        "method": "post",
+        "path": "/v1/payouts/{payout}",
+        "operation_id": "PostPayoutsPayout"
+      },
+      "margin": 57
+    }
+  },
+  "warnings": [
+    "Не удалось определить входящий webhook.",
+    "TODO field_map currency: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides."
+  ],
+  "generated_files": [
+    "test/results/stripe/stripe_service.rb",
+    "test/results/stripe/INTEGRATION.md",
+    "test/results/stripe/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 914
+}

@@ -1,0 +1,80 @@
+{
+  "id": "sberbank",
+  "provider": "Sberbank Payment Gateway",
+  "specification": "sberbank.yaml",
+  "source_url": "https://ecomtest.sberbank.ru/yaml/ecom.yaml",
+  "openapi_operations": 33,
+  "expected_roles": {
+    "create": "/ecomm/gw/partner/api/p2p/v1/register",
+    "status": null,
+    "webhook": "/callbackUrl"
+  },
+  "detected_roles": {
+    "create": "/ecomm/gw/partner/api/p2p/v1/register",
+    "status": null,
+    "webhook": "/callbackUrl"
+  },
+  "auth": "не объявлена",
+  "statuses": {
+    "1": "unknown",
+    "0": "unknown"
+  },
+  "role_scores": {
+    "create": {
+      "selected": {
+        "score": 60,
+        "method": "post",
+        "path": "/ecomm/gw/partner/api/p2p/v1/register",
+        "operation_id": "registerP2P"
+      },
+      "runner_up": {
+        "score": 52,
+        "method": "post",
+        "path": "/ecomm/gw/partner/api/v1/register.do",
+        "operation_id": "register"
+      },
+      "margin": 8
+    },
+    "status": {
+      "selected": {
+        "score": 12,
+        "method": "post",
+        "path": "/ecomm/gw/partner/api/v1/getOrderStatusExtended.do",
+        "operation_id": "getOrderStatusExtended"
+      },
+      "runner_up": {
+        "score": 0,
+        "method": "post",
+        "path": "/ecomm/gw/partner/api/p2p/v1/perform",
+        "operation_id": "performP2P"
+      },
+      "margin": 12
+    }
+  },
+  "warnings": [
+    "Не удалось определить операцию проверки статуса.",
+    "TODO required_if orderNumber: условная обязательность указана только в description; подтвердите правило в overrides.",
+    "TODO field_map userName: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map password: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map orderNumber: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map returnUrl: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map features: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "TODO field_map email: поле API не входит в подтверждённую схему operation/payout_requisite; задайте явный источник в overrides.",
+    "Не сопоставлены статусы: 1, 0. Добавьте подтверждённые соответствия в status_map overrides."
+  ],
+  "generated_files": [
+    "test/results/sberbank/sberbank_service.rb",
+    "test/results/sberbank/INTEGRATION.md",
+    "test/results/sberbank/fixtures.json"
+  ],
+  "checks": {
+    "sha256": true,
+    "operation_count": true,
+    "create_role": true,
+    "status_role": true,
+    "webhook_role": true,
+    "generated_ruby_syntax": true
+  },
+  "passed": true,
+  "duration_ms": 51
+}

@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-09-06T11:42:23Z",
+  "manifest_captured_at": "2026-09-04",
+  "providers": 12,
+  "passed": 12,
+  "failed": 0,
+  "openapi_operations": 1430,
+  "full_test_suite": {
+    "command": "/usr/local/bin/ruby -I/workspace/lib /workspace/test/all_tests.rb --verbose",
+    "exit_code": 0,
+    "passed": true,
+    "output": "full_test_output.log"
+  },
+  "results": [
+    {
+      "id": "novapay",
+      "passed": true,
+      "duration_ms": 6
+    },
+    {
+      "id": "tbank",
+      "passed": true,
+      "duration_ms": 36
+    },
+    {
+      "id": "yookassa",
+      "passed": true,
+      "duration_ms": 31
+    },
+    {
+      "id": "adyen_checkout",
+      "passed": true,
+      "duration_ms": 79
+    },
+    {
+      "id": "sberbank",
+      "passed": true,
+      "duration_ms": 51
+    },
+    {
+      "id": "itpay",
+      "passed": true,
+      "duration_ms": 30
+    },
+    {
+      "id": "talkbank",
+      "passed": true,
+      "duration_ms": 13
+    },
+    {
+      "id": "paypal_orders",
+      "passed": true,
+      "duration_ms": 22
+    },
+    {
+      "id": "stripe",
+      "passed": true,
+      "duration_ms": 914
+    },
+    {
+      "id": "square",
+      "passed": true,
+      "duration_ms": 304
+    },
+    {
+      "id": "ripple",
+      "passed": true,
+      "duration_ms": 22
+    },
+    {
+      "id": "fire",
+      "passed": true,
+      "duration_ms": 31
+    }
+  ]
+}
